@@ -59,6 +59,24 @@ exports.destroy = function(req, res) {
 };
 
 /**
+ * Change a users contact info
+ */
+exports.changeContactInfo = function(req, res, next) {
+  var userId = req.user._id;
+
+  User.findById(userId, function (err, user) {
+    ['name', 'email', 'phone'].forEach(function(key) {
+      user[key] = req.body[key];
+      });
+    //console.log(user);
+    user.save(function(err) {
+      if (err) return validationError(res, err);
+      res.send(200);
+    });
+  });
+};
+
+/**
  * Change a users password
  */
 exports.changePassword = function(req, res, next) {

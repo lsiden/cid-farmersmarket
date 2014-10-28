@@ -3,16 +3,23 @@
 angular.module 'farmersmarketApp'
 .controller 'SettingsCtrl', ($scope, $http, User, Auth) ->
   $scope.errors = {}
+  $scope.fields = ['name', 'email', 'phone']
 
-  $http.get('/api/users/me').success (user) ->
-    $scope.user = {
+  #$http.get('/api/users/me').success (user) ->
+  User.get (user) ->
+    $scope.uid = user._id
+    $scope.contactInfo = {
       name: user.name
       email: user.email
       phone: user.phone
-      role: user.role
     }
   
   $scope.changeContactInfo = (form) ->
+    $scope.submitted = true
+
+    if form.$valid
+      User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, ->
+        $scope.message = 'Content info successfully changed.'
 
   $scope.changePassword = (form) ->
     $scope.submitted = true
@@ -27,8 +34,5 @@ angular.module 'farmersmarketApp'
         $scope.errors.other = 'Incorrect password'
         $scope.message = ''
 
-  $scope.fields = ['name', 'email', 'phone']
-
   $scope.capitalize = (s) ->
     s[0].toUpperCase() + s.slice(1)
-

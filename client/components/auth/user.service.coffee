@@ -5,6 +5,11 @@ angular.module 'farmersmarketApp'
   $resource '/api/users/:id/:controller',
     id: '@_id'
   ,
+    changeContactInfo:
+      method: 'PUT'
+      params:
+        controller: 'contactInfo'
+
     changePassword:
       method: 'PUT'
       params:
