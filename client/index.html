@@ -26,6 +26,11 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <!-- Subscribe to all flash messages. -->
+    <div flash-alert active-class="in" class="alert fade">
+      <span class="alert-message">{{flash.message}}</span>
+    </div>
+
     <!-- Add your site or application content here -->
     <div ui-view=""></div>
 
@@ -55,6 +60,7 @@
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+      <script src="bower_components/angular-flash/dist/angular-flash.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 

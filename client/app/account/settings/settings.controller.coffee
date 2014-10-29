@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'SettingsCtrl', ($scope, $http, User, Auth) ->
+.controller 'SettingsCtrl', ['$scope', '$http', 'User', 'Auth', 'flash', ($scope, $http, User, Auth, flash) ->
   $scope.errors = {}
 
   # ng-pattern won't work together with ui-mask and isn't needed.
@@ -21,7 +21,7 @@ angular.module 'farmersmarketApp'
 
     if form.$valid
       User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, ->
-        $scope.message = 'Content info successfully changed.'
+        flash.success = $scope.message = 'Content info successfully changed.'
 
   $scope.changePassword = (form) ->
     $scope.submitted = true
@@ -38,3 +38,4 @@ angular.module 'farmersmarketApp'
 
   $scope.capitalize = (s) ->
     s[0].toUpperCase() + s.slice(1)
+  ]

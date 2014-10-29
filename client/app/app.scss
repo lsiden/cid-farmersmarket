@@ -26,3 +26,10 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 input.ng-dirty.ng-invalid {
   border: thin solid red;
 }
+
+div[flash-alert] {
+  display: none;
+}
+div[flash-alert].in {
+  display: block;
+}

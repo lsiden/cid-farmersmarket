@@ -4,16 +4,24 @@ angular.module 'farmersmarketApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
+  'angular-flash.service',
+  'angular-flash.flash-alert-directive',
   'ui.router',
   'ui.bootstrap',
   'ui.mask'
 ]
-.config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
+.config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, flashProvider) ->
   $urlRouterProvider
   .otherwise '/'
 
   $locationProvider.html5Mode true
   $httpProvider.interceptors.push 'authInterceptor'
+
+  # http://getbootstrap.com/components/#alerts 
+  flashProvider.errorClassnames.push 'alert-danger'
+  flashProvider.errorClassnames.push 'alert-warning'
+  flashProvider.errorClassnames.push 'alert-success'
+  flashProvider.errorClassnames.push 'alert-info'
 
 .factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location) ->
   # Add authorization token to headers
