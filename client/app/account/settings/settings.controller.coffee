@@ -17,10 +17,10 @@ angular.module 'farmersmarketApp'
     }
     $scope.masterContactInfo = angular.copy($scope.contactInfo)
 
-  $scope.isChanged = (contactInfo) ->
+  $scope.isContactInfoChanged = (contactInfo) ->
     !angular.equals(contactInfo, $scope.masterContactInfo)
 
-  $scope.reset = ->
+  $scope.resetContactInfo = ->
     $scope.contactInfo = angular.copy($scope.masterContactInfo)
   
   $scope.changeContactInfo = (form) ->
@@ -44,6 +44,11 @@ angular.module 'farmersmarketApp'
         form.password.$setValidity 'mongoose', false
         $scope.errors.other = 'Incorrect password'
         $scope.message = ''
+
+  $scope.clearPassword = (form) ->
+    $scope.user.oldPassword = ''
+    $scope.user.newPassword = ''
+    form.$setPristine()
 
   $scope.capitalize = (s) ->
     s[0].toUpperCase() + s.slice(1)

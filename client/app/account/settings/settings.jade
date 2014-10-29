@@ -31,10 +31,10 @@ div(ng-include='"components/navbar/navbar.html"')
 
         .form-group
           .col-sm-offset-2.col-sm-1
-            button.btn.btn-lg.btn-warning(ng-click='reset()', ng-disabled="!isChanged(contactInfo)") Reset
+            button.btn.btn-lg.btn-success(ng-click='resetContactInfo()', ng-disabled="!isContactInfoChanged(contactInfo)") Reset
 
           .col-sm-1
-            button.btn.btn-lg.btn-primary(type='submit', ng-disabled="contactInfoForm.$invalid || !isChanged(contactInfo)") Save changes
+            button.btn.btn-lg.btn-primary(type='submit', ng-disabled="contactInfoForm.$invalid || !isContactInfoChanged(contactInfo)") Save changes
 
   .row
     .col-sm-12
@@ -61,5 +61,8 @@ div(ng-include='"components/navbar/navbar.html"')
         p.help-block  {{ message }}
 
         .form-group
-          .col-sm-offset-2.col-sm-4
-            button.btn.btn-lg.btn-primary(type='submit', ng-disabled="passwordForm.$invalid") Save changes
+          .col-sm-offset-2.col-sm-1
+            button.btn.btn-lg.btn-danger(ng-click='clearPassword(passwordForm)', ng-disabled="passwordForm.$pristine") Clear
+
+          .col-sm-1
+            button.btn.btn-lg.btn-danger(type='submit', ng-disabled="passwordForm.$invalid") Save changes
