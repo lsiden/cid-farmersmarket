@@ -15,15 +15,19 @@ angular.module 'farmersmarketApp'
       email: user.email
       phone: user.phone
     }
+    $scope.masterContactInfo = angular.copy($scope.contactInfo)
+
+  $scope.isChanged = (contactInfo) ->
+    !angular.equals(contactInfo, $scope.masterContactInfo)
   
   $scope.changeContactInfo = (form) ->
     $scope.submitted = true
 
     if form.$valid
       User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, (data, header) ->
-        flash.success = $scope.message = 'Content info successfully changed.'
+        $scope.message = 'Content info successfully changed.'
       , (res) ->
-        flash.error = $scope.message = 'Cannot update your contact info now.'
+        $scope.message = 'Cannot update your contact info now.'
 
   $scope.changePassword = (form) ->
     $scope.submitted = true
