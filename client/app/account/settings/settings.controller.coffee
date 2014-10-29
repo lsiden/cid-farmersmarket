@@ -20,8 +20,10 @@ angular.module 'farmersmarketApp'
     $scope.submitted = true
 
     if form.$valid
-      User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, ->
+      User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, (data, header) ->
         flash.success = $scope.message = 'Content info successfully changed.'
+      , (res) ->
+        flash.error = $scope.message = 'Cannot update your contact info now.'
 
   $scope.changePassword = (form) ->
     $scope.submitted = true
