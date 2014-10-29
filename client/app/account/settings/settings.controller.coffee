@@ -19,6 +19,9 @@ angular.module 'farmersmarketApp'
 
   $scope.isChanged = (contactInfo) ->
     !angular.equals(contactInfo, $scope.masterContactInfo)
+
+  $scope.reset = ->
+    $scope.contactInfo = angular.copy($scope.masterContactInfo)
   
   $scope.changeContactInfo = (form) ->
     $scope.submitted = true
