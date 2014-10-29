@@ -3,7 +3,6 @@
 angular.module 'farmersmarketApp'
 .controller 'SettingsCtrl', ($scope, $http, User, Auth) ->
   $scope.errors = {}
-  $scope.fields = ['name', 'email', 'phone']
 
   #$http.get('/api/users/me').success (user) ->
   User.get (user) ->

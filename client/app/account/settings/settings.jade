@@ -7,11 +7,20 @@ div(ng-include='"components/navbar/navbar.html"')
     .col-sm-12
       form.form(name='contactInfoForm', ng-submit='changeContactInfo(contactInfoForm)', novalidate='', ng-controller='SettingsCtrl', class='form-horizontal')
     
-        div(ng-repeat='field in fields', ng-init='capField=capitalize(field)')
-          .form-group
-            label(for='field{{capField}}', class='col-sm-2', control-label) {{capField}}
-            .col-sm-4
-              input(type='text', class='form-control', id='field{{capField}}', name='{{field}}' ng-model='contactInfo[field]')
+        .form-group
+          label(for='fieldName', class='col-sm-2', control-label) Name
+          .col-sm-4
+            input(type='text', class='form-control', id='fieldName', name='name' ng-model='contactInfo.name')
+    
+        .form-group
+          label(for='fieldEmail', class='col-sm-2', control-label) Email
+          .col-sm-4
+            input(type='text', class='form-control', id='fieldEmail', name='name' ng-model='contactInfo.email')
+    
+        .form-group
+          label(for='fieldPhone', class='col-sm-2', control-label) Phone
+          .col-sm-4
+            input(type='text', class='form-control', id='fieldPhone', name='name' ng-model='contactInfo.phone', ui-mask='(999) 999-9999')
                 
         .form-group
           .col-sm-offset-2.col-sm-4
