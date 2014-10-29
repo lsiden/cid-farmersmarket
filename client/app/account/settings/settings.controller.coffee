@@ -4,6 +4,9 @@ angular.module 'farmersmarketApp'
 .controller 'SettingsCtrl', ($scope, $http, User, Auth) ->
   $scope.errors = {}
 
+  # ng-pattern won't work together with ui-mask and isn't needed.
+  #$scope.phonePat = /^\(\d{3}\) \d{3}-\d{4}$/
+
   #$http.get('/api/users/me').success (user) ->
   User.get (user) ->
     $scope.uid = user._id
