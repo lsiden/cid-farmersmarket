@@ -8,22 +8,22 @@ var time = require('../../components/time');
 var EventSchema = new Schema({
   name: String,
   about: String,
-  date: Date,
-  startTimeMin: Number, // number of minutes since midnight
-  endTimeMin: Number, // number of minutes since midnight
+  date: Date,  // includes time
+  duration: Number, // length of even in hours
   active: Boolean
 });
 
-EventSchema.virtual('startTime').get(function() {
-  return time.timeFromMin(this.startTimeMin);
-}).set(function(sTime) {
-  this.startTimeMin = time.minFromTime(sTime);
-});
+EventSchema.methods = {
 
-EventSchema.virtual('endTime').get(function() {
-  return time.timeFromMin(this.endTimeMin);
-}).set(function(sTime) {
-  this.endTimeMin = time.minFromTime(sTime);
-});
+  startTime: function() {
+    return this.date;
+  },
+
+  endTime: function() {
+    var date = new Date(this.date);
+    date.setHours(this.date.getHours() + this.duration);
+    return date;
+  }
+};
 
 module.exports = mongoose.model('Event', EventSchema);
