@@ -20,3 +20,6 @@ angular.module 'farmersmarketApp'
       params:
         id: 'me'
 
+    lookup:
+      method: 'GET'
+

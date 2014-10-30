@@ -18,8 +18,13 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label(for='fieldEmail', class='col-sm-2', control-label) Email
           .col-sm-4
-            input(type='email', class='form-control', id='fieldEmail', name='email' ng-model='contactInfo.email', ng-model-options='{ debounce: 750 }', required)
+            input(type='email', class='form-control', id='fieldEmail', name='email' ng-model='contactInfo.email', ng-model-options='{ debounce: 750 }', required, unique-email)
+            
+            //- TODO: unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
           p.help-block(ng-show="contactInfoForm.email.$error.email" class="error") This doesn't look like a valid e-mail address!
+          
+          p.help-block(ng-show="contactInfoForm.email.$error.uniqueEmail" class="error") Oops! This e-mail is already taken.
+          //- {{ contactInfoForm.email.$error }}
     
         .form-group
           label(for='fieldPhone', class='col-sm-2', control-label) Phone

@@ -1,5 +1,7 @@
 'use strict'
 
+# TODO add password confirmation input ('Retype password')
+
 angular.module 'farmersmarketApp'
 .controller 'SignupCtrl', ($scope, Auth, $location, $window) ->
   $scope.user = {}

@@ -34,6 +34,32 @@ angular.module 'farmersmarketApp'
         $scope.message = 'Cannot update your contact info now.'
   ]
 
+###
+# unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
+.directive 'uniqueEmail', ($q, $http, $timeout) ->
+  console.log('uniqueEmail directive')
+  {
+    require: 'ngModel'
+    controller: 'ContactInfoCtrl'
+    link: (scope, el, attrs, model) ->
+      model.$asyncValidators.uniqueEmail = (modelValue, viewValue) ->
+        if modelValue.length == 0 || modelValue == scope.masterContactInfo.email
+          return $q.when() # resolve immediately
+
+        def = $q.defer()
+        $timeout ->
+          $http.get '/api/users/lookup?email=' + modelValue, (data) ->
+            if data.length == 0
+              def.resolve()
+            else
+              def.reject()
+          , 5000
+
+        return def.promise
+  }
+###
+
+angular.module 'farmersmarketApp'
 .controller 'ChangePasswordCtrl', ['$scope', '$http', 'Auth', ($scope, $http, Auth) ->
   $scope.errors = {}
   $scope.pw = {}
@@ -57,6 +83,7 @@ angular.module 'farmersmarketApp'
     $scope.pw.retypePassword = ''
     form.$setPristine()
     form.$setValid()
+  ]
 
 .directive 'matchPassword', ->
   {
