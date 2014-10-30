@@ -53,7 +53,7 @@ Event.find({}).remove(function() {
       console.log(err);
     } else {
       var len = arguments.length;
-      console.log('finished poplating events until ' + arguments[len-1].date);
+      console.log('finished populating ' + (len-1) + ' events until ' + arguments[len-1].date);
     }
   });
 });

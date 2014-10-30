@@ -6,6 +6,7 @@ angular.module 'farmersmarketApp', [
   'ngSanitize',
   'angular-flash.service',
   'angular-flash.flash-alert-directive',
+  'ngGrid'
   'ui.router',
   'ui.bootstrap',
   'ui.mask'

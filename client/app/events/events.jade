@@ -1,0 +1,10 @@
+div(ng-include='"components/navbar/navbar.html"')
+.container
+
+  .h1 Upcoming Events
+  
+  .row
+    .col-md-12(ng-controller='EventsCtrl')
+      //- {{ events }}
+      //- {{ gridOptions }}
+      .ngGrid(ng-grid="gridOptions")
