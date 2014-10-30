@@ -24,7 +24,7 @@ require('./config/express')(app);
 require('./routes')(app);
 
 //console.log(JSON.stringify(app._router.stack));
-console.log((app._router.stack));
+//console.log((app._router.stack));
 
 // Start server
 server.listen(config.port, config.ip, function () {
