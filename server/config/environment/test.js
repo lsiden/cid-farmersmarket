@@ -1,5 +1,7 @@
 'use strict';
 
+var mongoose = require('mongoose');
+
 // Test specific configuration
 // ===========================
 module.exports = {
@@ -8,3 +10,5 @@ module.exports = {
     uri: 'mongodb://localhost/farmersmarket-test'
   }
 };
+
+//mongoose.set('debug', true);

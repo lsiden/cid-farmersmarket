@@ -51,6 +51,12 @@ describe('time Component', function() {
   });
 
 /*
+  it('should define Date.yyyymmdd()', function(done) {
+    var date = new Date(2014, 6, 4); // Fourth of July
+    date.yyyymmdd().should.be.exactly('20140704');
+    done();
+  });
+
   it('should return minutes from midnight given hr, min', function(done) {
     (time.minFromTime(24, 0) === undefined).should.be.true;
     time.minFromTime(12, 0, 'am').should.be.exactly(0);

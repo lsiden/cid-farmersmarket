@@ -5,7 +5,12 @@ var Event = require('./event.model');
 
 // Get list of events
 exports.index = function(req, res) {
-  Event.find(function (err, events) {
+  if (req.query.end && req.query.end[0] === '>') {
+    req.query.end = { $gt: new Date(req.query.end.substr(1)) };
+  }
+  //console.log(req.query);
+
+  Event.find(req.query, function (err, events) {
     if(err) { return handleError(res, err); }
     return res.json(200, events);
   });

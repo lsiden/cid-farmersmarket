@@ -44,6 +44,28 @@ Date.prototype.shortTime = function() {
 };
 
 /*
+Date.prototype.yyyymmdd = function() {
+  var y = 1900 + this.getYear();
+  var m = this.getMonth() + 1;
+  var d = this.getDate();
+
+  if (m < 10) m = '0' + m;
+  if (d < 10) d = '0' + d;
+  return '' + y + m + d;
+};
+*/
+
+Date.prototype.addHours = function(hrs) {
+  this.setHours(this.getHours() + hrs);
+  return this;
+};
+
+Date.prototype.addDays = function(hrs) {
+  this.setDate(this.getDate() + hrs);
+  return this;
+};
+
+/*
 // Convert hour and minutes past the hour into minutes past midnight.
 exports.minFromTime = function(hr, min, xm) {
   if (xm) {
