@@ -1,12 +1,5 @@
 'use strict'
 
-`
-Date.prototype.addDays = function(hrs) {
-  this.setDate(this.getDate() + hrs);
-  return this;
-};
-`
-
 angular.module 'farmersmarketApp'
 .controller 'EventsCtrl', ['$scope', '$http', 'Event', ($scope, $http, Event) ->
   $scope.errors = {}

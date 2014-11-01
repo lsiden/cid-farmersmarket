@@ -1,10 +1,11 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+require('../../../common/date');
 
-var time = require('../../components/time');
-var _ = require('lodash');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    _ = require('lodash');
+
 
 var EventSchema = new Schema({
   name: String,

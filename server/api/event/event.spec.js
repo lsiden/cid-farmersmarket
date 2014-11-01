@@ -1,5 +1,7 @@
 'use strict';
 
+require ('../../../common/date');
+
 var _ = require('lodash');
 var should = require('should');
 var app = require('../../app');

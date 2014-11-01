@@ -5,6 +5,8 @@
 
 'use strict';
 
+require('../../../common/date')
+
 var Event = require('../api/event/event.model');
 var User = require('../api/user/user.model');
 var _ = require('lodash');
