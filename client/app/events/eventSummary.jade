@@ -1,0 +1,19 @@
+.event-summary
+  //- {{ event }}
+  .row
+    .col-sm-4.first
+      .row
+        | {{ event.name }}
+      .row
+        | {{ event.sponsor }}
+      .row
+        | Need {{ event.volunteerSlots }} volunteers.
+    .col-sm-4
+      .row
+        | {{event.date}}
+      .row
+        | {{ event.starts }} - {{ event.ends }}
+      .row
+        | {{ event.volunteers|decorateNumVolunteers }} signed up.
+    .col-sm-4
+      button.btn.btn-primary.volunteer(type='button') + Volunteer for this Event

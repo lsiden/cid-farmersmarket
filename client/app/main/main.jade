@@ -2,18 +2,30 @@ div(ng-include='"components/navbar/navbar.html"')
 
 header#banner.hero-unit
   .container
-    h1 'Allo, 'Allo!
-    p.lead Kick-start your next web app with Angular Fullstack
-    img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+    h1 Welcome to the Grand River Farmer's Market!
 
-.container
+.container#hero
   .row
-    .col-lg-12
-      h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in awesomeThings')
-        li
-          a(href='#', tooltip='{{thing.info}}')
-            | {{thing.name}}
+    .col-md-8#hero_image
+      img(src='assets/images/farmers-market-peppers2.jpg', alt='Peppers on display.')
+
+    .col-md-4
+      h1.page-header Three Steps to Happiness
+      ol#_3steps 
+        li Find an event.
+        li Click on "Volunteer" button.
+        li Show up!
+
+.container#content(ng-controller='EventsCtrl')
+  .row
+    .col-sm-4
+      //- {{ calendarEvents }}
+      div.ui-calendar(ui-calendar, ng-model='calEventSources')
+        
+    .col-sm-8
+      h2.title.upcoming Upcoming Events
+      div(ng-repeat='event in events track by $index')
+        event-summary(event='event')
 
 footer.footer
   .container

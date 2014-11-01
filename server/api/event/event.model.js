@@ -13,6 +13,12 @@ var EventSchema = new Schema({
   sponsor: String,
   start: Date,  // includes time
   end: Date,    // includes time
+
+  // Do not enforce volunteers <= volunteerSlots.
+  // Allow for people to volunteer as alternates.
+  volunteerSlots: Number,
+  volunteers: Number,
+
   active: Boolean
 });
 
@@ -29,7 +35,9 @@ module.exports.seedEvents = function(start, duration, n, incDays, fn) {
     provider: 'local',
     name: 'Test Event 1',
     about: 'About Test Event 1',
-    sponsor: 'Foodies Assoc.',
+    sponsor: 'Jackson Young Professionals',
+    volunteerSlots: 5,
+    volunteers: 0,
     start: start,
     end: end,
     active: true

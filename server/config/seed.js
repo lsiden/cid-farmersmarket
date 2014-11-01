@@ -5,7 +5,7 @@
 
 'use strict';
 
-require('../../../common/date')
+require('../../common/date')
 
 var Event = require('../api/event/event.model');
 var User = require('../api/user/user.model');
@@ -31,5 +31,7 @@ User.find({}).remove(function() {
 
 Event.find({}).remove(function() {
   var startDate = (new Date()).addDays(-30);
+  startDate.setHours(11);
+  startDate.setMinutes(0);
   Event.seedEvents(startDate, 4, 12, 7);
 });

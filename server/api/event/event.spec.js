@@ -14,7 +14,11 @@ describe('GET /api/events', function() {
 
   before(function(done) {
     Event.find().remove(function() {
-      Event.seedEvents((new Date()).addDays(-30), 4, 12, 7, function(err) {
+      var date = (new Date()).addDays(-30);
+      date.setHours(11);
+      date.setMinutes(0);
+      console.log(date);
+      Event.seedEvents(date, 4, 12, 7, function(err) {
         if (err) return done(err);
         done();
       });

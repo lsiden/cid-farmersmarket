@@ -31,6 +31,15 @@ input.ng-invalid {
 div[flash-alert] {
   display: none;
 }
+
 div[flash-alert].in {
   display: block;
+}
+
+.float-right {
+  float: right;
+}
+
+.event-summary > .row {
+  border: thin solid black;
 }

@@ -37,3 +37,14 @@ Date.prototype.shortTime = function() {
   var min = 60 * this.getHours() + this.getMinutes();
   return timeFromMin(min);
 };
+
+Date.prototype.toYmd = function() {
+  var y = this.getFullYear();
+  var m = 1 + this.getMonth();
+  var d = this.getDay();
+
+  if (m < 10) m = '0' + m
+  if (d < 10) d = '0' + d
+
+  return [y, m, d].join('-');
+}
