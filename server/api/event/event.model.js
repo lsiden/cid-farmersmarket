@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
 var EventSchema = new Schema({
   name: String,
   about: String,
+  sponsor: String,
   start: Date,  // includes time
   end: Date,    // includes time
   active: Boolean
@@ -28,6 +29,7 @@ module.exports.seedEvents = function(start, duration, n, incDays, fn) {
     provider: 'local',
     name: 'Test Event 1',
     about: 'About Test Event 1',
+    sponsor: 'Foodies Assoc.',
     start: start,
     end: end,
     active: true
