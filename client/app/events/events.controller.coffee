@@ -16,13 +16,19 @@ angular.module 'farmersmarketApp'
   $scope.gridOptions = { data: 'gridData' }
 
   makeGridEvent = (event) ->
-    gridEvent = {}
-    gridEvent[key] = event[key] for key in ['name', 'start', 'end', 'active']
+    gridEvent =
+      Event: event.name
+      Date: (new Date(event.start)).toDateString()
+      Starts: (new Date(event.start)).shortTime()
+      Ends: (new Date(event.end)).shortTime()
+      # active: event.active # TODO make this available to admin only
+
     gridEvent
 
-  # request all events that haven't ended
+  # Request all events that haven't ended
+  # TODO - show only active events for visitors.
   query = { end: '>' + (new Date()).addDays(-1) };
-  console.log(query);
+  # console.log(query);
   Event.get query, (events) ->
     $scope.gridData = (makeGridEvent(event) for event in events)
 
