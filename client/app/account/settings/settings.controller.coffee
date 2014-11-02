@@ -88,7 +88,7 @@ angular.module 'farmersmarketApp'
 .directive 'matchPassword', ->
   {
     require: 'ngModel'
-    restrict: 'E'
+    restrict: 'A'
     controller: 'ChangePasswordCtrl'
     link: (scope, el, attrs, model) ->
       model.$validators.matchPassword = (modelValue, viewValue) ->
