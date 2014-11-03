@@ -10,13 +10,13 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label.col-sm-2(for='eventName', control-label) Event Name
           .col-sm-10
-            input#eventName.form-control(type='text', name='name', ng-model='event.name', required='', ng-model-options='{ debounce: 750 }')
+            input#eventName.form-control(type='text', name='name', ng-model='event.name', required='')
           p.help-block(ng-show="eventForm.name.$error.required" class="error") With what name should this event be listed?
     
         .form-group
           label.col-sm-2(for='eventSponsor', control-label) Event Sponsor
           .col-sm-10
-            input#eventSponsor.form-control(type='text', , name='sponsor', ng-model='event.sponsor', required='', ng-model-options='{ debounce: 750 }')
+            input#eventSponsor.form-control(type='text',  name='sponsor', ng-model='event.sponsor', required='')
           p.help-block(ng-show="eventForm.sponsor.$error.required" class="error") Who is the sponsor?.
 
         .form-group
@@ -28,26 +28,27 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label.col-sm-2(for='eventVolunteerSlots', control-label) Volunteer Slots
           .col-sm-10
-            input#eventVolunteerSlots.form-control(type='number', , name='volunteerSlots', ng-model='event.volunteerSlots', required='', ng-model-options='{ debounce: 750 }')
-          p.help-block(ng-show="eventForm.sponsor.$error.required" class="error") How many volunteers are requested?
+            input#eventVolunteerSlots.form-control(type='number', name='volunteerSlots', ng-model='event.volunteerSlots', required='')
+          p.help-block(ng-show="eventForm.volunteerSlots.$error.required" class="error") How many volunteers are requested?
+          p.help-block(ng-show="eventForm.volunteerSlots.$error.number" class="error") We need a number here!
     
         .form-group
           label.col-sm-2(for='eventDate', control-label) Date
           .col-sm-2
-            input#eventDate.form-control(type='date', , name='date', ng-model='event.date', required='', ng-model-options='{ debounce: 750 }')
+            input#eventDate.form-control(type='date', name='date', ng-model='event.date', required='')
           
         .form-group
           label.col-sm-2(for='eventStart', control-label) Starts
           .col-sm-2
             timepicker#eventStart.form-control(name='start', ng-model='event.startTime')
             //- Angular 1.3
-            //- input#eventstart.form-control(type='time', , name='start', ng-model='event.start', required='', ng-model-options='{ debounce: 750 }', placeholder='HH:mm')
+            //- input#eventstart.form-control(type='time', name='start', ng-model='event.start', required='', placeholder='HH:mm')
           
           label.col-sm-offset-1.col-sm-1(for='eventEnd', control-label) Ends
           .col-sm-2
             timepicker#eventEnd.form-control(name='end', ng-model='event.endTime')
             //- Angular 1.3
-            //- input#eventend.form-control(type='time', , name='end', ng-model='event.end', required='', ng-model-options='{ debounce: 750 }')
+            //- input#eventend.form-control(type='time', name='end', ng-model='event.end', required='')
 
         p.help-block  {{ message }}
 
