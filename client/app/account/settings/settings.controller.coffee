@@ -4,6 +4,7 @@ angular.module 'farmersmarketApp'
 .controller 'ContactInfoCtrl', ['$scope', '$http', 'User', ($scope, $http, User) ->
   $scope.errors = {}
   $scope.contactInfo = {}
+  $scope.masterContactInfo = {}
 
   # ng-pattern won't work together with ui-mask and isn't needed.
   #$scope.phonePat = /^\(\d{3}\) \d{3}-\d{4}$/

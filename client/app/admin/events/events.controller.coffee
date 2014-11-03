@@ -55,8 +55,8 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
   #   title: event.name
   #   start: event.start
 
-  # Request all events that haven't ended
   query = { end: '>' + (new Date()).addDays(-1) }
+  # Request all events that haven't ended
   # console.log(query);
 
   Event.get query, (events) ->
@@ -67,8 +67,56 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
     #   calEvents.push makeCalendarEventItem(event)
   ]
 
-m.controller 'AdminEventCtrl', ['$scope', '$http', 'Event', ($scope, $http, Event) ->
+m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', 'Event', ($scope, $http, $location, Event) ->
   $scope.errors = {}
-  $scope.event = {}
   $scope.actionTitle = 'Edit'
+  $scope.event =
+    startTime: new Date
+    EndTime: new Date
+  $scope.masterEvent = angular.copy($scope.event)
+
+  id = $location.path().split('/').pop()
+  Event.get { _id: id }, (events) ->
+    if events.length == 0 then return
+    event = events[0]
+    $scope.event =
+      id: event._id
+      name: event.name
+      sponsor: event.sponsor
+      about: event.about
+      volunteerSlots: event.volunteerSlots
+      date: new Date(event.start)
+      startTime: new Date(event.start)
+      endTime: new Date(event.end)
+    $scope.masterEvent = angular.copy($scope.event)
+
+  $scope.isEventChanged = (event) ->
+    !angular.equals(event, $scope.masterEvent)
+
+  $scope.resetEvent = ->
+    $scope.event = angular.copy($scope.masterEvent)
+
+  # Both date and time are instances of Date.
+  composeDateTime = (date, time) ->
+    result = new Date(date)
+    result.setHours(time.getHours())
+    result.setMinutes(time.getMinutes())
+    
+  $scope.saveEvent = (form) ->
+    $scope.submitted = true
+    ev = $scope.event
+    data = 
+      name: ev.name
+      sponsor: ev.sponsor
+      about: ev.about
+      volunteerSlots: ev.volunteerSlots
+      start: composeDateTime(ev.date, ev.startTime)
+      end: composeDateTime(ev.date, ev.endTime)
+
+    if form.$valid
+      Event.put { id: $scope.event.id}, data
+      , (data, header) ->
+        $scope.message = 'Event successfully changed.'
+      , (res) ->
+        $scope.message = 'Cannot update your event now.'
   ]

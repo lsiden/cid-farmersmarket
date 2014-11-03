@@ -1,8 +1,0 @@
-div(ng-include='"components/navbar/navbar.html"')
-.container
-
-  .h1 Upcoming Events
-
-  div(ng-controller='EventsCtrl')
-    div(ng-repeat='event in events track by $index')
-      event-summary(event='event')

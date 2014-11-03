@@ -4,6 +4,7 @@ angular.module 'farmersmarketApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
+  'ngRoute',
   'angular-flash.service',
   'angular-flash.flash-alert-directive',
   'ui.calendar',
@@ -23,7 +24,7 @@ angular.module 'farmersmarketApp', [
   flashProvider.errorClassnames.push 'alert-danger'
   flashProvider.errorClassnames.push 'alert-warning'
   flashProvider.errorClassnames.push 'alert-success'
-  flashProvider.errorClassnames.push 'alert-info'
+  flashProvider.errorClassnames.push 'alert-info' 
 
 .factory 'authInterceptor', ($rootScope, $q, $cookieStore, $location) ->
   # Add authorization token to headers

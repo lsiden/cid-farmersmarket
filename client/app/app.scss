@@ -21,12 +21,12 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'account/settings/settings.scss';
 @import 'admin/accounts/accounts.scss';
 @import 'admin/events/events.scss';
-@import 'events/events.scss';
 @import 'main/main.scss';
 @import 'modal/modal.scss';
 // endinjector
 
-input.ng-invalid {
+input.ng-invalid,
+textarea.ng-invalid {
   border: thin solid red;
 }
 
@@ -44,4 +44,12 @@ div[flash-alert].in {
 
 .event-summary > .row {
   border: thin solid black;
+}
+
+table.form-control {
+  height: initial;  // needed for angular-bootstrap timepicker
+}
+
+.help-block {
+  @extend .col-sm-offset-2;
 }
