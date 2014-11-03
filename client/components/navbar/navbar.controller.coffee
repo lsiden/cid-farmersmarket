@@ -7,10 +7,6 @@ angular.module 'farmersmarketApp'
       title: 'Home'
       link: '/'
     },
-    {
-      title: 'Events'
-      link: '/events'
-    },
   ]
   $scope.isCollapsed = true
   $scope.isLoggedIn = Auth.isLoggedIn
