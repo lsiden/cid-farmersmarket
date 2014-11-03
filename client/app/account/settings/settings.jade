@@ -10,7 +10,7 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label(for='fieldName', class='col-sm-2', control-label) Name
           .col-sm-4
-            input(type='text', class='form-control', id='fieldName', name='name', ng-model='contactInfo.name', required='required', ng-model-options='{ debounce: 750 }')
+            input#fieldName.form-control(type='text', name='name', ng-model='contactInfo.name', required='', ng-model-options='{ debounce: 750 }')
           p.help-block(ng-show="contactInfoForm.name.$error.required" class="error") C'mon, don't be shy!  We need a name here.
     
         //- TODO validate that e-mail isn't already taken
@@ -18,7 +18,7 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label(for='fieldEmail', class='col-sm-2', control-label) Email
           .col-sm-4
-            input(type='email', class='form-control', id='fieldEmail', name='email', ng-model='contactInfo.email', ng-model-options='{ debounce: 750 }', required='required', unique-email='true')
+            input#fieldEmail.form-control(type='email', name='email', ng-model='contactInfo.email', ng-model-options='{ debounce: 750 }', required='', unique-email='true')
             
             //- TODO: unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
           p.help-block(ng-show="contactInfoForm.email.$error.email" class="error") This doesn't look like a valid e-mail address!
@@ -29,7 +29,7 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label(for='fieldPhone', class='col-sm-2', control-label) Phone
           .col-sm-4
-            input(type='text', class='form-control', id='fieldPhone', name='phone', ng-model='contactInfo.phone', ng-model-options='{ debounce: 750 }', ui-mask='(999) 999-9999')
+            input#fieldPhone.form-control(type='text', name='phone', ng-model='contactInfo.phone', ng-model-options='{ debounce: 750 }', ui-mask='(999) 999-9999')
           p.help-block(ng-show="contactInfoForm.phone.$error.mask" class="error") Keep typing!
                 
         p.help-block  {{ message }}
@@ -48,7 +48,7 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label(class='col-sm-2') Current Password
           .col-sm-4
-            input.form-control(type='password', name='password', ng-model='pw.oldPassword', required='required', mongoose-error)
+            input.form-control(type='password', name='password', ng-model='pw.oldPassword', required='', mongoose-error)
           
           p.help-block(ng-show='passwordForm.password.$error.mongoose')
             | {{ errors.other }}
@@ -64,7 +64,7 @@ div(ng-include='"components/navbar/navbar.html"')
         .form-group
           label(class='col-sm-2') Re-type Password
           .col-sm-4
-            input.form-control(type='password', name='retypePassword', ng-model='pw.retypePassword', required='required', match-password, ng-model-options='{ debounce: 750 }')
+            input.form-control(type='password', name='retypePassword', ng-model='pw.retypePassword', required='', match-password, ng-model-options='{ debounce: 750 }')
 
           p.help-block(ng-show='passwordForm.retypePassword.$error.matchPassword' )
             | Passwords do not match.
