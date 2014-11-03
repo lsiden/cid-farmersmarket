@@ -1,0 +1,19 @@
+div(ng-include='"components/navbar/navbar.html"')
+.container
+  .row
+    .col-sm-12
+      h1 {{ actionTitle }} Event
+    
+    .col-sm-12
+      form.form(name='eventForm', ng-submit='updateEvent(event)', novalidate, ng-controller='AdminEventCtrl', class='form-horizontal')
+    
+        .form-group
+          label(for='eventName', class='col-sm-2', control-label) Event Name
+          .col-sm-4
+            input(type='text', class='form-control', id='eventName', name='name' ng-model='event.name' required, ng-model-options='{ debounce: 750 }')
+          p.help-block(ng-show="contactInfoForm.name.$error.required" class="error") An event must have a name.
+
+        .form-group.buttons
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-md.btn-success(ng-click='resetEvent()', ng-disabled="!isEventChanged(event)") Reset
+            button.btn.btn-md.btn-primary(type='submit', ng-disabled="eventForm.$invalid || !isEventChanged(event)") Save changes
