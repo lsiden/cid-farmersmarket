@@ -1,7 +1,12 @@
 div(ng-include='"components/navbar/navbar.html"')
-.container
 
-  h1 Manage Events
+.container(ng-controller='AdminEventsCtrl')
 
-  div(ng-controller='AdminEventsCtrl')
-    div(ng-grid='eventGridOptions')
+  .title-bar
+    h1 Manage Events
+    a(ui-sref="admin-event({ id: 'new'})")
+      button.btn.btn-md.btn-success
+        span.fa.fa-plus
+        | New Event
+
+  div(ng-grid='eventGridOptions')

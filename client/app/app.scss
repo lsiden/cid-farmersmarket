@@ -53,3 +53,17 @@ table.form-control {
 .help-block {
   @extend .col-sm-offset-2;
 }
+
+.title-bar {
+  position: relative;
+
+  button.btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    span.fa {
+      padding-right: 0.5em;
+    }
+  }
+}
