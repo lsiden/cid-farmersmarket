@@ -2,8 +2,7 @@
 
 angular.module 'farmersmarketApp'
 .config ($stateProvider) ->
-  $stateProvider
-  .state 'admin',
+  $stateProvider.state 'admin',
     url: '/admin'
     templateUrl: 'app/admin/admin.html'
     controller: 'AdminCtrl'
