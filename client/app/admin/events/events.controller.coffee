@@ -7,21 +7,32 @@
 m = angular.module 'farmersmarketApp'
 
 m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, $http, $state, Event) ->
+
+  sortByDate = (_a, _b) ->
+    a = new Date(_a)
+    b = new Date(_b)
+    
+    if a < b then return -1
+    if a > b then return 1
+    return 0
+
   $scope.errors = {}
   $scope.events = []
   $scope.eventGridOptions = 
     data: 'events'
+    sortInfo: { fields: ['date'], directions: ['asc'] }
     columnDefs: [
       {
         field: 'name'
         displayName: 'Name'
         cellTemplate: 'app/admin/events/name.cell.template.html'
+        sortable: true
       }
-      { field: 'sponsor', displayName: 'Sponsor' }
-      { field: 'date', displayName: 'Date' }
-      { field: 'hours', displayName: 'Hours' }
-      { field: 'attendance', displayName: 'Attendance' }
-      { field: 'active', displayName: 'Active' }
+      { field: 'sponsor', displayName: 'Sponsor', sortable: true }
+      { field: 'date', displayName: 'Date', sortable: true, sortFn: sortByDate }
+      { field: 'hours', displayName: 'Hours', sortable: false }
+      { field: 'attendance', displayName: 'Volunteers/Slots', sortable: false }
+      { field: 'active', displayName: 'Active', sortable: false }
     ]
 
   # For Angular ui.calendar widget
