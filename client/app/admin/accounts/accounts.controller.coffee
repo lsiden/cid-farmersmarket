@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'AdminCtrl', ($scope, $http, Auth, User) ->
+.controller 'AccountsCtrl', ['$scope', '$http', 'User', ($scope, $http, User) ->
 
   $http.get '/api/users'
   .success (users) ->
@@ -10,3 +10,4 @@ angular.module 'farmersmarketApp'
   $scope.delete = (user) ->
     User.remove id: user._id
     _.remove $scope.users, user
+]
