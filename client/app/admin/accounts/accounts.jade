@@ -1,7 +1,9 @@
 div(ng-include='"components/navbar/navbar.html"')
 
 .container
-  h1 Manage Accounts
+  .title-bar
+    h1 Manage Accounts
+    
   ul.list-group
     li.list-group-item(ng-repeat='user in users')
       strong {{user.name}}
