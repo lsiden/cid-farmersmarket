@@ -91,6 +91,7 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
     date: startDate
     startTime: startDate
     endTime: endDate
+    active: false
   $scope.masterEvent = angular.copy($scope.event)
 
   id = $location.path().split('/').pop()
@@ -108,6 +109,7 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
         date: new Date(event.start)
         startTime: new Date(event.start)
         endTime: new Date(event.end)
+        active: event.active
       $scope.masterEvent = angular.copy($scope.event)
 
   $scope.isEventChanged = (event) ->

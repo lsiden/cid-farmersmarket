@@ -1,3 +1,12 @@
 .ngGrid .ngViewport {
   height: 100% !important; // https://github.com/angular-ui/ng-grid/issues/80#issuecomment-39466906
 }
+
+button.volunteer {
+  margin: 0.25cm 0;
+  float: right;
+
+  .fa {
+    margin-right: 1em;
+  }
+}
