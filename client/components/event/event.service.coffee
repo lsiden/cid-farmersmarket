@@ -2,15 +2,7 @@
 
 angular.module 'farmersmarketApp'
 .factory 'Event', ($resource) ->
-  $resource '/api/events/:id/:controller',
-  null
-  ,
-  get:
-    method: 'GET'
-    isArray: true
+  $resource '/api/events/:id/:controller', { id: '@_id' },
 
-  post:
-    method: 'POST'
-    
-  put:
+  update:
     method: 'PUT'

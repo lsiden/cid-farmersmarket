@@ -48,13 +48,11 @@ angular.module 'farmersmarketApp'
           return $q.when() # resolve immediately
 
         def = $q.defer()
-        $timeout ->
-          $http.get '/api/users/lookup?email=' + modelValue, (data) ->
-            if data.length == 0
-              def.resolve()
-            else
-              def.reject()
-          , 5000
+        User.get { email: modelValue }, data, (err, data) ->
+          if data.length == 0
+            def.resolve()
+          else
+            def.reject()
 
         return def.promise
   }

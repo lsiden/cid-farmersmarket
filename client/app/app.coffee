@@ -12,6 +12,7 @@ angular.module 'farmersmarketApp', [
   'ui.router',
   'ui.bootstrap',
   'ui.mask'
+  'dialogs.main'
 ]
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, flashProvider) ->
   $urlRouterProvider

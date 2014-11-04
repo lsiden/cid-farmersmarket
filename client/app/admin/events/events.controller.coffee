@@ -59,7 +59,7 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
   # Request all events that haven't ended
   # console.log(query);
 
-  Event.get query, (events) ->
+  Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
     # calEvents.length = 0
 
@@ -68,7 +68,8 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
 
   ]
 
-m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', 'Event', ($scope, $http, $location, Event) ->
+m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialogs', 'Event', 
+($scope, $http, $location, $state, dialogs, Event) ->
   $scope.errors = {}
   $scope.actionTitle = 'New'
 
@@ -77,8 +78,9 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', 'Event', ($scope
   startDate.setHours(12)
   startDate.setMinutes(0)
   endDate = new Date(startDate)
-  endDate.setHours(12)
+  endDate.setHours(4)
   endDate.setMinutes(0)
+  _event = null # the event instance from the server
 
   $scope.event =
     id: 'new'
@@ -95,9 +97,8 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', 'Event', ($scope
 
   if (id != 'new')
     $scope.actionTitle = 'Edit'
-    Event.get { _id: id }, (events) ->
-      if events.length == 0 then return
-      event = events[0]
+    Event.get { id: id }, (event) ->
+      _event = event
       $scope.event =
         id: event._id
         name: event.name
@@ -124,26 +125,45 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', 'Event', ($scope
   $scope.saveEvent = (form) ->
     $scope.submitted = true
     ev = $scope.event
-    data = 
-      name: ev.name
-      sponsor: ev.sponsor
-      about: ev.about
-      volunteerSlots: ev.volunteerSlots
-      start: composeDateTime(ev.date, ev.startTime)
-      end: composeDateTime(ev.date, ev.endTime)
 
     if form.$valid
       if (id == 'new')
-        Event.post data
-        , (data, header) ->
+        data =
+          name: ev.name
+          sponsor: ev.sponsor
+          about: ev.about
+          volunteerSlots: ev.volunteerSlots
+          start: composeDateTime(ev.date, ev.startTime)
+          end: composeDateTime(ev.date, ev.endTime)
+
+        Event.save data, (data, header) ->
           $scope.message = 'Created new event.'
         , (res) ->
           $scope.message = 'Cannot create your event now.'
 
-      else        
-        Event.put { id: $scope.event.id}, data
-        , (data, header) ->
+      else
+        # Use the original instance
+        _event.name = ev.name
+        _event.sponsor = ev.sponsor
+        _event.about = ev.about
+        _event.volunteerSlots = ev.volunteerSlots
+        _event.start = composeDateTime(ev.date, ev.startTime)
+        _event.end = composeDateTime(ev.date, ev.endTime)
+        _event.$update (data, header) ->
           $scope.message = 'Event successfully changed.'
         , (res) ->
           $scope.message = 'Cannot update your event now.'
+
+  $scope.deleteEvent = ->
+    ev = $scope.event
+    if ev.id == 'new' then return
+
+    # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
+    dlg = dialogs.confirm('Confirmation required', 'You are about to delete the event \':name\'.'.replace(/:name/, ev.name))
+    dlg.result.then (btn) ->
+      _event.$remove (err, data) ->
+        $state.go('admin-events')
+    # , (btn) ->
+    #   $scope.confirmed = 'You confirmed "No."'
+
   ]
