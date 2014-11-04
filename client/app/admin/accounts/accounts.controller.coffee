@@ -3,8 +3,7 @@
 angular.module 'farmersmarketApp'
 .controller 'AccountsCtrl', ['$scope', '$http', 'User', ($scope, $http, User) ->
 
-  $http.get '/api/users'
-  .success (users) ->
+  User.query (users) ->
     $scope.users = users
 
   $scope.delete = (user) ->
