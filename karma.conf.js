@@ -7,7 +7,7 @@ module.exports = function(config) {
     basePath: '',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'sinon'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -17,7 +17,7 @@ module.exports = function(config) {
       'client/bower_components/angular-resource/angular-resource.js',
       'client/bower_components/angular-cookies/angular-cookies.js',
       'client/bower_components/angular-sanitize/angular-sanitize.js',
-      //'client/bower_components/angular-route/angular-route.js',
+      'client/bower_components/angular-route/angular-route.js',
       'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'client/bower_components/lodash/dist/lodash.compat.js',
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
@@ -26,8 +26,9 @@ module.exports = function(config) {
       'client/bower_components/ng-grid/build/ng-grid.js',
       'client/bower_components/fullcalendar/fullcalendar.js',
       'client/bower_components/angular-ui-calendar/src/calendar.js',
+      'client/bower_components/angular-dialog-service/dist/dialogs.min.js',
       'common/date.js',
-      //'client/app/app.js',
+      'client/app/app.js',
       'client/app/app.coffee',
       'client/app/**/*.js',
       'client/app/**/*.coffee',
