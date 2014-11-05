@@ -12,19 +12,21 @@ div(ng-include='"components/navbar.html"')
     .form-group
       label(for='fieldEmail', class='col-sm-2', control-label) Email
       .col-sm-10
-        input#fieldEmail.form-control(type='email', name='email', ng-model='volunteer.email', ng-model-options='{ debounce: 750 }', required='')
+        input#fieldEmail.form-control(type='email', name='email', ng-model='volunteer.email', ng-model-options='{ debounce: 500 }', required='')
+      p.help-block(ng-show="form.email.$error.required" class="error") What's your email address?
       p.help-block(ng-show="form.email.$error.email" class="error") This doesn't look like a valid e-mail address!
 
     .form-group
       label(for='fieldName', class='col-sm-2', control-label) Name
       .col-sm-10
-        input#fieldName.form-control(type='text', name='name', ng-model='volunteer.name', required='', ng-model-options='{ debounce: 750 }')
-      p.help-block(ng-show="form.name.$error.required" class="error") C'mon, don't be shy!  We need a name here.
+        input#fieldName.form-control(type='text', name='name', ng-model='volunteer.name', required='')
+      p.help-block(ng-show="form.name.$error.required" class="error") What's your name?
 
     .form-group
       label(for='fieldPhone', class='col-sm-2', control-label) Phone
       .col-sm-10
-        input#fieldPhone.form-control(type='text', name='phone', ng-model='volunteer.phone', ng-model-options='{ debounce: 750 }', ui-mask='(999) 999-9999', required='')
+        input#fieldPhone.form-control(type='text', name='phone', ng-model='volunteer.phone', ui-mask='(999) 999-9999', required='')
+      p.help-block(ng-show="form.phone.$error.required" class="error") What's your phone number?
       p.help-block(ng-show="form.phone.$error.mask" class="error") Keep typing!
             
     p.help-block  {{ message }}
