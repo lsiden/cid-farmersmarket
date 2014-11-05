@@ -7,8 +7,7 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
   $scope.events = []
 
   # For Angular ui.calendar widget
-  calEvents = []
-  $scope.calEventSources = [events: calEvents]
+  $scope.calEventSources = [events: [] ]
 
   makeEventItem = (event) ->
     name: event.name
@@ -32,7 +31,7 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
 
   Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
-    calEvents.length = 0
+    $scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
 
   , (headers) ->
     flash.error = headers.data.message
