@@ -16,6 +16,7 @@
       .row
         | {{ event.volunteers|decorateNumVolunteers }} signed up.
     .col-sm-4
-      button.btn.btn-primary.volunteer(type='button')
-        span.fa.fa-plus
-        | Volunteer for this Event
+      a(ui-sref="volunteer-event({ event_id: event.id })")
+        button.btn.btn-primary.volunteer
+          span.fa.fa-plus
+          | Volunteer for this Event

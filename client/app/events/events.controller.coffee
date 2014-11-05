@@ -10,6 +10,7 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
   $scope.calEventSources = [events: [] ]
 
   makeEventItem = (event) ->
+    id: event._id
     name: event.name
     date: (new Date(event.start)).toDateString()
     starts: (new Date(event.start)).shortTime()
