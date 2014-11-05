@@ -36,8 +36,7 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
     ]
 
   # For Angular ui.calendar widget
-  # calEvents = []
-  # $scope.calEventSources = [events: calEvents]
+  # $scope.calEventSources = { events: [] }
 
   makeEventItem = (event) ->
     start = new Date(event.start)
@@ -61,7 +60,7 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
 
   Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
-    #calEvents = (makeEventItem event for event in events)
+    #$scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
 
   , (headers) ->
     flash.error = headers.data.message

@@ -7,7 +7,7 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
   $scope.events = []
 
   # For Angular ui.calendar widget
-  $scope.calEventSources = [events: [] ]
+  $scope.calEventSources = { events: [] }
 
   makeEventItem = (event) ->
     id: event._id
