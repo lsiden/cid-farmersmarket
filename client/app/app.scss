@@ -24,10 +24,11 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'events/events.scss';
 @import 'main/main.scss';
 @import 'volunteer/volunteer.scss';
-@import 'modal/modal.scss';
+@import 'modal.scss';
 // endinjector
 
 input.ng-invalid,
+input.ng-mask,
 textarea.ng-invalid {
   border: thin solid red;
 }
