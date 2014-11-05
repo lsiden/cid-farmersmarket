@@ -19,6 +19,9 @@ angular.module 'farmersmarketApp'
     }
     $scope.masterContactInfo = angular.copy($scope.contactInfo)
 
+  , (headers) ->
+    flash.error = headers.data.message
+
   $scope.isContactInfoChanged = (contactInfo) ->
     !angular.equals(contactInfo, $scope.masterContactInfo)
 
@@ -39,7 +42,6 @@ angular.module 'farmersmarketApp'
 # unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
 .directive 'uniqueEmail', ($q, $http, $timeout) ->
   console.log('uniqueEmail directive')
-  {
     require: 'ngModel'
     controller: 'ContactInfoCtrl'
     link: (scope, el, attrs, model) ->
@@ -54,8 +56,10 @@ angular.module 'farmersmarketApp'
           else
             def.reject()
 
+        , (headers) ->
+          flash.error = headers.data.message
+
         return def.promise
-  }
 ###
 
 angular.module 'farmersmarketApp'

@@ -34,8 +34,8 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
     $scope.events = (makeEventItem event for event in events)
     calEvents.length = 0
 
-    for event in events
-      calEvents.push makeCalendarEventItem(event)
+  , (headers) ->
+    flash.error = headers.data.message
   ]
 
 m.directive 'eventSummary', ->

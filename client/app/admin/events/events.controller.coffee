@@ -66,6 +66,8 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
     # for event in events
     #   calEvents.push makeCalendarEventItem(event)
 
+  , (headers) ->
+    flash.error = headers.data.message
   ]
 
 m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialogs', 'Event', 
@@ -112,6 +114,9 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
         active: event.active
       $scope.masterEvent = angular.copy($scope.event)
 
+    , (headers) ->
+      flash.error = headers.data.message
+
   $scope.isEventChanged = (event) ->
     !angular.equals(event, $scope.masterEvent)
 
@@ -151,10 +156,12 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
         _event.volunteerSlots = ev.volunteerSlots
         _event.start = composeDateTime(ev.date, ev.startTime)
         _event.end = composeDateTime(ev.date, ev.endTime)
+
         _event.$update (data, header) ->
           $scope.message = 'Event successfully changed.'
-        , (res) ->
-          $scope.message = 'Cannot update your event now.'
+
+        , (headers) ->
+          flash.error = headers.data.message
 
   $scope.deleteEvent = ->
     ev = $scope.event

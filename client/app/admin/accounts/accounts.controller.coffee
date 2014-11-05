@@ -12,6 +12,9 @@ angular.module 'farmersmarketApp'
       if a > b then return 1
       return 0
 
+  , (headers) ->
+    flash.error = headers.data.message
+
   $scope.delete = (user) ->
     # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
     dlg = dialogs.confirm('Confirmation required', 'You are about to remove the account \':name\'.'.replace(/:name/, user.name))
