@@ -61,10 +61,7 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
 
   Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
-    # calEvents.length = 0
-
-    # for event in events
-    #   calEvents.push makeCalendarEventItem(event)
+    #calEvents = (makeEventItem event for event in events)
 
   , (headers) ->
     flash.error = headers.data.message
