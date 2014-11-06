@@ -3,6 +3,7 @@
 require('../../../common/date');
 
 var mongoose = require('mongoose'),
+    timestamps = require('mongoose-timestamp'),
     Schema = mongoose.Schema,
     _ = require('lodash');
 
@@ -21,6 +22,8 @@ var EventSchema = new Schema({
 
   active: Boolean
 });
+
+EventSchema.plugin(timestamps);
 
 EventSchema.methods = {
 };

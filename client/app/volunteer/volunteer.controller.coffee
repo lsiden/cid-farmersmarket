@@ -1,7 +1,37 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'VolunteerCtrl', ($scope, $state, $location, flash, Event, Volunteer, VolunteerEvent) ->
+.controller 'VolunteerCtrl', ($scope, $location, $state, flash, Event, Volunteer, VolunteerEvent) ->
+
+  # Create volunteer_event record if none existed.
+  saveVolunteerEvent = (volunteerId) ->
+    if (!volunteerId) 
+      throw('saveVolunteerEvent(): missing arg \'volunteerId\'')
+
+    if (!$state.params.event_id) 
+      throw('saveVolunteerEvent(): missing $state.params_event_id')
+
+    params = { volunteer_id: volunteerId, event_id: $state.params.event_id }
+    VolunteerEvent.query params, (ar) ->
+      if ar.length == 0
+        VolunteerEvent.save params, (data, header) ->
+          # TODO send confirmation mail to admin and to volunteer
+          url = '/volunteer/:volunteer_id/event/:event_id/confirm'
+          .replace(/:volunteer_id/, volunteerId)
+          .replace(/:event_id/, $state.params.event_id)
+          console.log(url)
+          $location.path(url)
+        , (headers) ->
+          flash.error = headers.data.message
+      else
+        volunteerEvent = ar[0]
+        url = '/volunteer/:volunteer_id/event/:event_id/reconfirm?date=:date'
+        .replace(/:volunteer_id/, volunteerId)
+        .replace(/:event_id/, $state.params.event_id)
+        .replace(/:date/, volunteerEvent.created_at)
+        console.log(url)
+        $location.path(url)
+
   $scope.errors = {}
   $scope.message = ''
 
@@ -19,14 +49,11 @@ angular.module 'farmersmarketApp'
     date: ''
     hours: ''
 
-  eventId = $location.path().split('/').pop()
-
-  Event.get { id: eventId }, (event) ->
+  Event.get { id: $state.params.event_id }, (event) ->
     start = new Date(event.start)
     end = new Date(event.end)
 
     $scope.event = 
-      href: $state.href('admin-event', { id: event._id })
       name: event.name
       sponsor: event.sponsor
       date: start.toDateString()
@@ -35,19 +62,10 @@ angular.module 'farmersmarketApp'
     flash.error = headers.data.message
 
   $scope.register = ->
-    # Create volunteer_event record if none existed.
-    saveVolunteerEvent = (volunteer_id, event_id) ->
-      params = { volunteer: volunteer_id, event: eventId }
-      VolunteerEvent.query params, (ar) ->
-        if ar.length == 0
-          VolunteerEvent.save params, (data, header) ->
-            # TODO send confirmation mail to admin and to volunteer
-            $state.go('volunteer.confirm', { id: volunteer_id, event_id: eventId })
-          , (headers) ->
-            flash.error = headers.data.message
-
     # Look up volunteer by e-mail and create record if none existed.
     Volunteer.query { email: $scope.volunteer.email }, (volunteers) ->
+      # console.log('Volunteer.query returns')
+      # console.log(volunteers)
       if volunteers.length == 0
         # Create new record for volunteer.
         data =
@@ -56,20 +74,23 @@ angular.module 'farmersmarketApp'
           phone: $scope.volunteer.phone
 
         Volunteer.save data, (volunteer) ->
-          saveVolunteerEvent volunteer._id, eventId
+          # console.log('Volunteer.save returns')
+          # console.log(volunteer)
+          saveVolunteerEvent(volunteer._id)
         , (headers) ->
           flash.error = headers.data.message
 
       else
         volunteer = volunteers[0]
-        saveVolunteerEvent volunteer._id, eventId
         
         # Update name and phone for volunteer
         volunteer.name = $scope.volunteer.name
         volunteer.phone = $scope.volunteer.phone
         volunteer.$update (data, header) ->
-          console.log(header)
+          1 # no op
         , (headers) ->
           flash.error = headers.data.message
+
+        saveVolunteerEvent(volunteer._id)
     , (headers) ->
       flash.error = headers.data.message

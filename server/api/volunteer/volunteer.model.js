@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+    timestamps = require('mongoose-timestamp'),
     Schema = mongoose.Schema;
 
 var VolunteerSchema = new Schema({
@@ -8,6 +9,8 @@ var VolunteerSchema = new Schema({
   email: { type: String, lowercase: true, index: { unique: true } },
   phone: String
 });
+
+VolunteerSchema.plugin(timestamps);
 
 /**
  * Validations
@@ -18,7 +21,8 @@ VolunteerSchema
   .path('email')
   .validate(function(email) {
     return email.length;
-  }, 'Email cannot be blank');
+  }, 'Email cannot be blank')
+
 
 // Validate email is not taken
 VolunteerSchema

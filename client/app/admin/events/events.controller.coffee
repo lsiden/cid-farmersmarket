@@ -6,7 +6,7 @@
 
 m = angular.module 'farmersmarketApp'
 
-m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, $http, $state, Event) ->
+m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
 
   sortByDate = (_a, _b) ->
     a = new Date(_a)
@@ -42,7 +42,7 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
     start = new Date(event.start)
     end = new Date(event.end)
 
-    href: $state.href('admin-event', { id: event._id })
+    href: '/admin/events/' + event._id
     name: event.name
     sponsor: event.sponsor
     date: start.toDateString()
@@ -64,10 +64,8 @@ m.controller 'AdminEventsCtrl', ['$scope', '$http', '$state', 'Event', ($scope, 
 
   , (headers) ->
     flash.error = headers.data.message
-  ]
 
-m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialogs', 'Event', 
-($scope, $http, $location, $state, dialogs, Event) ->
+m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
   $scope.errors = {}
   $scope.actionTitle = 'New'
 
@@ -92,11 +90,11 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
     active: false
   $scope.masterEvent = angular.copy($scope.event)
 
-  id = $location.path().split('/').pop()
+  eventId = $location.path().split('/')[3]
 
-  if (id != 'new')
+  if (eventId != 'new')
     $scope.actionTitle = 'Edit'
-    Event.get { id: id }, (event) ->
+    Event.get { id: eventId }, (event) ->
       _event = event
       $scope.event =
         id: event._id
@@ -130,7 +128,7 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
     ev = $scope.event
 
     if form.$valid
-      if (id == 'new')
+      if (eventId == 'new')
         data =
           name: ev.name
           sponsor: ev.sponsor
@@ -154,7 +152,8 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
         _event.end = composeDateTime(ev.date, ev.endTime)
 
         _event.$update (data, header) ->
-          $scope.message = 'Event successfully changed.'
+          flash.success = 'Event successfully changed.'
+          $location.path('/admin/events')
 
         , (headers) ->
           flash.error = headers.data.message
@@ -167,8 +166,6 @@ m.controller 'AdminEventCtrl', ['$scope', '$http', '$location', '$state', 'dialo
     dlg = dialogs.confirm('Confirmation required', 'You are about to delete the event \':name\'.'.replace(/:name/, ev.name))
     dlg.result.then (btn) ->
       _event.$remove (err, data) ->
-        $state.go('admin-events')
+        $location.path('admin-events')
     # , (btn) ->
     #   $scope.confirmed = 'You confirmed "No."'
-
-  ]

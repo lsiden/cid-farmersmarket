@@ -2,7 +2,7 @@
 
 m = angular.module 'farmersmarketApp'
 
-m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
+m.controller 'EventsCtrl', ($scope, Event) ->
   $scope.errors = {}
   $scope.events = []
 
@@ -28,24 +28,24 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
   query = 
     end: '>' + (new Date()).addDays(-1)
     active: true
+
   # console.log(query);
 
   Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
     $scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
-
   , (headers) ->
     flash.error = headers.data.message
-  ]
 
-m.directive 'eventSummary', ($compile, $state) ->
+m.directive 'eventSummary', ($compile, $location) ->
   restrict: 'E'
   scope:
+    volunteer: '='
     event: '='
   templateUrl: 'app/events/eventSummary.html'
   link: (scope, el, attrs) ->
-    scope.register = (event) ->
-      $state.go 'volunteer-event', { event_id: event.id }
+    scope.register = (event_id) ->
+      $location.path('volunteer/event/:event_id/register'.replace(/:event_id/, event_id))
 
 m.filter 'decorateNumVolunteers', ->
   (num) ->

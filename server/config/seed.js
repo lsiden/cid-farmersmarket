@@ -7,6 +7,8 @@
 
 require('../../common/date')
 
+var VolunteerEvent = require('../api/volunteer_event/volunteer_event.model');
+var Volunteer = require('../api/volunteer/volunteer.model');
 var Event = require('../api/event/event.model');
 var User = require('../api/user/user.model');
 var _ = require('lodash');
@@ -34,4 +36,12 @@ Event.find({}).remove(function() {
   startDate.setHours(11);
   startDate.setMinutes(0);
   Event.seedEvents(startDate, 4, 12, 7);
+});
+
+VolunteerEvent.find({}).remove(function() {
+
+});
+
+Volunteer.find({}).remove(function() {
+
 });
