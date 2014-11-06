@@ -38,14 +38,14 @@ m.controller 'EventsCtrl', ['$scope', 'Event', ($scope, Event) ->
     flash.error = headers.data.message
   ]
 
-m.directive 'eventSummary', ($compile) ->
+m.directive 'eventSummary', ($compile, $state) ->
   restrict: 'E'
   scope:
     event: '='
   templateUrl: 'app/events/eventSummary.html'
-  controller: ($scope, $state) ->
-    $scope.register = (event) ->
-      $state.go('volunteer-event', { event_id: event.id })
+  link: (scope, el, attrs) ->
+    scope.register = (event) ->
+      $state.go 'volunteer-event', { event_id: event.id }
 
 m.filter 'decorateNumVolunteers', ->
   (num) ->
