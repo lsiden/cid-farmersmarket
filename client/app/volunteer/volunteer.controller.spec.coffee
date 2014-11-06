@@ -52,6 +52,7 @@ describe 'Controller: VolunteerCtrl', ->
 
   it 'should register a new volunteer for event and save volunteer', ->
 
+    # This volunteer has not previously registered for any event.
     sinon.stub Volunteer, 'query'
     .yields []
     
@@ -60,25 +61,29 @@ describe 'Controller: VolunteerCtrl', ->
     expect Volunteer.save.calledWithExactly scope.volunteer
     expect VolunteerEvent.save.calledWithExactly(volunteer._id, eventId)
     expect state.go.calledWithExactly 'volunteer.confirm', volunteerEventParams
+    # TODO test that confirmation mail has been sent
 
   it 'should register a previous volunteer for event and update volunteer info', ->
     volunteer = sinon.stub 
       id: 'volunteer_456'
       $update: ->
 
+    # This volunteer has already registered for an event.
     sinon.stub Volunteer, 'query'
     .yields [ volunteer ]
     
     scope.register()
-    expect(volunteer.$update.calledWithExactly(scope.volunteer))
-    expect VolunteerEvent.save.calledWithExactly(volunteer._id, eventId)
+    expect volunteer.$update.calledWithExactly scope.volunteer
+    expect VolunteerEvent.save.calledWithExactly volunteer._id, eventId
     expect state.go.calledWithExactly 'volunteer.confirm', volunteerEventParams
+    # TODO test that confirmation mail has been sent
 
   it 'should not register a volunteer for the same event twice', ->
     volunteer = sinon.stub 
       id: 'volunteer_456'
       $update: ->
 
+    # This volunteer has already registered for an event.
     sinon.stub Volunteer, 'query'
     .yields [ volunteer ]
 
@@ -88,4 +93,5 @@ describe 'Controller: VolunteerCtrl', ->
 
     scope.register()
     expect(VolunteerEvent.save.callCount).toBe 0, 'attempt to register volunteer to same event twice'
-    expect state.go.calledWithExactly 'volunteer.confirm', volunteerEventParams
+    expect state.go.calledWithExactly 'volunteer.reconfirm', volunteerEventParams
+    # TODO test that confirmation mail has not been sent

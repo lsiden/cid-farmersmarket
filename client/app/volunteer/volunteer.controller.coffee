@@ -41,6 +41,7 @@ angular.module 'farmersmarketApp'
       VolunteerEvent.query params, (ar) ->
         if ar.length == 0
           VolunteerEvent.save params, (data, header) ->
+            # TODO send confirmation mail to admin and to volunteer
             $state.go('volunteer.confirm', { id: volunteer_id, event_id: eventId })
           , (headers) ->
             flash.error = headers.data.message
