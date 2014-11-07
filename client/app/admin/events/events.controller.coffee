@@ -61,9 +61,8 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
   Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
     #$scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
-
   , (headers) ->
-    flash.error = headers.data.message
+    flash.error = headers.message
 
 m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
   $scope.errors = {}
@@ -136,6 +135,7 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
           volunteerSlots: ev.volunteerSlots
           start: composeDateTime(ev.date, ev.startTime)
           end: composeDateTime(ev.date, ev.endTime)
+          active: ev.active
 
         Event.save data, (data, header) ->
           $scope.message = 'Created new event.'
@@ -150,6 +150,7 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
         _event.volunteerSlots = ev.volunteerSlots
         _event.start = composeDateTime(ev.date, ev.startTime)
         _event.end = composeDateTime(ev.date, ev.endTime)
+        _event.active = ev.active
 
         _event.$update (data, header) ->
           flash.success = 'Event successfully changed.'
@@ -166,6 +167,6 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
     dlg = dialogs.confirm('Confirmation required', 'You are about to delete the event \':name\'.'.replace(/:name/, ev.name))
     dlg.result.then (btn) ->
       _event.$remove (err, data) ->
-        $location.path('admin-events')
+        $location.path('admin/events')
     # , (btn) ->
     #   $scope.confirmed = 'You confirmed "No."'
