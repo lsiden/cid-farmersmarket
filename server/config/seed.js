@@ -7,6 +7,7 @@
 
 require('../../common/date')
 
+var Organization = require('../api/organization/organization.model');
 var VolunteerEvent = require('../api/volunteer_event/volunteer_event.model');
 var Volunteer = require('../api/volunteer/volunteer.model');
 var Event = require('../api/event/event.model');
@@ -39,9 +40,21 @@ Event.find({}).remove(function() {
 });
 
 VolunteerEvent.find({}).remove(function() {
-
 });
 
 Volunteer.find({}).remove(function() {
+});
 
+Organization.find({}).remove(function() {
+  var params = [];
+  for (var i=0 ; i < 10 ; ++i) {
+    params.push({
+      provider: 'local',
+      name: 'Test Organization ' + i,
+      email: 'info@organization:i.org'.replace(/:i/, i),
+      phone: '(555)-555-5555',
+      active: true
+    });
+  }
+  Organization.create(params);
 });

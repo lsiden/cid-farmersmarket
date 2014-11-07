@@ -1,0 +1,62 @@
+div(ng-include='"components/navbar.html"')
+.container(ng-controller='AdminOrganizationCtrl')
+  .title-bar
+    h1 {{ actionTitle }} Organization
+
+    div(ng-show='organization.id != "new"')
+      button.btn.btn-md.btn-danger(ng-click='deleteOrganization()')
+        span.fa.fa-minus
+        | Delete Organization
+  
+  form.form(name='form', ng-submit='saveOrganization(form)', novalidate, class='form-horizontal')
+
+    .form-group
+      label.col-sm-2(for='organizationName', control-label) Organization Name
+      .col-sm-10
+        input#organizationName.form-control(type='text', name='name', ng-model='organization.name', required='')
+      p.help-block(ng-show="form.name.$error.required" class="error") With what name should this organization be listed?
+
+    .form-group
+      label.col-sm-2(for='organizationAbout', control-label) About Organization
+      .col-sm-10
+        textarea#organizationAbout.form-control(rows='2', name='about', ng-model='organization.about')
+      p.help-block(ng-show="form.about.$pristine" class="error") You might give a brief description of this organization and what they do for the Farmer's Market.
+      //- {{ form.about }}
+
+    //- TODO validate that e-mail isn't already taken
+    //- see https://docs.angularjs.org/guide/forms, "Custom Validation" section
+    .form-group
+      label(for='fieldEmail', class='col-sm-2', control-label) Email
+      .col-sm-10
+        input#fieldEmail.form-control(type='email', name='email', ng-model='organization.email', ng-model-options='{ debounce: 500 }', required='', unique-email='true')
+        
+        //- TODO: unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
+      p.help-block(ng-show="form.email.$error.required" class="error") Your organization's email address.
+      p.help-block(ng-show="form.email.$error.email" class="error") This doesn't look like a valid e-mail address!
+      p.help-block(ng-show="form.email.$error.uniqueEmail" class="error") Oops! This e-mail is already taken.
+      //- {{ form.email.$error }}
+
+    .form-group
+      label(for='fieldPhone', class='col-sm-2', control-label) Phone
+      .col-sm-10
+        input#fieldPhone.form-control(type='text', name='phone', ng-model='organization.phone', required='', ui-mask='(999) 999-9999' )
+      p.help-block(ng-show="form.phone.$error.mask" class="error") Keep typing!
+      p.help-block(ng-show="form.phone.$error.required" class="error") Your organization's phone number.
+
+    .form-group
+      label.col-sm-2(for='organizationContact', control-label) Organization Contact
+      .col-sm-10
+        input#organizationContact.form-control(type='text', name='contact', ng-model='organization.contact', required='')
+      p.help-block(ng-show="form.contact.$error.required" class="error") Who is the contact person for this organization?  You may name more than one, separated by commas.
+
+    .form-group
+      label.col-sm-2(for='organizationActive', control-label) Active
+      .col-sm-1
+        input#organizationActive.form-control(type='checkbox', name='active', ng-model='organization.active')
+    
+    p.help-block  {{ message }}
+
+    .form-group.buttons
+      .col-sm-offset-2.col-sm-6
+        button.btn.btn-md.btn-success(ng-click='resetOrganization()', ng-disabled="!isOrganizationChanged(organization)") Reset
+        button.btn.btn-md.btn-primary(type='submit', ng-disabled="form.$invalid || !isOrganizationChanged(organization)") Save changes
