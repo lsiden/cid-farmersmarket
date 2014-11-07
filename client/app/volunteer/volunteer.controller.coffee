@@ -12,25 +12,17 @@ angular.module 'farmersmarketApp'
       throw('saveVolunteerEvent(): missing $state.params_event_id')
 
     params = { volunteer_id: volunteerId, event_id: $state.params.event_id }
-    VolunteerEvent.query params, (ar) ->
-      if ar.length == 0
-        VolunteerEvent.save params, (data, header) ->
-          # TODO send confirmation mail to admin and to volunteer
-          url = '/volunteer/:volunteer_id/event/:event_id/confirm'
-          .replace(/:volunteer_id/, volunteerId)
-          .replace(/:event_id/, $state.params.event_id)
-          console.log(url)
-          $location.path(url)
-        , (headers) ->
-          flash.error = headers.data.message
-      else
-        volunteerEvent = ar[0]
-        url = '/volunteer/:volunteer_id/event/:event_id/reconfirm?date=:date'
-        .replace(/:volunteer_id/, volunteerId)
-        .replace(/:event_id/, $state.params.event_id)
-        .replace(/:date/, volunteerEvent.created_at)
-        console.log(url)
-        $location.path(url)
+    VolunteerEvent.findOrCreate params, (data, headers) ->
+      console.log(data)
+      console.log(headers)
+      # TODO send confirmation mail to admin and to volunteer
+      url = '/volunteer/:volunteer_id/event/:event_id/confirm'
+      .replace(/:volunteer_id/, volunteerId)
+      .replace(/:event_id/, $state.params.event_id)
+      console.log(url)
+      $location.path(url)
+    , (headers) ->
+      flash.error = 'VolunteerEvent.findOrCreate(): ' + headers
 
   $scope.errors = {}
   $scope.message = ''
@@ -59,38 +51,18 @@ angular.module 'farmersmarketApp'
       date: start.toDateString()
       hours: start.shortTime() + ' - ' + end.shortTime()
   , (headers) ->
-    flash.error = headers.data.message
+    flash.error = 'Event.get(): ' + headers.data
 
   $scope.register = ->
     # Look up volunteer by e-mail and create record if none existed.
-    Volunteer.query { email: $scope.volunteer.email }, (volunteers) ->
-      # console.log('Volunteer.query returns')
-      # console.log(volunteers)
-      if volunteers.length == 0
-        # Create new record for volunteer.
-        data =
-          email: $scope.volunteer.email
-          name: $scope.volunteer.name
-          phone: $scope.volunteer.phone
+    data =
+      email: $scope.volunteer.email
+      name: $scope.volunteer.name
+      phone: $scope.volunteer.phone
 
-        Volunteer.save data, (volunteer) ->
-          # console.log('Volunteer.save returns')
-          # console.log(volunteer)
-          saveVolunteerEvent(volunteer._id)
-        , (headers) ->
-          flash.error = headers.data.message
-
-      else
-        volunteer = volunteers[0]
-        
-        # Update name and phone for volunteer
-        volunteer.name = $scope.volunteer.name
-        volunteer.phone = $scope.volunteer.phone
-        volunteer.$update (data, header) ->
-          1 # no op
-        , (headers) ->
-          flash.error = headers.data.message
-
-        saveVolunteerEvent(volunteer._id)
+    Volunteer.findOrCreate data, (volunteer) ->
+      console.log('Volunteer.findOrCreate returns')
+      console.log(volunteer)
+      saveVolunteerEvent(volunteer._id)
     , (headers) ->
-      flash.error = headers.data.message
+      flash.error = 'Volunteer.save(): ' + headers.data

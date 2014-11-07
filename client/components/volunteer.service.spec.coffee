@@ -14,29 +14,59 @@ describe 'Volunteer service', ->
   it 'should do something', ->
     expect(!!Volunteer).toBe true
 
-  it 'should save a Volunteer', ->
+  it 'should save a Volunteer', (done) ->
     Volunteer.save { email: 'foo@bar', name: 'Foo', phone: '555-5555' }, (volunteer) ->
       expect(!!volunteer).toBe true
       expect(!!volunteer._id).toBe true
-      expect(vollunteer.email).toBe 'foo@bar'
-      expect(vollunteer.name).toBe 'Foo'
-      expect(vollunteer.phone).toBe '555-5555'
+      expect(volunteer.email).toBe 'foo@bar'
+      expect(volunteer.name).toBe 'Foo'
+      expect(volunteer.phone).toBe '555-5555'
+      done()
 
-  it 'should find a Volunteer by email', ->
+  it 'should find a Volunteer by email', (done) ->
     Volunteer.save { email: 'foo@bar', name: 'Foo', phone: '555-5555' }, (volunteer) ->
       expect(volunteer).toBe true
 
       Volunteer.query { email: 'foo@bar' }, (volunteers) ->
         expect(!!volunteers).toBe true
         expect(volunteers.length).toBe 1
-        expect(vollunteers[0].email).toBe 'foo@bar'
-        expect(vollunteers[0].name).toBe 'Foo'
-        expect(vollunteers[0].phone).toBe '555-5555'
+        expect(volunteers[0].email).toBe 'foo@bar'
+        expect(volunteers[0].name).toBe 'Foo'
+        expect(volunteers[0].phone).toBe '555-5555'
+        done()
 
-  it 'should not find a non-existent Volunteer', ->
+  it 'should not find a different Volunteer', (done) ->
     Volunteer.save { email: 'foo@bar', name: 'Foo', phone: '555-5555' }, (volunteer) ->
       expect(!!volunteer).toBe true
 
       Volunteer.query { email: 'bleh@baz' }, (volunteers) ->
         expect(!!volunteers).toBe true
         expect(volunteers.length).toBe 0
+        done()
+
+  it 'should create a new volunteer with findOrCreate()', (done) ->
+    Volunteer.findOrCreate { email: 'foo@bar', name: 'Foo', phone: '555-5555'}, (volunteer) ->
+      expect(!!volunteer).toBe true
+      expect(!!volunteer._id).toBe true
+      expect(volunteer.email).toBe 'foo@bar'
+      expect(volunteer.name).toBe 'Foo'
+      expect(volunteer.phone).toBe '555-5555'
+      done()
+
+  it 'should update an existing volunteer with findOrCreate()', (done) ->
+    console.log done
+    Volunteer.save { email: 'foo@bar', name: 'Foo', phone: '555-5555'}, (volunteer) ->
+      expect(!!volunteer).toBe true
+      expect(!!volunteer._id).toBe true
+      expect(volunteer.email).toBe 'foo@bar'
+      expect(volunteer.name).toBe 'Foo'
+      expect(volunteer.phone).toBe '555-5555'
+      
+      Volunteer.findOrCreate { email: 'foo@bar', name: 'Bar', phone: '777-7777'}, (volunteer) ->
+        expect(!!volunteer).toBe true
+        expect(!!volunteer._id).toBe true
+        expect(volunteer.email).toBe 'foo@bar'
+        expect(volunteer.name).toBe 'Bar'
+        expect(volunteer.phone).toBe '777-7777'
+        console.log(volunteer)
+        done()

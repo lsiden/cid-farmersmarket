@@ -28,6 +28,15 @@ exports.create = function(req, res) {
   });
 };
 
+// Creates a new volunteer in the DB if one is not found by email.
+// Otherwise updates existing.
+exports.findOrCreate = function(req, res) {
+  Volunteer.findOneAndUpdate({email: req.body.email}, req.body, { upsert: true }, function(err, volunteer) {
+    if(err) { return handleError(res, err); }
+    return res.json(201, volunteer);
+  });
+};
+
 // Updates an existing volunteer in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }

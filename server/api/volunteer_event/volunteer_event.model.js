@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+    timestamps = require('mongoose-timestamp'),
     Schema = mongoose.Schema;
 
 var VolunteerEventSchema = new Schema({
@@ -10,12 +11,6 @@ var VolunteerEventSchema = new Schema({
   attended: Boolean
 });
 
-// http://stackoverflow.com/a/12670523/270511
-VolunteerEventSchema.pre('save', function(next) {
-  if (!this.created_at) {
-    this.created_at = new Date();
-  }
-  next();
-});
+VolunteerEventSchema.plugin(timestamps);
 
 module.exports = mongoose.model('VolunteerEvent', VolunteerEventSchema);
