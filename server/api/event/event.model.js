@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
 var EventSchema = new Schema({
   name: String,
   about: String,
-  sponsor: String,
+  organization: String,
   start: Date,  // includes time
   end: Date,    // includes time
 
@@ -38,7 +38,7 @@ module.exports.seedEvents = function(start, duration, n, incDays, fn) {
     provider: 'local',
     name: 'Test Event 1',
     about: 'About Test Event 1',
-    sponsor: 'Jackson Young Professionals',
+    organization: 'Jackson Young Professionals',
     volunteerSlots: 5,
     volunteers: 0,
     start: start,

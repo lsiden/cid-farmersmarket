@@ -17,7 +17,7 @@ m.controller 'EventsCtrl', ($scope, Event) ->
     ends: (new Date(event.end)).shortTime()
     volunteers: event.volunteers
     volunteerSlots: event.volunteerSlots
-    sponsor: event.sponsor
+    organization: event.organization
 
   makeCalendarEventItem = (event) ->
     title: event.name

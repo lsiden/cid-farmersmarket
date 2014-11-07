@@ -4,7 +4,7 @@ div(ng-include='"components/navbar.html"')
     h1 Register for Event {{ event.name }}
 
     ul.subtitle
-      li {{ event.sponsor }}
+      li {{ event.organization }}
       li {{ event.date }} {{ event.hours }}
 
   form.form(name='form', ng-submit='register(form)', novalidate, ng-controller='VolunteerCtrl', class='form-horizontal')

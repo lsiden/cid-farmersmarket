@@ -76,37 +76,30 @@ m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs
 
     if form.$valid
       if (organizationId == 'new')
-        data =
-          name: $scope.organization.name
-          about: $scope.organization.about
-          email: $scope.organization.email
-          phone: $scope.organization.phone
-          contact: $scope.organization.contact
-          active: $scope.organization.active
+        _organization = new Organization
 
-        Organization.save data, (data, header) ->
-          $scope.message = 'Created new organization.'
+      _organization.name = $scope.organization.name
+      _organization.about = $scope.organization.about
+      _organization.email = $scope.organization.email
+      _organization.phone = $scope.organization.phone
+      _organization.contact = $scope.organization.contact
+      _organization.active = $scope.organization.active
+        
+      if (organizationId == 'new')
+        _organization.$save (data, headers) ->
+          flash.success = 'Create new Organization.'
           # $location.path('/admin/organizations')
           $state.go('admin-organizations')
-        , (res) ->
-          $scope.message = 'Cannot create your organization now.'
+        , (headers) ->
+          flash.error = headers.message
 
       else
-        # Use the original instance
-        _organization.name = $scope.organization.name
-        _organization.about = $scope.organization.about
-        _organization.email = $scope.organization.email
-        _organization.phone = $scope.organization.phone
-        _organization.contact = $scope.organization.contact
-        _organization.active = $scope.organization.active
-
-        _organization.$update (data, header) ->
-          flash.success = 'Organization successfully changed.'
+        _organization.$update (data, headers) ->
+          flash.success = 'Modified organization details.'
           # $location.path('/admin/organizations')
           $state.go('admin-organizations')
-
         , (headers) ->
-          flash.error = headers.data.message
+          flash.error = headers.message
 
   $scope.deleteOrganization = ->
     if $scope.organization.id == 'new' then return

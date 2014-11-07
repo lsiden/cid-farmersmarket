@@ -37,7 +37,7 @@ angular.module 'farmersmarketApp'
   $scope.event =
     href: ''
     name: ''
-    sponsor: ''
+    organization: ''
     date: ''
     hours: ''
 
@@ -47,7 +47,7 @@ angular.module 'farmersmarketApp'
 
     $scope.event = 
       name: event.name
-      sponsor: event.sponsor
+      organization: event.organization
       date: start.toDateString()
       hours: start.shortTime() + ' - ' + end.shortTime()
   , (headers) ->

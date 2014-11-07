@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: OrganizationsCtrl', ->
+describe 'Controller: AdminOrganizationsCtrl', ->
 
   # load the controller's module
   beforeEach module 'farmersmarketApp'
@@ -10,7 +10,7 @@ describe 'Controller: OrganizationsCtrl', ->
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    OrganizationsCtrl = $controller 'OrganizationsCtrl',
+    OrganizationsCtrl = $controller 'AdminOrganizationsCtrl',
       $scope: scope
 
   it 'should ...', ->

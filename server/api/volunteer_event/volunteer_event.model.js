@@ -5,8 +5,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var VolunteerEventSchema = new Schema({
-  volunteer_id: { type: Schema.Types.ObjectId, index: { unique: true }},
-  event_id: { type: Schema.Types.ObjectId, index: { unique: true }},
+  volunteer_id: { type: Schema.Types.ObjectId, ref: 'Volunteer', index: { unique: true }},
+  event_id: { type: Schema.Types.ObjectId, ref: 'Event', index: { unique: true }},
   created_at: Date, // date that volunteer registered
   attended: Boolean
 });

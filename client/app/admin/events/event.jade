@@ -17,10 +17,10 @@ div(ng-include='"components/navbar.html"')
       p.help-block(ng-show="eventForm.name.$error.required" class="error") With what name should this event be listed?
 
     .form-group
-      label.col-sm-2(for='eventSponsor', control-label) Event Sponsor
+      label.col-sm-2(for='eventOrganization', control-label) Sponsoring Organization
       .col-sm-10
-        input#eventSponsor.form-control(type='text',  name='sponsor', ng-model='event.sponsor', required='')
-      p.help-block(ng-show="eventForm.sponsor.$error.required" class="error") Who is the sponsor?.
+        input#eventOrganization.form-control(type='text',  name='organization', ng-model='event.organization', required='')
+      p.help-block(ng-show="eventForm.organization.$error.required" class="error") What organization is sponsoring the event?
 
     .form-group
       label.col-sm-2(for='eventAbout', control-label) About Event

@@ -1,7 +1,7 @@
 'use strict'
 
 # TODO - Define sort function for Date column to not be alphabetical.
-# Limit sorting to Name, Sponsor, and Date.
+# Limit sorting to Name, Organization, and Date.
 # Replace Active cells with checkbox
 
 m = angular.module 'farmersmarketApp'
@@ -28,7 +28,7 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
         cellTemplate: 'app/admin/events/name.cell.template.html'
         sortable: true
       }
-      { field: 'sponsor', displayName: 'Sponsor', sortable: true }
+      { field: 'organization', displayName: 'Organization', sortable: true }
       { field: 'date', displayName: 'Date', sortable: true, sortFn: sortByDate }
       { field: 'hours', displayName: 'Hours', sortable: false }
       { field: 'attendance', displayName: 'Volunteers/Slots', sortable: false }
@@ -44,7 +44,7 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
 
     href: '/admin/events/' + event._id
     name: event.name
-    sponsor: event.sponsor
+    organization: event.organization
     date: start.toDateString()
     hours: start.shortTime() + ' - ' + end.shortTime()
     attendance: '' + event.volunteers + '/' + event.volunteerSlots
@@ -64,7 +64,7 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
   , (headers) ->
     flash.error = headers.message
 
-m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
+m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event) ->
   $scope.errors = {}
   $scope.actionTitle = 'New'
 
@@ -80,7 +80,7 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
   $scope.event =
     id: 'new'
     name: ''
-    sponsor: ''
+    organization: ''
     about: ''
     volunteerSlots: 3
     date: startDate
@@ -89,7 +89,8 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
     active: false
   $scope.masterEvent = angular.copy($scope.event)
 
-  eventId = $location.path().split('/')[3]
+  # eventId = $location.path().split('/')[3]
+  eventId = $state.params.id
 
   if (eventId != 'new')
     $scope.actionTitle = 'Edit'
@@ -98,7 +99,7 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
       $scope.event =
         id: event._id
         name: event.name
-        sponsor: event.sponsor
+        organization: event.organization
         about: event.about
         volunteerSlots: event.volunteerSlots
         date: new Date(event.start)
@@ -128,36 +129,30 @@ m.controller 'AdminEventCtrl', ($scope, $location, flash, dialogs, Event) ->
 
     if form.$valid
       if (eventId == 'new')
-        data =
-          name: ev.name
-          sponsor: ev.sponsor
-          about: ev.about
-          volunteerSlots: ev.volunteerSlots
-          start: composeDateTime(ev.date, ev.startTime)
-          end: composeDateTime(ev.date, ev.endTime)
-          active: ev.active
+        _event = new Event()
 
-        Event.save data, (data, header) ->
-          $scope.message = 'Created new event.'
-        , (res) ->
-          $scope.message = 'Cannot create your event now.'
+      _event.name = ev.name
+      _event.organization = ev.organization
+      _event.about = ev.about
+      _event.volunteerSlots = ev.volunteerSlots
+      _event.start = composeDateTime(ev.date, ev.startTime)
+      _event.end = composeDateTime(ev.date, ev.endTime)
+      _event.active = ev.active
+
+      if (eventId == 'new')
+        _event.$save (data, headers) ->
+          flash.success = 'Created new event.'
+          $state.go('admin-events')
+        , (headers) ->
+          flash.error = headers.message
 
       else
-        # Use the original instance
-        _event.name = ev.name
-        _event.sponsor = ev.sponsor
-        _event.about = ev.about
-        _event.volunteerSlots = ev.volunteerSlots
-        _event.start = composeDateTime(ev.date, ev.startTime)
-        _event.end = composeDateTime(ev.date, ev.endTime)
-        _event.active = ev.active
-
-        _event.$update (data, header) ->
-          flash.success = 'Event successfully changed.'
-          $location.path('/admin/events')
-
+        _event.$update (data, headers) ->
+          flash.success = 'Modified event info.'
+          # $location.path('/admin/events')
+          $state.go('admin-events')
         , (headers) ->
-          flash.error = headers.data.message
+          flash.error = headers.message
 
   $scope.deleteEvent = ->
     ev = $scope.event
