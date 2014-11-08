@@ -20,7 +20,14 @@ header#banner.hero-unit
   .row
     .col-sm-4
       //- {{ calendarEvents }}
-      div.ui-calendar(ui-calendar, ng-model='calEventSources')
+      //- div.ui-calendar(ui-calendar='', ng-model='calendarEvents')
+      div.ui-calendar(ui-calendar='calendarConfig', ng-model='calendarEvents')
+      div.calendar-buttons
+        button.btn.btn-primary(ng-click='calendarView("month")')
+          | Month
+        button.btn.btn-primary(ng-click='calendarView("week")')
+          | Week
+
         
     .col-sm-8
       h2.title.upcoming Upcoming Events

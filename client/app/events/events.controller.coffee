@@ -5,9 +5,8 @@ m = angular.module 'farmersmarketApp'
 m.controller 'EventsCtrl', ($scope, Event) ->
   $scope.errors = {}
   $scope.events = []
-
-  # For Angular ui.calendar widget
-  $scope.calEventSources = { events: [] }
+  $scope.calendarConfig = {}
+  $scope.calendarEvents = []
 
   makeEventItem = (event) ->
     id: event._id
@@ -28,12 +27,14 @@ m.controller 'EventsCtrl', ($scope, Event) ->
   query = 
     end: '>' + (new Date()).addDays(-1)
     active: true
-
   # console.log(query);
 
   Event.query query, (events) ->
     $scope.events = (makeEventItem event for event in events)
-    $scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
+
+    # see lsiden comment on https://github.com/angular-ui/ui-calendar/issues/71
+    $scope.calendarEvents.length = 0
+    $scope.calendarEvents.push (makeCalendarEventItem(event) for event in events)
   , (headers) ->
     flash.error = headers.data.message
 
