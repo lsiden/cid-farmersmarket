@@ -6,6 +6,3 @@ angular.module 'farmersmarketApp'
 
   update:
     method: 'PUT'
-
-  findOrCreate:
-    method: 'POST'

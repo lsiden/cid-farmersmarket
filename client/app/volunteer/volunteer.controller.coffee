@@ -11,8 +11,9 @@ angular.module 'farmersmarketApp'
     if (!$state.params.event_id) 
       throw('saveVolunteerEvent(): missing $state.params_event_id')
 
-    params = { volunteer_id: volunteerId, event_id: $state.params.event_id }
-    VolunteerEvent.findOrCreate params, (data, headers) ->
+    volunteerEvent = new VolunteerEvent { volunteer_id: volunteerId, event_id: $state.params.event_id }
+    volunteerEvent.$save (data, headers) ->
+      console.log('volunteerEvent.$save callback')
       console.log(data)
       console.log(headers)
       # TODO send confirmation mail to admin and to volunteer
@@ -22,7 +23,7 @@ angular.module 'farmersmarketApp'
       console.log(url)
       $location.path(url)
     , (headers) ->
-      flash.error = 'VolunteerEvent.findOrCreate(): ' + headers
+      flash.error = 'volunteerEvent.$save(): ' + headers
 
   $scope.errors = {}
   $scope.message = ''
@@ -55,14 +56,13 @@ angular.module 'farmersmarketApp'
 
   $scope.register = ->
     # Look up volunteer by e-mail and create record if none existed.
-    data =
+    volunteer = new Volunteer
       email: $scope.volunteer.email
       name: $scope.volunteer.name
       phone: $scope.volunteer.phone
 
-    Volunteer.findOrCreate data, (volunteer) ->
-      console.log('Volunteer.findOrCreate returns')
-      console.log(volunteer)
+    volunteer.$save (volunteer) ->
+      # console.log(volunteer)
       saveVolunteerEvent(volunteer._id)
     , (headers) ->
       flash.error = 'Volunteer.save(): ' + headers.data

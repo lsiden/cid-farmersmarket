@@ -20,21 +20,15 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new volunteer_event in the DB.
+// Creates a new volunteer_event in the DB if one does not already exist.
 exports.create = function(req, res) {
-  VolunteerEvent.create(req.body, function(err, volunteer_event) {
+  VolunteerEvent.findOne(req.body, function(err, volunteer_event) {
     if(err) { return handleError(res, err); }
-    return res.json(201, volunteer_event);
-  });
-};
-
-// Creates a new volunteer_vent in the DB if one is not found by its unique keys.
-// Otherwise updates existing.
-exports.findOrCreate = function(req, res) {
-  var params = { volunteer_id: req.body.volunteer_id, event_id: req.body.event_id }
-  VolunteerEvent.findOneAndUpdate(params, params, { upsert: true }, function(err, volunteer_event) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, volunteer_event);
+    if (volunteer_event) { return res.json(201, volunteer_event); }
+    VolunteerEvent.create(req.body, function(err, volunteer_event) {
+      if(err) { return handleError(res, err); }
+      return res.json(201, volunteer_event);
+    });
   });
 };
 

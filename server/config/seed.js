@@ -16,6 +16,12 @@ var EventSeed = require('../api/event/event.seed');
 var User = require('../api/user/user.model');
 var _ = require('lodash');
 
+User.collection.dropAllIndexes(function(err, res) {});
+Event.collection.dropAllIndexes(function(err, res) {});
+Volunteer.collection.dropAllIndexes(function(err, res) {});
+VolunteerEvent.collection.dropAllIndexes(function(err, res) {});
+Organization.collection.dropAllIndexes(function(err, res) {});
+
 User.find({}).remove(function() {
   User.create({
     provider: 'local',

@@ -40,6 +40,7 @@ describe 'Controller: VolunteerCtrl', ->
     VolunteerCtrl = $controller 'VolunteerCtrl',
       $scope: scope
       $location: location
+      $state: state
       flash: flash
       Event: Event
       Volunteer: Volunteer
