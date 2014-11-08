@@ -11,7 +11,7 @@ div(ng-include='"components/navbar.html"')
       li {{ event.organization.contact }}
       li {{ event.organization.name }}
       li {{ event.organization.phone }}
-      li {{ event.organization.email }}
+      li <a href="mailto:{{ event.organization.email }}">{{ event.organization.email }}</a>
 
   form.form(name='form', ng-submit='register(form)', novalidate, ng-controller='VolunteerCtrl', class='form-horizontal')
 
