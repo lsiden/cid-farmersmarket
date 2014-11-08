@@ -20,6 +20,8 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
   $scope.events = []
   $scope.eventGridOptions = 
     data: 'events'
+    enableRowSelection: false
+    enableCellSelection: false
     sortInfo: { fields: ['date'], directions: ['asc'] }
     columnDefs: [
       {
@@ -28,7 +30,13 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
         cellTemplate: 'app/admin/events/name.cell.template.html'
         sortable: true
       }
-      { field: 'organization', displayName: 'Organization', sortable: true }
+      # { field: 'organization', displayName: 'Organization', sortable: true }
+      {
+        field: 'organization'
+        displayName: 'Organization'
+        cellTemplate: 'app/admin/events/organization_name.cell.template.html'
+        sortable: true
+      }
       { field: 'date', displayName: 'Date', sortable: true, sortFn: sortByDate }
       { field: 'hours', displayName: 'Hours', sortable: false }
       { field: 'attendance', displayName: 'Volunteers/Slots', sortable: false }
@@ -45,6 +53,7 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
     href: '/admin/events/' + event._id
     name: event.name
     organization: event.organization
+    href_organization: '/admin/organizations/' + event.organization._id
     date: start.toDateString()
     hours: start.shortTime() + ' - ' + end.shortTime()
     attendance: '' + event.volunteers + '/' + event.volunteerSlots
@@ -54,19 +63,21 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
   #   title: event.name
   #   start: event.start
 
-  query = { end: '>' + (new Date()).addDays(-1) }
+  eventQuery = { end: '>' + (new Date()).addDays(-1) }
   # Request all events that haven't ended
-  # console.log(query);
+  # console.log(eventQuery);
 
-  Event.query query, (events) ->
+  Event.query eventQuery, (events) ->
     $scope.events = (makeEventItem event for event in events)
     #$scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
   , (headers) ->
     flash.error = headers.message
 
-m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event) ->
+m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event, Organization) ->
   $scope.errors = {}
+  $scope.organizations = []
   $scope.actionTitle = 'New'
+  orgLookup = {}
 
   # New event starts tomorrow, from 12-4pm.
   startDate = (new Date).addDays(1) # tomorrow
@@ -80,7 +91,7 @@ m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event
   $scope.event =
     id: 'new'
     name: ''
-    organization: ''
+    organization: null
     about: ''
     volunteerSlots: 3
     date: startDate
@@ -92,14 +103,14 @@ m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event
   # eventId = $location.path().split('/')[3]
   eventId = $state.params.id
 
-  if (eventId != 'new')
+  if (eventId && eventId != 'new')
     $scope.actionTitle = 'Edit'
     Event.get { id: eventId }, (event) ->
       _event = event
       $scope.event =
         id: event._id
         name: event.name
-        organization: event.organization
+        organization: orgLookup[event.organization._id]
         about: event.about
         volunteerSlots: event.volunteerSlots
         date: new Date(event.start)
@@ -107,9 +118,20 @@ m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event
         endTime: new Date(event.end)
         active: event.active
       $scope.masterEvent = angular.copy($scope.event)
-
     , (headers) ->
       flash.error = headers.data.message
+
+  makeOrganizationItem = (organization) ->
+    name: organization.name
+    id: organization._id
+
+  Organization.query (organizations) ->
+    $scope.organizations = (makeOrganizationItem org for org in organizations)
+    for org in $scope.organizations
+      orgLookup[org.id] = org
+    
+    if _event && _event.organization
+      $scope.event.organization = orgLookup[_event.organization._id]
 
   $scope.isEventChanged = (event) ->
     !angular.equals(event, $scope.masterEvent)
@@ -132,7 +154,7 @@ m.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event
         _event = new Event()
 
       _event.name = ev.name
-      _event.organization = ev.organization
+      _event.organization = ev.organization.id
       _event.about = ev.about
       _event.volunteerSlots = ev.volunteerSlots
       _event.start = composeDateTime(ev.date, ev.startTime)

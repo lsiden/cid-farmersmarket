@@ -12,7 +12,11 @@ exports.index = function(req, res) {
 
   Event.find(req.query, function (err, events) {
     if(err) { return handleError(res, err); }
-    return res.json(200, events);
+    Event.populate(events, { path: 'organization' }, function(err, populatedEvents) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, populatedEvents);
+    })
+    // return res.json(200, events);
   });
 };
 
@@ -21,7 +25,9 @@ exports.show = function(req, res) {
   Event.findById(req.params.id, function (err, event) {
     if(err) { return handleError(res, err); }
     if(!event) { return res.send(404); }
-    return res.json(event);
+    event.populate('organization', function(err, populatedEvent) {
+      return res.json(populatedEvent);
+    });
   });
 };
 

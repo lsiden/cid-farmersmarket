@@ -20,7 +20,7 @@ div(ng-include='"components/navbar.html"')
       label.col-sm-2(for='organizationAbout', control-label) About Organization
       .col-sm-10
         textarea#organizationAbout.form-control(rows='2', name='about', ng-model='organization.about')
-      p.help-block(ng-show="form.about.$pristine" class="error") You might give a brief description of this organization and what they do for the Farmer's Market.
+      p.help-block(ng-show="organization.about.length === 0") You might give a brief description of this organization and what they do for the Farmer's Market.
       //- {{ form.about }}
 
     //- TODO validate that e-mail isn't already taken

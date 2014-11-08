@@ -6,12 +6,13 @@ var mongoose = require('mongoose'),
     timestamps = require('mongoose-timestamp'),
     Schema = mongoose.Schema,
     _ = require('lodash');
-
+    
+require('../organization/organization.model.js');
 
 var EventSchema = new Schema({
   name: String,
   about: String,
-  organization: String,
+  organization: { type: Schema.Types.ObjectId, ref: 'Organization' },
   start: Date,  // includes time
   end: Date,    // includes time
 
@@ -29,44 +30,3 @@ EventSchema.methods = {
 };
 
 module.exports = mongoose.model('Event', EventSchema);
-
-module.exports.seedEvents = function(start, duration, n, incDays, fn) {
-  console.log('seeding Events');
-  var end = _.cloneDeep(start).addHours(duration);
-
-  var eventParams = {
-    provider: 'local',
-    name: 'Test Event 1',
-    about: 'About Test Event 1',
-    organization: 'Jackson Young Professionals',
-    volunteerSlots: 5,
-    volunteers: 0,
-    start: start,
-    end: end,
-    active: true
-  };
-  var arEventParams = [];
-
-  for (var i=0 ; i < n ; ++i) {
-    var eventParams = _.cloneDeep(eventParams);
-    var dayOfMonth = (new Date(eventParams.start)).getDate();
-    eventParams.start.addDays(incDays);
-    eventParams.end.addDays(incDays);
-    eventParams.name = 'Test Event ' + i;
-    eventParams.about = 'About ' + eventParams.name;
-    arEventParams.push(eventParams);
-  }
-
-  //console.log(arEventParams);
-  var Event = mongoose.model('Event', EventSchema);
-  Event.create(arEventParams, function(err) {
-    if (err) {
-      if (fn) return fn(err);
-      console.log(err);
-      return err;
-    }
-    var len = arguments.length;
-    console.log('finished populating ' + (len-1) + ' events until ' + arguments[len-1].start);
-    if (fn) fn();
-  });
-};

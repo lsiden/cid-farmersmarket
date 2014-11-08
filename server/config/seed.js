@@ -2,6 +2,7 @@
  * Populate DB with sample data on server start
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
+ // TODO make sure this doesn't get into production or it will wipe the database.
 
 'use strict';
 

@@ -19,7 +19,8 @@ div(ng-include='"components/navbar.html"')
     .form-group
       label.col-sm-2(for='eventOrganization', control-label) Sponsoring Organization
       .col-sm-10
-        input#eventOrganization.form-control(type='text',  name='organization', ng-model='event.organization', required='')
+        select#eventOrganization.form-control(name='organization', ng-model='event.organization', ng-options='org.name for org in organizations', required='')
+          option(value='')
       p.help-block(ng-show="eventForm.organization.$error.required" class="error") What organization is sponsoring the event?
 
     .form-group
