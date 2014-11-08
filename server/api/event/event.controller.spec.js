@@ -18,7 +18,7 @@ describe('GET /api/events', function() {
       var date = (new Date()).addDays(-30);
       date.setHours(11);
       date.setMinutes(0);
-      console.log(date);
+      // console.log(date);
       EventSeed.seedEvents(date, 4, 12, 7, function(err) {
         if (err) return done(err);
         done();
@@ -41,7 +41,7 @@ describe('GET /api/events', function() {
   it('should filter out events that ended', function(done) {
     var yesterday = (new Date()).addDays(-1);
     var url = '/api/events?end=>' + yesterday;
-    console.log('usl = ' + url);
+    // console.log('usl = ' + url);
 
     request(app)
       .get(url)

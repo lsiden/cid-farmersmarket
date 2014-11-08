@@ -4,7 +4,7 @@ div(ng-include='"components/navbar.html"')
     h1 Register for Event {{ event.name }}
 
     h2 Time
-    {{ event.date }} {{ event.hours }}
+    | {{ event.date }} {{ event.hours }}
 
     h2 Contact Info
     ul
@@ -40,4 +40,4 @@ div(ng-include='"components/navbar.html"')
     .form-group.buttons
       .col-sm-offset-2.col-sm-6
         //- button.btn.btn-md.btn-success(ng-click='reset()', ng-disabled="!isChanged(volunteer)") Reset
-        button.btn.btn-md.btn-primary(type='submit', ng-disabled="form.$invalid") Save changes
+        button.btn.btn-md.btn-primary(type='submit', ng-disabled="form.$invalid") Register Me!

@@ -54,7 +54,6 @@ describe 'Volunteer service', ->
       done()
 
   it 'should update an existing volunteer with save()', (done) ->
-    console.log done
     Volunteer.save { email: 'foo@bar', name: 'Foo', phone: '555-5555'}, (volunteer) ->
       expect(!!volunteer).toBe true
       expect(!!volunteer._id).toBe true
@@ -68,5 +67,4 @@ describe 'Volunteer service', ->
         expect(volunteer.email).toBe 'foo@bar'
         expect(volunteer.name).toBe 'Bar'
         expect(volunteer.phone).toBe '777-7777'
-        console.log(volunteer)
         done()

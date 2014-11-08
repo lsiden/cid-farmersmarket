@@ -87,8 +87,11 @@ describe 'Controller: VolunteerCtrl', ->
     sinon.stub Volunteer, 'query'
     .yields [ volunteer ]
 
+    sinon.stub Volunteer, '$save'
+    .yields volunteer
+
     # This volunteer has already registered for this event.
-    veParams = _.extend({}, volunteerEventParams, { created_at: new Date() })
+    veParams = _.extend({}, volunteerEventParams, { createdAt: new Date() })
 
     sinon.stub VolunteerEvent, 'query'
     .yields [ veParams ]
