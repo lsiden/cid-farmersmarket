@@ -43,9 +43,6 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
       { field: 'active', displayName: 'Active', sortable: false }
     ]
 
-  # For Angular ui.calendar widget
-  # $scope.calEventSources = { events: [] }
-
   makeEventItem = (event) ->
     start = new Date(event.start)
     end = new Date(event.end)
@@ -59,17 +56,12 @@ m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
     attendance: '' + event.volunteers + '/' + event.volunteerSlots
     active: event.active
 
-  # makeCalendarEventItem = (event) ->
-  #   title: event.name
-  #   start: event.start
-
   eventQuery = { end: '>' + (new Date()).addDays(-1) }
   # Request all events that haven't ended
   # console.log(eventQuery);
 
   Event.query eventQuery, (events) ->
     $scope.events = (makeEventItem event for event in events)
-    #$scope.calEventSources.events = (makeCalendarEventItem(event) for event in events)
   , (headers) ->
     flash.error = headers.message
 
