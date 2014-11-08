@@ -38,6 +38,13 @@ m.controller 'EventsCtrl', ($scope, Event) ->
   , (headers) ->
     flash.error = headers.data.message
 
+  $scope.setCalendarView = (view) ->
+    $scope.calendar.fullCalendar('changeView', view)
+    
+    # avoid "Error: [$parse:isecdom] Referencing DOM nodes in Angular expressions is disallowed!"
+    # see https://docs.angularjs.org/error/$parse/isecdom
+    null
+
 m.directive 'eventSummary', ($compile, $location) ->
   restrict: 'E'
   scope:

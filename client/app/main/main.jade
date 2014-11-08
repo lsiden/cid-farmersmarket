@@ -21,11 +21,11 @@ header#banner.hero-unit
     .col-sm-4
       //- {{ calendarEvents }}
       //- div.ui-calendar(ui-calendar='', ng-model='calendarEvents')
-      div.ui-calendar(ui-calendar='calendarConfig', ng-model='calendarEvents')
+      div.ui-calendar(ui-calendar='calendarConfig', ng-model='calendarEvents', calendar='calendar')
       div.calendar-buttons
-        button.btn.btn-primary(ng-click='calendarView("month")')
+        button.btn.btn-primary(ng-click='setCalendarView("month")')
           | Month
-        button.btn.btn-primary(ng-click='calendarView("week")')
+        button.btn.btn-primary(ng-click='setCalendarView("agendaWeek")')
           | Week
 
         
