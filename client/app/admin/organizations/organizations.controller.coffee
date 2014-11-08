@@ -7,6 +7,8 @@ m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
   $scope.organizations = []
   $scope.organizationGridOptions = 
     data: 'organizations'
+    enableRowSelection: false
+    enableCellSelection: false
     sortInfo: { fields: ['name'], directions: ['asc'] }
     columnDefs: [
       {
