@@ -45,7 +45,7 @@ m.controller 'EventsCtrl', ($scope, Event) ->
     # see https://docs.angularjs.org/error/$parse/isecdom
     null
 
-m.directive 'eventSummary', ($compile, $location) ->
+m.directive 'eventSummary', ($compile, $state) ->
   restrict: 'E'
   scope:
     volunteer: '='
@@ -53,7 +53,7 @@ m.directive 'eventSummary', ($compile, $location) ->
   templateUrl: 'app/events/eventSummary.html'
   link: (scope, el, attrs) ->
     scope.register = (event_id) ->
-      $location.path('volunteer/event/:event_id/register'.replace(/:event_id/, event_id))
+      $state.go('register-volunteer', { event_id: event_id })
 
 m.filter 'decorateNumVolunteers', ->
   (num) ->

@@ -1,0 +1,31 @@
+{
+  "apps" : [{
+    "name"      : "farmersmarket",
+    "script"    : "server/app.js",
+    "env": {
+      "COMMON_VARIABLE": "true"
+    },
+    "env_production" : {
+      "xNODE_ENV": "production",
+      "NODE_ENV": "development"
+    }
+  }],
+  "deploy" : {
+    "prod" : {
+      "user" : "lsiden",
+      "host" : "104.131.173.158",
+      "ref"  : "origin/master",
+      "repo" : "git@github.com:lsiden/cid-farmersmarket.git",
+      "path" : ".",
+      "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
+    },
+    "dev" : {
+      "user" : "lsiden",
+      "host" : "104.131.173.158",
+      "ref"  : "origin/dev",
+      "repo" : "git@github.com:lsiden/cid-farmersmarket.git",
+      "path" : ".",
+      "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
+    }
+  }
+}

@@ -4,29 +4,23 @@ angular.module 'farmersmarketApp'
 .controller 'VolunteerCtrl', ($scope, $location, $state, flash, Event, Volunteer, VolunteerEvent) ->
 
   # Create volunteer_event record if none existed.
-  saveVolunteerEvent = (volunteerId) ->
+  registerVolunteerEvent = (volunteerId) ->
     if (!volunteerId) 
-      throw('saveVolunteerEvent(): missing arg \'volunteerId\'')
+      throw 'saveVolunteerEvent(): missing arg \'volunteerId\''
 
     if (!$state.params.event_id) 
-      throw('saveVolunteerEvent(): missing $state.params_event_id')
+      throw 'saveVolunteerEvent(): missing $state.params_event_id'
 
     params = { volunteer_id: volunteerId, event_id: $state.params.event_id }
     VolunteerEvent.query params, (volunteerEvents) ->
-      path = '/volunteer/:volunteer_id/event/:event_id'
-      .replace /:volunteer_id/, volunteerId
-      .replace /:event_id/, $state.params.event_id
-      
       if volunteerEvents && volunteerEvents.length
         # Volunteer has already registered for this event.
-        # $state.go('volunteer-reconfirm', _.merge( { date: volunteerEvents[0].createdAt }, params))
-        return $location.path(path + '/reconfirm').search 
-          date: volunteerEvents[0].createdAt
+        return $state.go('confirm-volunteer', _.merge( { confirmed: volunteerEvents[0].createdAt }, params))
 
       volunteerEvent = new VolunteerEvent params
       volunteerEvent.$save (data, headers) ->
         # TODO send confirmation mail to admin and to volunteer
-        $location.path(path + '/confirm')
+        $state.go 'confirm-volunteer', params
       , (headers) ->
         flash.error = 'volunteerEvent.$save(): ' + headers
 
@@ -68,6 +62,6 @@ angular.module 'farmersmarketApp'
 
     volunteer.$save (volunteer) ->
       # console.log(volunteer)
-      saveVolunteerEvent(volunteer._id)
+      registerVolunteerEvent(volunteer._id)
     , (headers) ->
       flash.error = 'Volunteer.save(): ' + headers.data
