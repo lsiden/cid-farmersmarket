@@ -50,6 +50,7 @@ m.controller 'ConfirmCtrl', ($scope, $state, $location, $q, flash, Event, Volunt
       starts: (new Date(event.start)).shortTime()
       ends: (new Date(event.end)).shortTime()
       organization:
+        id: event.organization._id
         name: event.organization.name
         contact: event.organization.contact
         email: event.organization.email

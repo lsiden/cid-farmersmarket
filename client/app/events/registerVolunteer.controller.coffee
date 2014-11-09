@@ -47,7 +47,13 @@ angular.module 'farmersmarketApp'
 
     $scope.event = 
       name: event.name
-      organization: event.organization
+      organization: 
+        id: event.organization._id
+        name: event.organization.name
+        contact: event.organization.contact
+        phone: event.organization.phone
+        email: event.organization.email
+
       date: start.toDateString()
       hours: start.shortTime() + ' - ' + end.shortTime()
   , (headers) ->

@@ -9,6 +9,7 @@ var OrganizationSchema = new Schema({
   email: String,
   phone: String,
   contact: String,
+  url: String,
   active: Boolean
 });
 

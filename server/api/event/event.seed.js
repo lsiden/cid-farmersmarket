@@ -16,6 +16,7 @@ module.exports.seedEvents = function(start, duration, n, incDays, fn) {
       email: 'info@testorg_:i.org'.replace(/:i/, i),
       phone: '(555)-555-5555',
       contact: 'George Washington',
+      url: 'test.organization:i.org'.replace(/:i/, i),
       active: true
     });
   }

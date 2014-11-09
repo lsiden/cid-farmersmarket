@@ -1,11 +1,11 @@
+//- {{ event }}
 .event-summary
-  //- {{ event }}
   .row
     .col-sm-4.first
       .row
         | {{ event.name }}
       .row
-        | {{ event.organization.name }}
+        a(ui-sref="organization({id: event.organization.id})") {{event.organization.name}}
       .row
         | Need {{ event.volunteerSlots }} volunteers.
     .col-sm-4

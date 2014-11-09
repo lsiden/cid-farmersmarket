@@ -24,6 +24,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'admin/organizations/organizations.scss';
 @import 'events/events.scss';
 @import 'main/main.scss';
+@import 'organization/organization.scss';
 @import 'volunteer/volunteer.scss';
 @import 'modal.scss';
 // endinjector
@@ -72,4 +73,12 @@ table.form-control {
       padding-right: 0.5em;
     }
   }
+}
+
+.grfm-grid .row {
+  line-height: 30pt;
+}
+.grfm-grid-label {
+  font-size: larger;
+  font-weight: bold;
 }

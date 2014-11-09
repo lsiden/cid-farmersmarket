@@ -1,0 +1,29 @@
+div(ng-include='"components/navbar.html"')
+.container
+
+  //- {{ organization }}
+
+  h1 {{ organization.name }}
+
+  .grfm-grid
+    .row
+      .col-sm-2.grfm-grid-label About
+      .col-sm-10 {{ organization.about }}
+
+    .row
+      .col-sm-2.grfm-grid-label Contact
+      .col-sm-10 {{ organization.contact }}
+
+    .row
+      .col-sm-2.grfm-grid-label Phone
+      .col-sm-10 {{ organization.phone }}
+
+    .row
+      .col-sm-2.grfm-grid-label Email
+      .col-sm-10
+        mail-to(to="{{ organization.email }}")
+
+    .row
+      .col-sm-2.grfm-grid-label URL
+      .col-sm-10 
+        a(href="{{ organization.url }}"){{ organization.url }}
