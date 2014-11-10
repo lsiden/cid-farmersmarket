@@ -8,7 +8,7 @@ exports.index = function(req, res) {
   if (req.query.end && req.query.end[0] === '>') {
     req.query.end = { $gt: new Date(req.query.end.substr(1)) };
   }
-  //console.log(req.query);
+  // console.log(req.query);
 
   Event.find(req.query, function (err, events) {
     if(err) { return handleError(res, err); }

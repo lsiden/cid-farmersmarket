@@ -5,7 +5,8 @@ var Volunteer = require('./volunteer.model');
 
 // Get list of volunteers
 exports.index = function(req, res) {
-  Volunteer.find(function (err, volunteers) {
+  // console.log(req.query);
+  Volunteer.find(req.query, function (err, volunteers) {
     if(err) { return handleError(res, err); }
     return res.json(200, volunteers);
   });
