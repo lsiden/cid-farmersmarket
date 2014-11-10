@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'VolunteerCtrl', ($scope, $location, $state, flash, Event, Volunteer, VolunteerEvent) ->
+.controller 'RegisterVolunteerEventCtrl', ($scope, $location, $state, flash, Event, Volunteer, VolunteerEvent) ->
 
   # Create volunteer_event record if none existed.
   registerVolunteerEvent = (volunteerId) ->

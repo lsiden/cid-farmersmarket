@@ -3,10 +3,8 @@
 angular.module 'farmersmarketApp'
 .controller 'NavbarCtrl', ($scope, $location, Auth) ->
   $scope.menu = [
-    {
-      title: 'Home'
-      link: '/'
-    },
+    { title: 'Home', link: '/'}
+    { title: 'Register', link: '/volunteer/new' }
   ]
   $scope.isCollapsed = true
   $scope.isLoggedIn = Auth.isLoggedIn

@@ -1,2 +1,10 @@
-.col-md-12
-    | This is the volunteer view.
+div(ng-include='"components/navbar.html"')
+.container
+
+  h1 My Info
+  edit-volunteer-info
+
+  div(ng-show="volunteer.id")
+    h1 My Upcoming Events
+
+    h1 My Past Events

@@ -8,7 +8,7 @@ div(ng-include='"components/navbar.html"')
       label(for='fieldName', class='col-sm-2', control-label) Name
       .col-sm-10
         input#fieldName.form-control(type='text', name='name', ng-model='contactInfo.name', required='', ng-model-options='{ debounce: 750 }')
-      p.help-block(ng-show="contactInfoForm.name.$error.required" class="error") C'mon, don't be shy!  We need a name here.
+      p.help-block(ng-show="contactInfoForm.name.$error.required" class="error") What's your name?
 
     //- TODO validate that e-mail isn't already taken
     //- see https://docs.angularjs.org/guide/forms, "Custom Validation" section
@@ -18,15 +18,16 @@ div(ng-include='"components/navbar.html"')
         input#fieldEmail.form-control(type='email', name='email', ng-model='contactInfo.email', ng-model-options='{ debounce: 750 }', required='', unique-email='true')
         
         //- TODO: unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
+      p.help-block(ng-show="contactInfoForm.email.$error.require" class="error") What's your email address?
       p.help-block(ng-show="contactInfoForm.email.$error.email" class="error") This doesn't look like a valid e-mail address!
-      
       p.help-block(ng-show="contactInfoForm.email.$error.uniqueEmail" class="error") Oops! This e-mail is already taken.
       //- {{ contactInfoForm.email.$error }}
 
     .form-group
       label(for='fieldPhone', class='col-sm-2', control-label) Phone
       .col-sm-10
-        input#fieldPhone.form-control(type='text', name='phone', ng-model='contactInfo.phone', ng-model-options='{ debounce: 750 }', ui-mask='(999) 999-9999')
+        input#fieldPhone.form-control(type='text', name='phone', ng-model='contactInfo.phone', ng-model-options='{ debounce: 750 }', ui-mask='(999) 999-9999', required='')
+      p.help-block(ng-show="contactInfoForm.phone.$error.required" class="error") What's your phone number?
       p.help-block(ng-show="contactInfoForm.phone.$error.mask" class="error") Keep typing!
             
     p.help-block  {{ message }}

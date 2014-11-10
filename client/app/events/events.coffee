@@ -7,7 +7,7 @@ angular.module 'farmersmarketApp'
   $stateProvider.state 'register-volunteer',
     url: '/event/:event_id/register'
     templateUrl: 'app/events/register.html'
-    controller: 'VolunteerCtrl'
+    controller: 'RegisterVolunteerEventCtrl'
   
   # Display a confirmation page verifying that volunteer has registered for an event.
   $stateProvider.state 'confirm-volunteer',

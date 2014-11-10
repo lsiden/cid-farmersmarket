@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'ContactInfoCtrl', ['$scope', '$http', 'User', ($scope, $http, User) ->
+.controller 'ContactInfoCtrl', ($scope, $http, User) ->
   $scope.errors = {}
   $scope.contactInfo = {}
   $scope.masterContactInfo = {}
@@ -18,7 +18,6 @@ angular.module 'farmersmarketApp'
       phone: user.phone
     }
     $scope.masterContactInfo = angular.copy($scope.contactInfo)
-
   , (headers) ->
     flash.error = headers.data.message
 
@@ -36,7 +35,6 @@ angular.module 'farmersmarketApp'
         $scope.message = 'Content info successfully changed.'
       , (res) ->
         $scope.message = 'Cannot update your contact info now.'
-  ]
 
 ###
 # unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x

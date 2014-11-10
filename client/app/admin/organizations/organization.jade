@@ -31,7 +31,7 @@ div(ng-include='"components/navbar.html"')
         input#fieldEmail.form-control(type='email', name='email', ng-model='organization.email', ng-model-options='{ debounce: 500 }', required='', unique-email='true')
         
         //- TODO: unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
-      p.help-block(ng-show="form.email.$error.required" class="error") Your organization's email address.
+      p.help-block(ng-show="form.email.$error.required" class="error") What's your organization's email address?
       p.help-block(ng-show="form.email.$error.email" class="error") This doesn't look like a valid e-mail address!
       p.help-block(ng-show="form.email.$error.uniqueEmail" class="error") Oops! This e-mail is already taken.
       //- {{ form.email.$error }}
@@ -40,8 +40,8 @@ div(ng-include='"components/navbar.html"')
       label(for='fieldPhone', class='col-sm-2', control-label) Phone
       .col-sm-10
         input#fieldPhone.form-control(type='text', name='phone', ng-model='organization.phone', required='', ui-mask='(999) 999-9999' )
+      p.help-block(ng-show="form.phone.$error.required" class="error") What's your organization's phone number?
       p.help-block(ng-show="form.phone.$error.mask" class="error") Keep typing!
-      p.help-block(ng-show="form.phone.$error.required" class="error") Your organization's phone number.
 
     .form-group
       label.col-sm-2(for='organizationContact', control-label) Organization Contact

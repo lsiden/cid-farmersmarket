@@ -1,12 +1,12 @@
 'use strict'
 
-describe 'Controller: VolunteerCtrl', ->
+describe 'Controller: RegisterVolunteerEventCtrl', ->
 
   # load the controller's module
   beforeEach module 'farmersmarketApp'
 
   # dependency placeholders
-  VolunteerCtrl = undefined
+  RegisterVolunteerEventCtrl = undefined
   scope = undefined
   location = undefined
   state = undefined
@@ -37,7 +37,7 @@ describe 'Controller: VolunteerCtrl', ->
     sinon.stub Volunteer, 'save'
     .yields volunteer
 
-    VolunteerCtrl = $controller 'VolunteerCtrl',
+    RegisterVolunteerEventCtrl = $controller 'RegisterVolunteerEventCtrl',
       $scope: scope
       $location: location
       $state: state

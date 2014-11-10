@@ -14,7 +14,7 @@ div(ng-include='"components/navbar.html"')
       li {{ event.organization.phone }}
       li <a href="mailto:{{ event.organization.email }}">{{ event.organization.email }}</a>
 
-  form.form(name='form', ng-submit='register(form)', novalidate, ng-controller='VolunteerCtrl', class='form-horizontal')
+  form.form(name='form', ng-submit='register(form)', novalidate, ng-controller='RegisterVolunteerEventCtrl', class='form-horizontal')
 
     .form-group
       label(for='fieldEmail', class='col-sm-2', control-label) Email
@@ -33,7 +33,7 @@ div(ng-include='"components/navbar.html"')
       label(for='fieldPhone', class='col-sm-2', control-label) Phone
       .col-sm-10
         input#fieldPhone.form-control(type='text', name='phone', ng-model='volunteer.phone', ui-mask='(999) 999-9999', required='')
-      p.help-block(ng-show="form.phone.$error.required" class="error") What's your phone number?
+      p.help-block(ng-show="form.phone.$error.required" class="error") Your your phone number?
       p.help-block(ng-show="form.phone.$error.mask" class="error") Keep typing!
             
     p.help-block  {{ message }}
