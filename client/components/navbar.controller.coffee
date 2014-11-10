@@ -31,6 +31,6 @@ angular.module 'farmersmarketApp'
         if (volunteers && volunteers.length)
           $state.go 'volunteer', { id: volunteers[0]._id }
         else
-          $state.go 'volunteer', { id: 'new' }
+          $state.go 'volunteer', { id: 'new', email: email }
       , (headers) ->
         flash.error = headers.message

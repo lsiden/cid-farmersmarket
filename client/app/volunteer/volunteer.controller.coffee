@@ -15,6 +15,8 @@ angular.module 'farmersmarketApp'
       $scope.masterVolunteer = angular.copy($scope.volunteer)
     , (headers) ->
       flash.error = headers.data.message
+  else if $state.params.email
+    $scope.volunteer.email = $state.params.email
 
   $scope.isFormChanged = (volunteer) ->
     !angular.equals(volunteer, $scope.masterVolunteer)
@@ -33,6 +35,7 @@ angular.module 'farmersmarketApp'
       volunteer.$save (data, headers) ->
         # $scope.message = 'Content info successfully changed.'
         flash.success = 'Congratulations!  You are now registered.'
+        $state.go('main')
       , (res) ->
         # $scope.message = 'Cannot update your contact info now.'
         flash.error = headers.message
