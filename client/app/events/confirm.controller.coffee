@@ -1,8 +1,7 @@
 'use strict'
 
-m = angular.module 'farmersmarketApp'
-
-m.controller 'ConfirmCtrl', ($scope, $state, $location, $q, flash, Event, Volunteer) ->
+angular.module 'farmersmarketApp'
+.controller 'ConfirmCtrl', ($scope, $state, $location, $q, flash, Event, Volunteer) ->
   # Expecting $state.params = { volunteer_id: ..., event_id: ... }
 
   $scope.errors = {}

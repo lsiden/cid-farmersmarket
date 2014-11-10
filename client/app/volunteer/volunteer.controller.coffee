@@ -30,7 +30,7 @@ angular.module 'farmersmarketApp'
       volunteer.name = $scope.volunteer.name
       volunteer.phone = $scope.volunteer.phone
       volunteer.email = $scope.volunteer.email
-      volunteer.$save, (data, headers) ->
+      volunteer.$save (data, headers) ->
         # $scope.message = 'Content info successfully changed.'
         flash.success = 'Congratulations!  You are now registered.'
       , (res) ->
