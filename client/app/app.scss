@@ -83,3 +83,13 @@ table.form-control {
   font-size: larger;
   font-weight: bold;
 }
+
+.modal {
+  display: block; // http://stackoverflow.com/a/20292863/270511
+  overflow: auto;
+  min-height: 300px;  // Without this, the window is a sliver.
+  min-width: 500px;   // no effect
+}
+
+.modal-content {
+}
