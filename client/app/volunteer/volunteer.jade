@@ -5,6 +5,8 @@ div(ng-include='"components/navbar.html"')
   edit-volunteer-info
 
   div(ng-show="volunteer.id")
-    h1 My Upcoming Events
+    h1 Events I Am Registered To Volunteer At
+    div(ng-grid="futureGridOptions")
 
-    h1 My Past Events
+    h1 Events I Have Volunteered At
+    div(ng-grid="pastGridOptions")
