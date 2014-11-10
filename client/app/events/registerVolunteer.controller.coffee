@@ -11,16 +11,18 @@ angular.module 'farmersmarketApp'
     if (!$state.params.event_id) 
       throw 'saveVolunteerEvent(): missing $state.params_event_id'
 
-    params = { volunteer_id: volunteerId, event_id: $state.params.event_id }
-    VolunteerEvent.query params, (volunteerEvents) ->
+    qParams = { volunteer: volunteerId, event: $state.params.event_id } # query params
+    sParams = { volunteer_id: volunteerId, event_id: $state.params.event_id } # state params
+
+    VolunteerEvent.query qParams, (volunteerEvents) ->
       if volunteerEvents && volunteerEvents.length
         # Volunteer has already registered for this event.
-        return $state.go('confirm-volunteer', _.merge( { confirmed: volunteerEvents[0].createdAt }, params))
+        return $state.go('confirm-volunteer', _.merge( { confirmed: volunteerEvents[0].createdAt }, sParams))
 
-      volunteerEvent = new VolunteerEvent params
+      volunteerEvent = new VolunteerEvent(qParams)
       volunteerEvent.$save (data, headers) ->
         # TODO send confirmation mail to admin and to volunteer
-        $state.go 'confirm-volunteer', params
+        $state.go 'confirm-volunteer', sParams
       , (headers) ->
         flash.error = 'volunteerEvent.$save(): ' + headers
 
