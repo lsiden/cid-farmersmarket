@@ -3,19 +3,22 @@
 angular.module 'farmersmarketApp'
 .controller 'VolunteerCtrl', ($scope, $state, flash, Volunteer) ->
   $scope.volunteer = {}
+  $scope.masterVolunteer = {}
   $scope.message = ''
+  
   id = $state.params.id
+  _volunteer = new Volunteer() # from server
   
   if id && id != 'new'
     Volunteer.get { id: $state.params.id }, (volunteer) ->
+      _volunteer = volunteer
       $scope.volunteer.name = volunteer.name
       $scope.volunteer.phone = volunteer.phone
       $scope.volunteer.email = volunteer.email
-
       $scope.masterVolunteer = angular.copy($scope.volunteer)
     , (headers) ->
       flash.error = headers.data.message
-  else if $state.params.email
+  else
     $scope.volunteer.email = $state.params.email
 
   $scope.isFormChanged = (volunteer) ->
@@ -25,18 +28,28 @@ angular.module 'farmersmarketApp'
     $scope.volunteer = angular.copy($scope.masterVolunteer)
   
   $scope.saveVolunteer = (form) ->
-    $scope.submitted = true
+    # $scope.submitted = true
 
-    if form.$valid
-      volunteer = new Volunteer()
-      volunteer.name = $scope.volunteer.name
-      volunteer.phone = $scope.volunteer.phone
-      volunteer.email = $scope.volunteer.email
-      volunteer.$save (data, headers) ->
+    if !form.$valid
+      return
+    _volunteer.name = $scope.volunteer.name
+    _volunteer.phone = $scope.volunteer.phone
+    _volunteer.email = $scope.volunteer.email
+
+    if id && id != 'new'
+      _volunteer.$update (data, headers) ->
+        # $scope.message = 'Content info successfully changed.'
+        flash.success = 'Thank you for updating your contact info.'
+        $state.go('main')
+      , (headers) ->
+        # $scope.message = 'Cannot update your contact info now.'
+        flash.error = headers.message
+    else
+      _volunteer.$save (data, headers) ->
         # $scope.message = 'Content info successfully changed.'
         flash.success = 'Congratulations!  You are now registered.'
         $state.go('main')
-      , (res) ->
+      , (headers) ->
         # $scope.message = 'Cannot update your contact info now.'
         flash.error = headers.message
 
