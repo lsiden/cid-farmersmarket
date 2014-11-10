@@ -55,6 +55,7 @@ angular.module 'farmersmarketApp'
         email: event.organization.email
         phone: event.organization.phone
     $scope.volunteer =
+       id: volunteer._id
        name: volunteer.name
        email: volunteer.email
        phone: volunteer.phone

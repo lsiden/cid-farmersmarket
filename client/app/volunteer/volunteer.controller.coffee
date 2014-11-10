@@ -44,6 +44,7 @@ makeGridItem = (event) ->
   start = new Date(event.start)
   end = new Date(event.end)
   org = event.organization
+  console.log(org)
 
   href: '/admin/events/' + event._id
   name: event.name
@@ -53,7 +54,7 @@ makeGridItem = (event) ->
   contactInfo: org.contact + ', ' + org.phone + ', ' + org.email
 
 angular.module 'farmersmarketApp'
-.controller 'VolunteerCtrl', ($scope, $state, flash, Volunteer, Event) ->
+.controller 'VolunteerCtrl', ($scope, $state, flash, Volunteer, VolunteerEvent) ->
   $scope.volunteer = {}
   $scope.masterVolunteer = {}
   $scope.pastGridItems = []
@@ -64,21 +65,15 @@ angular.module 'farmersmarketApp'
   $scope.futureGridOptions = makeGridOptions 'futureGridItems', 'asc'
 
   populateGridItems = (volunteer_id) ->
-    futureEventsQuery = { volunteer_id: volunteer_id, end: '>' + (new Date()).addDays(-1) }
-    pastEventsQuery = { volunteer_id: volunteer_id, end: '<' + new Date() }
-
-    Event.query pastEventsQuery, (events) ->
-      $scope.pastGridItems = (makeGridItem event for event in events)
-    , (headers) ->
-      flash.error = headers.message
-
-    Event.query futureEventsQuery, (events) ->
-      $scope.futureGridItems = (makeGridItem event for event in events)
+    VolunteerEvent.query { volunteer: volunteer_id }, (volunteerEvents) ->
+      # console.log(volunteerEvents)
+      now = new Date()
+      $scope.pastGridItems = (makeGridItem ve.event for ve in volunteerEvents when new Date(ve.event.end) <= now)
+      $scope.futureGridItems = (makeGridItem ve.event for ve in volunteerEvents when new Date(ve.event.end) > now)
     , (headers) ->
       flash.error = headers.message
 
   id = $state.params.id
-  
   if id && id != 'new'
     Volunteer.get { id: $state.params.id }, (volunteer) ->
       _volunteer = volunteer
@@ -91,7 +86,6 @@ angular.module 'farmersmarketApp'
     , (headers) ->
       flash.error = headers.data.message
   else
-    _volunteer = new Volunteer() # from server
     $scope.volunteer.email = $state.params.email
 
   $scope.isFormChanged = (volunteer) ->
@@ -105,6 +99,8 @@ angular.module 'farmersmarketApp'
 
     if !form.$valid
       return
+    _volunteer = new Volunteer() # from server
+    _volunteer._id = id
     _volunteer.name = $scope.volunteer.name
     _volunteer.phone = $scope.volunteer.phone
     _volunteer.email = $scope.volunteer.email

@@ -15,9 +15,9 @@ div(ng-include='"components/navbar.html"')
       mail-to(to='{{ volunteer.email }}')
     li {{ volunteer.phone }}
 
-  p You may 
-    a(ui-sref='volunteer-update({ id: volunteer.id })') update your name or phone number 
-    | if there is a mistake.
+  p You may view and update 
+    a(ui-sref='volunteer({id: volunteer.id})') your contact info 
+    | and review events you have volunteered for.
 
   p If you have questions or concerns, you may contact {{ event.organization.contact }}
     | by phone at {{ event.organization.phone }}

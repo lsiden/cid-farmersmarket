@@ -2,11 +2,18 @@
 
 var _ = require('lodash');
 var VolunteerEvent = require('./volunteer_event.model');
+var Volunteer = require('../volunteer/volunteer.model');
+var Event = require('../event/event.model');
+var Organization = require('../organization/organization.model');
 
 // Get list of volunteer_events
 exports.index = function(req, res) {
   // console.log(req.query);
-  VolunteerEvent.find(req.query).populate('volunteer event').exec(function (err, volunteer_events) {
+  VolunteerEvent.find(req.query)
+  .populate({path: 'volunteer', model: Volunteer })
+  .populate({path: 'event', model: Event })
+  .populate({path: 'event.organization', model: Organization })
+  .exec(function (err, volunteer_events) {
     if(err) { return handleError(res, err); }
     return res.json(200, volunteer_events);
   });
@@ -14,9 +21,12 @@ exports.index = function(req, res) {
 
 // Get a single volunteer_event
 exports.show = function(req, res) {
-  VolunteerEvent.findById(req.params.id).populate('volunteer event').exec(function (err, volunteer_event) {
+  VolunteerEvent.findById(req.params.id)
+  .populate({path: 'volunteer', model: Volunteer })
+  .populate({path: 'event', model: Event })
+  .populate({path: 'event.organization', model: Organization })
+  .exec(function (err, volunteer_event) {
     if(err) { return handleError(res, err); }
-    if(!volunteer_event) { return res.send(404); }
     return res.json(volunteer_event);
   });
 };
@@ -26,7 +36,7 @@ exports.create = function(req, res) {
   VolunteerEvent.findOne(req.body, function(err, volunteer_event) {
     if(err) { return handleError(res, err); }
     if (volunteer_event) { return res.json(201, volunteer_event); }
-    console.log(req.body);
+    // console.log(req.body);
     VolunteerEvent.create(req.body, function(err, volunteer_event) {
       if(err) { return handleError(res, err); }
       return res.json(201, volunteer_event);

@@ -7,6 +7,8 @@ var Event = require('./event.model');
 exports.index = function(req, res) {
   if (req.query.end && req.query.end[0] === '>') {
     req.query.end = { $gt: new Date(req.query.end.substr(1)) };
+  } else if (req.query.end && req.query.end[0] === '<') {
+    req.query.end = { $lt: new Date(req.query.end.substr(1)) };
   }
   // console.log(req.query);
 
