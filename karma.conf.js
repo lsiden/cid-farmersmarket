@@ -3,6 +3,16 @@
 
 module.exports = function(config) {
   config.set({
+    // plugins : [
+    //     'karma-htmlfile-reporter'
+    //   ],
+
+    // reporters: ['progress', 'html'],
+
+    // htmlReporter: {
+    //   outputFile: 'tests/units.html'
+    // },
+
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
@@ -58,7 +68,7 @@ module.exports = function(config) {
     exclude: [],
 
     // web server port
-    port: 8080,
+    port: 9999,
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
@@ -82,6 +92,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true
+    // singleRun: true
   });
 };
