@@ -10,7 +10,6 @@ require('../../common/date')
 
 var Organization = require('../api/organization/organization.model');
 var VolunteerEvent = require('../api/volunteer_event/volunteer_event.model');
-var Volunteer = require('../api/volunteer/volunteer.model');
 var Event = require('../api/event/event.model');
 var EventSeed = require('../api/event/event.seed');
 var User = require('../api/user/user.model');
@@ -18,7 +17,6 @@ var _ = require('lodash');
 
 User.collection.dropAllIndexes(function(err, res) {});
 Event.collection.dropAllIndexes(function(err, res) {});
-Volunteer.collection.dropAllIndexes(function(err, res) {});
 VolunteerEvent.collection.dropAllIndexes(function(err, res) {});
 Organization.collection.dropAllIndexes(function(err, res) {});
 
@@ -48,9 +46,6 @@ Event.find({}).remove(function() {
 });
 
 VolunteerEvent.find({}).remove(function() {
-});
-
-Volunteer.find({}).remove(function() {
 });
 
 /*

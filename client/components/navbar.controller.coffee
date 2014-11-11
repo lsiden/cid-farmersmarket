@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'NavbarCtrl', ($scope, $location, $modal, $state, flash, Auth, Volunteer) ->
+.controller 'NavbarCtrl', ($scope, $location, $modal, $state, flash, Auth, User) ->
   $scope.menu = [
     { title: 'Home', link: '/'}
     # { title: 'Register', link: '/volunteer/new' }
@@ -27,7 +27,7 @@ angular.module 'farmersmarketApp'
       templateUrl: '/assets/input_email_dlg.html'
       controller: 'inputEmailDlgCtrl'
     .result.then (email) ->
-      Volunteer.query { email: email }, (volunteers) ->
+      User.query { email: email }, (volunteers) ->
         if (volunteers && volunteers.length)
           $state.go 'volunteer', { id: volunteers[0]._id }
         else

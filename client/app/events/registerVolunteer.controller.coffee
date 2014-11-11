@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'RegisterVolunteerEventCtrl', ($scope, $location, $state, flash, Event, Volunteer, VolunteerEvent, DateDecorator) ->
+.controller 'RegisterVolunteerEventCtrl', ($scope, $location, $state, flash, Event, User, VolunteerEvent, DateDecorator) ->
 
   # Create volunteer_event record if none existed.
   registerVolunteerEvent = (volunteerId) ->
@@ -62,11 +62,8 @@ angular.module 'farmersmarketApp'
     flash.error = 'Event.get(): ' + headers.data
 
   $scope.register = ->
-    # Look up volunteer by e-mail and create record if none existed.
-    volunteer = new Volunteer
-      email: $scope.volunteer.email
-      name: $scope.volunteer.name
-      phone: $scope.volunteer.phone
+    if !$scope.volunteer
+      return
 
     volunteer.$save (volunteer) ->
       # console.log(volunteer)

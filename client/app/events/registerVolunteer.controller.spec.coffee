@@ -1,5 +1,5 @@
 'use strict'
-
+###
 describe 'Controller: RegisterVolunteerEventCtrl', ->
 
   # load the controller's module
@@ -12,8 +12,8 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
   state = undefined
   flash = undefined
   Event = undefined
-  Volunteer = undefined
-  VolunteerEvent = undefined
+  User = undefined
+  UserEvent = undefined
 
   eventId = 'event_123'
   path = '/volunteer/event/' + eventId + '/register'
@@ -31,14 +31,14 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
     Event.get = ->
       {}
 
-    class Volunteer
+    class User
       $update: ->
         {}
       $save: ->
         {}
-    Volunteer.save = ->
+    User.save = ->
       {}
-    Volunteer.query = ->
+    User.query = ->
       []
 
     class VolunteerEvent
@@ -57,7 +57,7 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
 
     state.params = { event_id: eventId }
     sinon.stub(location, 'path').returns(path)
-    # sinon.stub Volunteer, 'save'
+    # sinon.stub User, 'save'
     # .yields volunteer
 
     RegisterVolunteerEventCtrl = $controller 'RegisterVolunteerEventCtrl',
@@ -66,7 +66,7 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
       $state: state
       flash: flash
       Event: Event
-      Volunteer: Volunteer
+      User: User
       VolunteerEvent: VolunteerEvent
 
     scope.volunteer.email = 'test@test.com'
@@ -76,17 +76,17 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
   it 'should register a new volunteer for event and save volunteer', ->
 
     # This volunteer has not previously registered for any event.
-    sinon.stub Volunteer, 'query'
+    sinon.stub User, 'query'
     .yields []
 
     # FIXME This will send the message 'undefined: undefined' to the console.
     # See https://github.com/cjohansen/Sinon.JS/issues/599
-    # sinon.stub Volunteer.prototype, '$save'
+    # sinon.stub User.prototype, '$save'
     # .yields []
     
     scope.register()
-    expect Volunteer.prototype.$save.calledOnce
-    # expect Volunteer.prototype.$save.calledWithExactly scope.volunteer
+    expect User.prototype.$save.calledOnce
+    # expect User.prototype.$save.calledWithExactly scope.volunteer
     expect VolunteerEvent.save.calledWithExactly(volunteer._id, eventId)
     expect location.path.calledWithExactly 'volunteer/confirm'
     # TODO test that confirmation mail has been sent
@@ -97,7 +97,7 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
       $update: ->
 
     # This volunteer has already registered for an event.
-    sinon.stub Volunteer, 'query'
+    sinon.stub User, 'query'
     .yields [ volunteer ]
     
     scope.register()
@@ -112,10 +112,10 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
       $update: ->
 
     # This volunteer has already registered for an event.
-    sinon.stub Volunteer, 'query'
+    sinon.stub User, 'query'
     .yields [ volunteer ]
 
-    # sinon.stub Volunteer, '$save'
+    # sinon.stub User, '$save'
     # .yields volunteer
 
     # This volunteer has already registered for this event.
@@ -128,3 +128,4 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
     expect(VolunteerEvent.save.callCount).toBe 0, 'attempt to register volunteer to same event twice'
     expect location.path.calledWithExactly 'volunteer/reconfirm'
     # TODO test that confirmation mail has not been sent
+###

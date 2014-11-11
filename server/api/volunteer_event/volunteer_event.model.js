@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var VolunteerEventSchema = new Schema({
-  volunteer: { type: Schema.Types.ObjectId, ref: 'Volunteer', index: true },
+  user: { type: Schema.Types.ObjectId, ref: 'User', index: true },
   event: { type: Schema.Types.ObjectId, ref: 'Event', index: true },
   attended: Boolean
 });

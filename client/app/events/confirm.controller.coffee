@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'ConfirmCtrl', ($scope, $state, $location, $q, flash, Event, Volunteer, DateDecorator) ->
+.controller 'ConfirmCtrl', ($scope, $state, $location, $q, flash, Event, User, DateDecorator) ->
   # Expecting $state.params = { volunteer_id: ..., event_id: ... }
 
   $scope.errors = {}
@@ -38,7 +38,7 @@ angular.module 'farmersmarketApp'
   # console.log $state.params
   $q.all
     event: (Event.get id: $state.params.event_id).$promise
-    volunteer: (Volunteer.get id: $state.params.volunteer_id).$promise
+    volunteer: (User.get id: $state.params.volunteer_id).$promise
   .then (result) ->
     # console.log result
     event = result.event

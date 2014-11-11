@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var VolunteerEvent = require('./volunteer_event.model');
-var Volunteer = require('../volunteer/volunteer.model');
+var User = require('../user/user.model');
 var Event = require('../event/event.model');
 var Organization = require('../organization/organization.model');
 
@@ -10,7 +10,7 @@ var Organization = require('../organization/organization.model');
 exports.index = function(req, res) {
   // console.log(req.query);
   VolunteerEvent.find(req.query)
-  .populate({path: 'volunteer', model: Volunteer })
+  .populate({path: 'volunteer', model: User })
   .populate({path: 'event', model: Event })
   .populate({path: 'event.organization', model: Organization })
   .exec(function (err, volunteer_events) {
@@ -22,7 +22,7 @@ exports.index = function(req, res) {
 // Get a single volunteer_event
 exports.show = function(req, res) {
   VolunteerEvent.findById(req.params.id)
-  .populate({path: 'volunteer', model: Volunteer })
+  .populate({path: 'volunteer', model: User })
   .populate({path: 'event', model: Event })
   .populate({path: 'event.organization', model: Organization })
   .exec(function (err, volunteer_event) {
