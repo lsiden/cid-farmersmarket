@@ -15,6 +15,11 @@ angular.module 'farmersmarketApp'
     templateUrl: 'app/events/confirm.html'
     controller: 'ConfirmCtrl'
 
+  $stateProvider.state 'event',
+    url: '/event/:id'
+    templateUrl: 'app/events/event.html'
+    controller: 'EventCtrl'
+
 #   $stateProvider.state 'events',
 #     url: '/events'
 #     templateUrl: 'app/events/events.html'

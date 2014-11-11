@@ -1,0 +1,11 @@
+div(ng-include='"components/navbar.html"')
+.container
+
+  h1 {{ event.name }}
+  .event-date {{ event.sdate }}, {{ event.starts }}-{{ event.ends }}
+  .event-about {{ event.about }}
+  .event-org 
+    a(ui-ref="organization({id: event.organization._id})") {{ event.organization.name }}
+  .event-contact {{ event.organization.contact }}, 
+    mail-to(to="{{event.organization.email}}") 
+    | , {{ event.organization.phone }}

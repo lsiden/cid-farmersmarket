@@ -3,7 +3,7 @@
   .row
     .col-sm-4.first
       .row
-        | {{ event.name }}
+        a(ui-sref="event({id: event.id})") {{event.name}}
       .row
         a(ui-sref="organization({id: event.organization.id})") {{event.organization.name}}
       .row
