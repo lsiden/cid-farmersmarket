@@ -1,3 +1,4 @@
+###
 'use strict'
 
 describe 'Volunteer service', ->
@@ -68,3 +69,4 @@ describe 'Volunteer service', ->
         expect(volunteer.name).toBe 'Bar'
         expect(volunteer.phone).toBe '777-7777'
         done()
+###
