@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'EventCtrl', ($scope, $state, flash, Event, DateDecorator) ->
+.controller 'EventCtrl', ($scope, $state, flash, Event) ->
   $scope.event = {}
   Event.get { id: $state.params.id }, (event) ->
     $scope.event = angular.copy event

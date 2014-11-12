@@ -50,7 +50,7 @@ m.controller 'EventsCtrl', ($scope, flash, Event) ->
     # see https://docs.angularjs.org/error/$parse/isecdom
     null
 
-m.directive 'eventSummary', ->
+m.directive 'eventSummary', ($state) ->
   restrict: 'E'
   scope:
     volunteer: '='

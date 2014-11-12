@@ -1,11 +1,11 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'RegisterVolunteerEventCtrl', ($scope, $state, flash, Event, VolunteerEvent, EventDecorator, loginDlg, Auth) ->
+.controller 'RegisterVolunteerEventCtrl', ($scope, $state, flash, Event, VolunteerEvent, loginDlg, Auth) ->
 
   $scope.errors = {}
   $scope.message = ''
-  $scope.event = EventDecorator.decorate(new Event())
+  $scope.event = EventDecorator.decorate(new Event)
 
   Event.get { id: $state.params.event_id }, (event) ->
     $scope.event = EventDecorator.decorate(event)
