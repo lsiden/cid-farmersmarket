@@ -2,7 +2,7 @@
 
 m = angular.module 'farmersmarketApp'
 
-m.controller 'EventsCtrl', ($scope, flash, Event, DateDecorator) ->
+m.controller 'EventsCtrl', ($scope, flash, Event) ->
   $scope.errors = {}
   $scope.events = []
   $scope.calendarConfig = {}

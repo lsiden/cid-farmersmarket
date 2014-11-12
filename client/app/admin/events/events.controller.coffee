@@ -6,7 +6,7 @@
 
 m = angular.module 'farmersmarketApp'
 
-m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event, DateDecorator) ->
+m.controller 'AdminEventsCtrl', ($scope, $location, flash, Event) ->
 
   sortByDate = (_a, _b) ->
     a = new Date(_a)
