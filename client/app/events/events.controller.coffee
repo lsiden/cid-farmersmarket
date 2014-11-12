@@ -2,30 +2,11 @@
 
 m = angular.module 'farmersmarketApp'
 
-m.controller 'EventsCtrl', ($scope, flash, Event) ->
+m.controller 'EventsCtrl', ($scope, flash, Event, eventService) ->
   $scope.errors = {}
   $scope.events = []
   $scope.calendarConfig = {}
   $scope.calendarEvents = []
-
-  makeEventItem = (event) ->
-    id: event._id
-    name: event.name
-    date: (new Date(event.start)).toDateString()
-    starts: (new Date(event.start)).shortTime()
-    ends: (new Date(event.end)).shortTime()
-    volunteers: event.volunteers
-    volunteerSlots: event.volunteerSlots
-    organization: 
-      id: event.organization._id
-      name: event.organization.name
-      contact: event.organization.contact
-      phone: event.organization.phone
-      email: event.organization.email
-
-  makeCalendarEventItem = (event) ->
-    title: event.name
-    start: event.start
 
   # Date.prototype.addDays() not available during unit testing.
   d = new Date()
@@ -38,8 +19,12 @@ m.controller 'EventsCtrl', ($scope, flash, Event) ->
     active: true
   # console.log(query);
 
-  Event.query query, (events) ->
-    $scope.events = (makeEventItem event for event in events)
+  $scope.events = Event.query query, (events) ->
+    $scope.events = (eventService.decorate event for event in events)
+
+    makeCalendarEventItem = (event) ->
+      title: event.name
+      start: event.start
 
     # see lsiden comment on https://github.com/angular-ui/ui-calendar/issues/71
     $scope.calendarEvents.length = 0
