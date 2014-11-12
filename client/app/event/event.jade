@@ -10,7 +10,7 @@ div(ng-include='"components/navbar.html"')
     ul
       li {{ event.organization.contact }}
       li 
-        a(ui-sref="organization({ id: event.organization.id })") {{ event.organization.name }}
+        a(ui-sref="organization({ id: event.organization._id })") {{ event.organization.name }}
       li {{ event.organization.phone }}
       li <a href="mailto:{{ event.organization.email }}"> {{ event.organization.email }}</a>
 
