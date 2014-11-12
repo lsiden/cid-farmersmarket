@@ -84,7 +84,7 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
     # sinon.stub User.prototype, '$save'
     # .yields []
     
-    scope.register()
+    scope.registerVolunteer('event_id')
     expect User.prototype.$save.calledOnce
     # expect User.prototype.$save.calledWithExactly scope.volunteer
     expect VolunteerEvent.save.calledWithExactly(volunteer._id, eventId)
@@ -100,7 +100,7 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
     sinon.stub User, 'query'
     .yields [ volunteer ]
     
-    scope.register()
+    scope.registerVolunteer('event_id')
     expect volunteer.$update.calledWithExactly scope.volunteer
     expect VolunteerEvent.save.calledWithExactly volunteer._id, eventId
     expect location.path.calledWithExactly 'volunteer/confirm'
@@ -124,7 +124,7 @@ describe 'Controller: RegisterVolunteerEventCtrl', ->
     sinon.stub VolunteerEvent, 'query'
     .yields [ veParams ]
 
-    scope.register()
+    scope.registerVolunteer('event_id')
     expect(VolunteerEvent.save.callCount).toBe 0, 'attempt to register volunteer to same event twice'
     expect location.path.calledWithExactly 'volunteer/reconfirm'
     # TODO test that confirmation mail has not been sent

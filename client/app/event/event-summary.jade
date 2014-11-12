@@ -16,6 +16,9 @@
       .row
         | {{ event.volunteers|decorateNumVolunteers }} signed up.
     .col-sm-4
-      button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="register(event.id)")
+      button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event.id)")
+        span.fa.fa-plus
+        | More About this Event
+      button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event.id)")
         span.fa.fa-plus
         | Volunteer for this Event

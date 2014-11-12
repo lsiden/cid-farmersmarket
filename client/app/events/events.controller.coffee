@@ -54,15 +54,14 @@ m.controller 'EventsCtrl', ($scope, flash, Event) ->
     # see https://docs.angularjs.org/error/$parse/isecdom
     null
 
-m.directive 'eventSummary', ($state) ->
+m.directive 'eventSummary', ($state, eventService) ->
   restrict: 'E'
   scope:
-    volunteer: '='
     event: '='
-  templateUrl: 'app/events/eventSummary.html'
-  link: (scope, el, attrs) ->
-    scope.register = (event_id) ->
-      $state.go('event', { id: event_id })
+  templateUrl: 'app/event/event-summary.html'
+  controller: ($scope) ->
+    $scope.visitEvent = (id) ->
+      eventService.visitEvent id
 
 m.filter 'decorateNumVolunteers', ->
   (num) ->

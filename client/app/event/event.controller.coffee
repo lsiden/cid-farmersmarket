@@ -1,39 +1,26 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'EventCtrl', ($scope, $state, $cookieStore, flash, Auth, Event, VolunteerEvent, EventDecorator) ->
+.controller 'EventCtrl', ($scope, $state, $q, flash, Auth, Event, VolunteerEvent, EventDecorator, eventService) ->
 
   $scope.errors = {}
   $scope.message = ''
-  $scope.event = EventDecorator.decorate(new Event())
 
-  Event.get { id: $state.params.id }, (event) ->
-    $scope.event = EventDecorator.decorate(event)
+  $scope.registerVolunteer = (event_id) ->
+    eventService.registerVolunteer(event_id)
+
+  $scope.event = EventDecorator.decorate(Event.get { id: $state.params.id })
+  $scope.registered = undefined
+
+  $q.all [Auth.getCurrentUser(), $scope.event.$promise]
+  .then (results) ->
+    [user, event] = results
+
+    if user._id and event._id
+      VolunteerEvent.query { volunteer: user._id, event: event._id }, (volunteerEvents) ->
+        $scope.registered = !!volunteerEvents.length
+    else
+      $scope.registered = false
   , (headers) ->
     flash.error = 'Event.get(): ' + headers.data
 
-  $scope.register = ->
-    if !Auth.isLoggedIn()
-      $cookieStore.put 'after-login-state', ['event', { id: $state.params.id }]
-      $state.go('login')
-      return
-
-    uid = Auth.getCurrentUser._id
-
-    if (!$state.params.id) 
-      throw 'saveVolunteerEvent(): missing $state.params.id'
-
-    qParams = { volunteer: uid, event: $state.params.id } # query params
-    sParams = { id: $state.params.id } # state params
-
-    VolunteerEvent.query qParams, (volunteerEvents) ->
-      if volunteerEvents && volunteerEvents.length
-        # Volunteer has already registered for this event.
-        return $state.go('confirm-volunteer', _.merge( { confirmed: volunteerEvents[0].createdAt }, sParams))
-
-      volunteerEvent = new VolunteerEvent(qParams)
-      volunteerEvent.$save (data, headers) ->
-        # TODO send confirmation mail to admin and to volunteer
-        $state.go 'confirm-volunteer', sParams
-      , (headers) ->
-        flash.error = 'volunteerEvent.$save(): ' + headers
