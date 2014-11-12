@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'EventCtrl', ($scope, $state, $q, flash, Auth, Event, VolunteerEvent, EventDecorator, eventService) ->
+.controller 'EventCtrl', ($scope, $state, $q, flash, Auth, Event, VolunteerEvent, eventService) ->
 
   $scope.errors = {}
   $scope.message = ''
@@ -9,7 +9,7 @@ angular.module 'farmersmarketApp'
   $scope.registerVolunteer = (event_id) ->
     eventService.registerVolunteer(event_id)
 
-  $scope.event = EventDecorator.decorate(Event.get { id: $state.params.id })
+  $scope.event = eventService.decorate(Event.get { id: $state.params.id })
   $scope.registered = undefined
 
   $q.all [Auth.getCurrentUser(), $scope.event.$promise]

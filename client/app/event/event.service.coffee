@@ -35,6 +35,22 @@ angular.module 'farmersmarketApp'
           $cookieStore.remove key
       else
         $cookieStore.get key
+  
+    # Add .date, .starts, and .ends to event for views
+    decorate: (event) ->
+      # console.log typeof(event)
+      if !event
+        throw 'eventService.decorate(): null argument'
+
+      debugger
+      event.$promise.then (_event) ->
+        start = new Date(event.start)
+        end = new Date(event.end)
+        event.date = start.toDateString()
+        event.starts = start.shortTime()
+        event.ends = end.shortTime()
+    
+      event
 
     visitEvent: (event_id) ->
       $state.go('event', { id: event_id })
