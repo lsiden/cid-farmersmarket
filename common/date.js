@@ -1,7 +1,7 @@
 // Add some helpers to Date
 
-Date.prototype.addDays = function(hrs) {
-  this.setDate(this.getDate() + hrs);
+Date.prototype.addDays = function(days) {
+  this.setDate(this.getDate() + days);
   return this;
 };
 

@@ -1,11 +1,19 @@
 div(ng-include='"components/navbar.html"')
 .container
+  .title-bar
+    h1 Register for Event {{ event.name }}
 
-  h1 {{ event.name }}
-  .event-date {{ event.sdate }}, {{ event.starts }}-{{ event.ends }}
-  .event-about {{ event.about }}
-  .event-org 
-    a(ui-ref="organization({id: event.organization._id})") {{ event.organization.name }}
-  .event-contact {{ event.organization.contact }}, 
-    mail-to(to="{{event.organization.email}}") 
-    | , {{ event.organization.phone }}
+    h2 Time
+    | {{ event.date }}, {{ event.starts }}-{{ event.ends }}
+
+    h2 Contact Info
+    ul
+      li {{ event.organization.contact }}
+      li 
+        a(ui-sref="organization({ id: event.organization.id })") {{ event.organization.name }}
+      li {{ event.organization.phone }}
+      li <a href="mailto:{{ event.organization.email }}"> {{ event.organization.email }}</a>
+
+  .form-group.buttons
+    .col-sm-6
+      button.btn.btn-md.btn-primary(ng-click="register()") Register Me!

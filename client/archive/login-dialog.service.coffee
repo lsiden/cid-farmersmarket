@@ -1,9 +1,9 @@
 angular.module 'farmersmarketApp'
 .factory 'loginDlg', (flash, User, $modal) ->
-  ->
+  open: ->
     $modal.open
-      # templateUrl: 'app/account/login/login-dlg.html'
-      template: 'here is the <form />'
+      # template: 'here is the <form />'
+      templateUrl: 'app/account/login/login-dlg.html'
       controller: 'LoginCtrl'
     .result.then (user) ->
       if user

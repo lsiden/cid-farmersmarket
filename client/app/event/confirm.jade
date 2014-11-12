@@ -6,22 +6,11 @@ div(ng-include='"components/navbar.html"')
     a(ui-sref='organization({ id: event.organization.id })') {{ event.organization.name }}.
 
   //- Implement this story
-  p(ng-show="!registeredDate") We are sending you an email with a link that you must visit within the next 24 hours to confirm this.
-
-  p The contact info you gave us is:
-  ul
-    li {{ volunteer.name }}
-    li
-      mail-to(to='{{ volunteer.email }}')
-    li {{ volunteer.phone }}
-
-  p You may view and update 
-    a(ui-sref='volunteer({id: volunteer.id})') your contact info 
-    | and review events you have volunteered for.
+  p(ng-show="!registeredDate") We are sending you an email notification to confirm.
 
   p If you have questions or concerns, you may contact {{ event.organization.contact }}
     | by phone at {{ event.organization.phone }}
     | or by email at 
     mail-to(to='{{event.organization.email}}').
 
-  p Thank you for volunteering!  We look forward to seeing you.
+  p Thank you for volunteering.  We look forward to seeing you!

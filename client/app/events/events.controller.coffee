@@ -27,10 +27,14 @@ m.controller 'EventsCtrl', ($scope, flash, Event) ->
     title: event.name
     start: event.start
 
+  # Date.prototype.addDays() not available during unit testing.
+  d = new Date()
+  endDate = d.setDate(d.getDate() + -1);
+
   # Request all events that haven't ended
-  # TODO - show only active events for visitors.
   query = 
-    end: '>' + (new Date()).addDays(-1)
+    # end: '>' + (new Date()).addDays(-1)
+    end: '>' + endDate
     active: true
   # console.log(query);
 
@@ -58,7 +62,7 @@ m.directive 'eventSummary', ($state) ->
   templateUrl: 'app/events/eventSummary.html'
   link: (scope, el, attrs) ->
     scope.register = (event_id) ->
-      $state.go('register-volunteer', { event_id: event_id })
+      $state.go('event', { id: event_id })
 
 m.filter 'decorateNumVolunteers', ->
   (num) ->
