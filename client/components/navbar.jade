@@ -13,9 +13,6 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
         li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
           a(ng-href='{{item.link}}') {{item.title}}
 
-        li(ng-class='{active: isActive(item.link)}')
-          a(ng-href='#' ng-click="inputEmailDlg()") Find Me
-
         li.dropdown(ng-show='isAdmin()', ng-class='{active: isActive("/admin")}')
           a.dropdown-toggle(href) Admin
           ul.dropdown-menu
