@@ -30,7 +30,7 @@ m.controller 'EventsCtrl', ($scope, flash, Event, eventService) ->
     $scope.calendarEvents.length = 0
     $scope.calendarEvents.push (makeCalendarEventItem(event) for event in events)
   , (headers) ->
-    flash.error = headers.data.message
+    flash.error = headers.message
 
   $scope.setCalendarView = (view) ->
     $scope.calendar.fullCalendar('changeView', view)

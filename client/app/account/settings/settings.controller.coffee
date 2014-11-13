@@ -19,7 +19,7 @@ angular.module 'farmersmarketApp'
     }
     $scope.masterContactInfo = angular.copy($scope.contactInfo)
   , (headers) ->
-    flash.error = headers.data.message
+    flash.error = headers.message
 
   $scope.isContactInfoChanged = (contactInfo) ->
     !angular.equals(contactInfo, $scope.masterContactInfo)
@@ -55,7 +55,7 @@ angular.module 'farmersmarketApp'
             def.reject()
 
         , (headers) ->
-          flash.error = headers.data.message
+          flash.error = headers.message
 
         return def.promise
 ###

@@ -21,7 +21,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'client/bower_components/jquery/dist/jquery.js',
+      'client/bower_components/jquery/jquery.js',
       'client/bower_components/angular/angular.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       'client/bower_components/angular-resource/angular-resource.js',
@@ -36,7 +36,6 @@ module.exports = function(config) {
       'client/bower_components/ng-grid/build/ng-grid.js',
       'client/bower_components/fullcalendar/fullcalendar.js',
       'client/bower_components/angular-ui-calendar/src/calendar.js',
-      'client/bower_components/angular-dialog-service/dist/dialogs.min.js',
       'common/date.js',
       'client/app/app.js',
       'client/app/app.coffee',

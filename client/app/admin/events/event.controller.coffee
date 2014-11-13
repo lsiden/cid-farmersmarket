@@ -3,7 +3,7 @@
 # Controller for editing one event
 
 angular.module 'farmersmarketApp'
-.controller 'AdminEventCtrl', ($scope, $location, $state, flash, dialogs, Event, Organization, eventService) ->
+.controller 'AdminEventCtrl', ($scope, $state, flash, Modal, Event, Organization, eventService) ->
   $scope.errors = {}
   eventId = $state.params.id
   
@@ -12,7 +12,7 @@ angular.module 'farmersmarketApp'
     $scope.event = eventService.decorate Event.get { id: eventId }, (event) ->
       $scope.masterEvent = angular.copy(event)
     , (headers) ->
-      flash.error = headers.data.message
+      flash.error = headers.message
     $scope.masterEvent = angular.copy $scope.event
   else
     $scope.actionTitle = 'New'
@@ -52,7 +52,6 @@ angular.module 'farmersmarketApp'
     if (ev._id)
       ev.$update (data, headers) ->
         flash.success = 'Modified event info.'
-        # $location.path('/admin/events')
         $state.go('admin-events')
       , (headers) ->
         flash.error = headers.message
@@ -67,10 +66,11 @@ angular.module 'farmersmarketApp'
     ev = $scope.event
     if ev.id == 'new' then return
 
-    # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
-    dlg = dialogs.confirm('Confirmation required', 'You are about to delete the event \':name\'.'.replace(/:name/, ev.name))
-    dlg.result.then (btn) ->
-      ev.$remove (err, data) ->
-        $location.path('admin/events')
+    del = ->
+      ev.$remove ->
+        _.remove $scope.users, ev
+        $state.go 'admin-events'
       , (headers) ->
         flash.error = headers.message
+    
+    Modal.confirm.delete(del) ev.name

@@ -50,7 +50,6 @@ angular.module 'farmersmarketApp'
         event.starts = start.shortTime()
         event.ends = end.shortTime()
         event.hours = '' + start.shortTime() + ' to ' + end.shortTime()
-        href_organization: '/admin/organizations/' + event.organization._id
         attendance: '' + event.volunteers + '/' + event.volunteerSlots
       event
 

@@ -1,24 +1,21 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'AccountsCtrl', ($scope, $http, flash, dialogs, User) ->
+.controller 'AccountsCtrl', ($scope, flash, Modal, User) ->
 
-  User.query (users) ->
-    $scope.users = users.sort (_a, _b) ->
-      a = _a.name
-      b = _b.name
-      if a < b then return -1
-      if a > b then return 1
-      return 0
-
+  $scope.users = User.query (users) ->
+    $scope.users.sort (a, b) ->
+      return 0 if a.name == b.name
+      return 1 if a.name > b.name
+      return -1
   , (headers) ->
-    flash.error = headers.data.message
+    flash.error = headers.message
 
   $scope.delete = (user) ->
-    # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
-    dlg = dialogs.confirm('Confirmation required', 'You are about to remove the account \':name\'.'.replace(/:name/, user.name))
-    dlg.result.then (btn) ->
-      user.$remove (err, data) ->
+    del = ->
+      user.$remove ->
         _.remove $scope.users, user
-      , (res) ->
-        flash.error = 'Cannot remove this user now.'
+      , (headers) ->
+        flash.error = headers.message
+    
+    Modal.confirm.delete(del) user.name

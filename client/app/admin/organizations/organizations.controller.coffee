@@ -27,7 +27,7 @@ m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
       { field: 'active', displayName: 'Active', sortable: false }
     ]
 
-m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs, Organization) ->
+m.controller 'AdminOrganizationCtrl', ($scope, $state, flash, Modal, Organization) ->
   $scope.errors = {}
   orgId = $state.params['id']
 
@@ -36,7 +36,7 @@ m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs
     $scope.organization = Organization.get { id: orgId }, (organization) ->
       $scope.masterOrganization = angular.copy($scope.organization)
     , (headers) ->
-      flash.error = headers.data.message
+      flash.error = headers.message
     $scope.masterOrganization = angular.copy($scope.organization)
   else
     $scope.actionTitle = 'New'
@@ -57,27 +57,25 @@ m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs
     if (organizationId == 'new')
       $scope.organization.$save (data, headers) ->
         flash.success = 'Create new Organization.'
-        # $location.path('/admin/organizations')
         $state.go('admin-organizations')
       , (headers) ->
         flash.error = headers.message
     else
       $scope.organization.$update (data, headers) ->
         flash.success = 'Modified organization details.'
-        # $location.path('/admin/organizations')
         $state.go('admin-organizations')
       , (headers) ->
         flash.error = headers.message
 
   $scope.deleteOrganization = ->
-    return if $scope.organization._id == 'new'
+    org = $scope.organization
+    return if org._id == 'new'
 
-    # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
-    dlg = dialogs.confirm('Confirmation required', 'You are about to delete the organization \':name\'.'.replace(/:name/, $scope.organization.name))
-    dlg.result.then (btn) ->
-      _organization.$remove (err, data) ->
-        $location.path('admin/organizations')
-        # $state.go('admin-organizations') # Won't work from here.  Why?
-
-    # , (btn) ->
-    #   $scope.confirmed = 'You confirmed "No."'
+    del = ->
+      org.$remove ->
+        _.remove $scope.users, org
+        $state.go 'admin-organizations'
+      , (headers) ->
+        flash.error = headers.message
+    
+    Modal.confirm.delete(del) org.name

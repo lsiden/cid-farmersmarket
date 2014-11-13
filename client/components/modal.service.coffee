@@ -15,7 +15,7 @@ angular.module 'farmersmarketApp'
     modalClass = modalClass or 'modal-default'
     angular.extend modalScope, scope
     $modal.open
-      templateUrl: 'components/modal/modal.html'
+      templateUrl: 'components/modal.html'
       windowClass: modalClass
       scope: modalScope
 
@@ -36,7 +36,7 @@ angular.module 'farmersmarketApp'
       ###
       Open a delete confirmation modal
       @param  {String} name   - name or info to show on modal
-      @param  {All}           - any additional args are passed staight to del callback
+      @param  {All}           - any additional args are passed to del callback
       ###
       ->
         args = Array::slice.call arguments
