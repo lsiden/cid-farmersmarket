@@ -24,7 +24,7 @@ angular.module 'farmersmarketApp'
       callback ||= ->
       Event.query params, callback
 
-    registerVolunteer: (event_id) ->
+    registerVolunteer: (event_id, callback) ->
       # If volunteer is not yet authenticated, remember his intent and redirect him to /login.
       Auth.isLoggedInAsync (is_loggedIn) ->
         if !is_loggedIn
@@ -38,10 +38,13 @@ angular.module 'farmersmarketApp'
           if volunteerEvents.length == 0
             volunteerEvent = new VolunteerEvent(params)
             volunteerEvent.$save (data, headers) ->
+              callback?(true)
               flash.success = 'Thank you for volunteering! Please check your e-mail for confirmation.'
             , (headers) ->
+              callback?(false)
               flash.error = headers.message
           else
+            callback?(true)
             flash.success = 'You have already volunteered for this event.  Thank you.'
 
     # Returns hash of events that user is registered for.

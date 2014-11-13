@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'LoginCtrl', ($scope, Auth, $window, $state, eventService, VolunteerEvent) ->
+.controller 'LoginCtrl', ($scope, Auth, $window, $state, flash, eventService, VolunteerEvent) ->
   $scope.user = {}
   $scope.errors = {}
   $scope.login = (form) ->
