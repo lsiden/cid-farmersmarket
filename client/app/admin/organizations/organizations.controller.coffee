@@ -109,7 +109,7 @@ m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs
           flash.error = headers.message
 
   $scope.deleteOrganization = ->
-    if $scope.organization.id == 'new' then return
+    if $scope.organization._id == 'new' then return
 
     # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
     dlg = dialogs.confirm('Confirmation required', 'You are about to delete the organization \':name\'.'.replace(/:name/, $scope.organization.name))

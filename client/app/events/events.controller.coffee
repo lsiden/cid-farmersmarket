@@ -20,7 +20,9 @@ m.controller 'EventsCtrl', ($scope, flash, Event, eventService) ->
   # console.log(query);
 
   $scope.events = Event.query query, (events) ->
-    $scope.events = (eventService.decorate event for event in events)
+    # $scope.events = (eventService.decorate event for event in events)
+    for event in $scope.events
+      eventService.decorate event
 
     makeCalendarEventItem = (event) ->
       title: event.name
@@ -39,14 +41,14 @@ m.controller 'EventsCtrl', ($scope, flash, Event, eventService) ->
     # see https://docs.angularjs.org/error/$parse/isecdom
     null
 
-m.directive 'eventSummary', ($state, eventService) ->
+m.directive 'eventSummary', ($state) ->
   restrict: 'E'
   scope:
     event: '='
   templateUrl: 'app/event/event-summary.html'
   controller: ($scope) ->
     $scope.visitEvent = (id) ->
-      eventService.visitEvent id
+      $state.go 'event', { id: id }
 
 m.filter 'decorateNumVolunteers', ->
   (num) ->

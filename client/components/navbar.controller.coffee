@@ -13,7 +13,8 @@ angular.module 'farmersmarketApp'
 
   $scope.logout = ->
     Auth.logout()
-    $location.path '/login'
+    # $location.path '/login'
+    $location.path '/'
 
   $scope.isActive = (route) ->
     route is $location.path()

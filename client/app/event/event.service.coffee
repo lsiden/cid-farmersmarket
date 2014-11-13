@@ -1,5 +1,5 @@
 angular.module 'farmersmarketApp'
-.factory 'eventService', (Auth, $cookieStore, $state, VolunteerEvent, flash) ->
+.factory 'eventService', (Auth, $cookieStore, $state, $q, VolunteerEvent, flash) ->
   
   self =
     registerVolunteer: (event_id) ->
@@ -42,14 +42,15 @@ angular.module 'farmersmarketApp'
       if !event
         throw 'eventService.decorate(): null argument'
 
-      debugger
-      event.$promise.then (_event) ->
+      event.$promise ||= $q.when(event)
+      event.$promise.then (event) ->
         start = new Date(event.start)
         end = new Date(event.end)
         event.date = start.toDateString()
         event.starts = start.shortTime()
         event.ends = end.shortTime()
-    
+        href_organization: '/admin/organizations/' + event.organization._id
+        attendance: '' + event.volunteers + '/' + event.volunteerSlots
       event
 
     visitEvent: (event_id) ->

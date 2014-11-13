@@ -3,7 +3,7 @@ div(ng-include='"components/navbar.html"')
   .title-bar
     h1 {{ actionTitle }} Organization
 
-    div(ng-show='organization.id != "new"')
+    div(ng-show='organization._id != "new"')
       button.btn.btn-md.btn-danger(ng-click='deleteOrganization()')
         span.fa.fa-minus
         | Delete Organization
