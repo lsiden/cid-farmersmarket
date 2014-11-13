@@ -63,5 +63,5 @@ div(ng-include='"components/navbar.html"')
 
     .form-group.buttons
       .col-sm-offset-2.col-sm-6
-        button.btn.btn-md.btn-success(ng-click='resetEvent()', ng-disabled="!isEventChanged(event)") Reset
-        button.btn.btn-md.btn-primary(type='submit', ng-disabled="eventForm.$invalid || !isEventChanged(event)") Save changes
+        button.btn.btn-md.btn-success(ng-click='resetEvent()', ng-disabled="!isEventChanged()") Reset
+        button.btn.btn-md.btn-primary(type='submit', ng-disabled="eventForm.$invalid || !isEventChanged()") Save changes

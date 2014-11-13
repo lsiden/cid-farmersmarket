@@ -10,12 +10,14 @@ angular.module 'farmersmarketApp'
   if (eventId && eventId != 'new')
     $scope.actionTitle = 'Edit'
     $scope.event = eventService.decorate Event.get { id: eventId }, (event) ->
-      $scope.masterEvent = angular.copy($scope.event)
+      $scope.masterEvent = angular.copy(event)
     , (headers) ->
       flash.error = headers.data.message
+    $scope.masterEvent = angular.copy $scope.event
   else
     $scope.actionTitle = 'New'
     $scope.event = eventService.decorate(new Event)
+    $scope.masterEvent = angular.copy $scope.event
 
   # Used by form selector.
   $scope.organizations = Organization.query (organizations) ->
@@ -25,8 +27,8 @@ angular.module 'farmersmarketApp'
 
     $scope.organizations = (makeOrganizationItem org for org in organizations)
 
-  $scope.isEventChanged = (event) ->
-    !angular.equals(event, $scope.masterEvent)
+  $scope.isEventChanged = ->
+    !angular.equals($scope.event, $scope.masterEvent)
 
   $scope.resetEvent = ->
     $scope.event = angular.copy($scope.masterEvent)
