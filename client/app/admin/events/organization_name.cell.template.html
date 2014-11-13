@@ -1,5 +1,5 @@
 <div class="ngCellText" ng-class="col.colIndex()">
   <span ng-cell-text>
-    <a href="{{row.getProperty('href_organization')}}">
+    <a ui-sref="admin-organization({ id: row.getProperty('organization._id')})">
       {{ row.getProperty("organization.name" )}}
 </a></span></div>

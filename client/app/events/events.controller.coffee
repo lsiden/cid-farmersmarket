@@ -20,9 +20,7 @@ m.controller 'EventsCtrl', ($scope, flash, Event, eventService) ->
   # console.log(query);
 
   $scope.events = Event.query query, (events) ->
-    # $scope.events = (eventService.decorate event for event in events)
-    for event in $scope.events
-      eventService.decorate event
+    eventService.decorate event for event in events
 
     makeCalendarEventItem = (event) ->
       title: event.name

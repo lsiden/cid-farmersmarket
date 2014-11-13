@@ -2,19 +2,28 @@
 
 # Controller for /events listing
 
+sortByDate = (_a, _b) ->
+  a = new Date(_a)
+  b = new Date(_b)
+  
+  if a < b then return -1
+  if a > b then return 1
+  return 0
+
 angular.module 'farmersmarketApp'
 .controller 'AdminEventsCtrl', ($scope, flash, Event, eventService) ->
 
-  sortByDate = (_a, _b) ->
-    a = new Date(_a)
-    b = new Date(_b)
-    
-    if a < b then return -1
-    if a > b then return 1
-    return 0
-
   $scope.errors = {}
-  $scope.events = []
+
+  eventQuery = { end: '>' + (new Date()).addDays(-1) }
+  # Request all events that haven't ended
+  # console.log(eventQuery);
+
+  $scope.events = Event.query eventQuery, (events) ->
+      eventService.decorate event for event in events
+  , (headers) ->
+    flash.error = headers.message
+
   $scope.eventGridOptions = 
     data: 'events'
     enableRowSelection: false
@@ -39,12 +48,3 @@ angular.module 'farmersmarketApp'
       { field: 'attendance', displayName: 'Volunteers/Slots', sortable: false }
       { field: 'active', displayName: 'Active', sortable: false }
     ]
-
-  eventQuery = { end: '>' + (new Date()).addDays(-1) }
-  # Request all events that haven't ended
-  # console.log(eventQuery);
-
-  Event.query eventQuery, (events) ->
-    $scope.events = (eventService.decorate event for event in events)
-  , (headers) ->
-    flash.error = headers.message

@@ -27,7 +27,7 @@ m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
       { field: 'active', displayName: 'Active', sortable: false }
     ]
 
-  $scope.organizations = Organization.query (organization)
+  $scope.organizations = Organization.query
 
 m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs, Organization) ->
   $scope.errors = {}
@@ -39,6 +39,7 @@ m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs
       $scope.masterOrganization = angular.copy($scope.organization)
     , (headers) ->
       flash.error = headers.data.message
+    $scope.masterOrganization = angular.copy($scope.organization)
   else
     $scope.actionTitle = 'New'
     $scope.organization = new Organization
