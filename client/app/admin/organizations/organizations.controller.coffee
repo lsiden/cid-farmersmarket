@@ -4,7 +4,7 @@ m = angular.module 'farmersmarketApp'
 
 m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
   $scope.errors = {}
-  $scope.organizations = []
+  $scope.organizations = Organization.query()
   $scope.organizationGridOptions = 
     data: 'organizations'
     enableRowSelection: false
@@ -23,11 +23,9 @@ m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
         cellTemplate: 'app/admin/organizations/email.cell.template.html'
         sortable: true
       }
-      { field: 'phone', displayName: 'Phone', sortable: true }
+      { field: 'phone', displayName: 'Phone', sortable: false }
       { field: 'active', displayName: 'Active', sortable: false }
     ]
-
-  $scope.organizations = Organization.query
 
 m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs, Organization) ->
   $scope.errors = {}
