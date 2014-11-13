@@ -1,7 +1,27 @@
 angular.module 'farmersmarketApp'
-.factory 'eventService', (Auth, $cookieStore, $state, $q, VolunteerEvent, flash) ->
+.factory 'eventService', (Auth, $cookieStore, $state, $q, VolunteerEvent, Event, flash) ->
   
+  # Date.prototype.addDays() not available during unit testing.
+  today = new Date()
+  yesterday = today.setDate(today.getDate() + -1); # Date.addDays wasn't defined in testing
+
   self =
+    # Return by promise all active events that haven't ended.
+    # Add optional params to query, if given.
+    currentEvents: (params) ->
+      params || = {}
+      params.end = '>' + yesterday
+      # console.log(params);
+      Event.query params
+
+    # Return by promise all active events that have ended.
+    # Add optional params to query, if given.
+    pastEvents: (params) ->
+      params || = {}
+      params.end = '<' + today
+      # console.log(params);
+      Event.query params
+
     registerVolunteer: (event_id) ->
       # If volunteer is not yet authenticated, remember his intent and redirect him to /login.
       Auth.isLoggedInAsync (is_loggedIn) ->
@@ -21,6 +41,29 @@ angular.module 'farmersmarketApp'
               flash.error = headers.message
           else
             flash.success = 'You have already volunteered for this event.  Thank you.'
+
+    # Returns hash of events that user is registered for.
+    # Will be completed by return_val.promise
+    registeredByVolunteer: (user) ->
+      registeredEvents = {}
+      registeredEvents.promise = $q.defer()
+      user.$promise ||= $q.when(user)
+        
+      user.$promise.then (user) ->
+        if !Auth.isLoggedIn()
+          return registeredEvents.promise.resolve registeredEvents
+          
+        VolunteerEvent.query { volunteer: user._id }, (volunteerEvents) ->
+          for ve in volunteerEvents
+            do (ve) ->
+              registeredEvents[ve.event._id] = ve.event
+          registeredEvents.promise.resolve registeredEvents
+        , (headers) ->
+          registeredEvents.promise.reject headers.message
+      , (headers) ->
+        registeredEvents.promise.reject headers.message
+
+      registeredEvents
 
     # Return event id that user tried to register for
     # before being redirected to /login page.

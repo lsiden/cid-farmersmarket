@@ -19,6 +19,9 @@
       button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
         span.fa.fa-plus
         | More About this Event
-      button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
-        span.fa.fa-plus
-        | Volunteer for this Event
+      div(ng-hide="registeredEvents[event._id]")
+        button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
+          span.fa.fa-plus
+          | Volunteer for this Event
+      div(ng-show="registeredEvents[event._id]")
+        p.you-volunteered You volunteered for this event.

@@ -16,7 +16,7 @@ header#banner.hero-unit
         li Click on "Volunteer" button.
         li Show up!
 
-.container#content(ng-controller='EventsCtrl')
+.container#content
   .row
     .col-sm-4
       //- {{ calendarEvents }}
@@ -31,4 +31,4 @@ header#banner.hero-unit
     .col-sm-8
       h2.title.upcoming Upcoming Events
       div(ng-repeat='event in events track by $index')
-        event-summary(event='event')
+        event-summary(event='event' registeredEvents='registeredEvents')

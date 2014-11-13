@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'LoginCtrl', ($scope, Auth, $window, $state, eventService) ->
+.controller 'LoginCtrl', ($scope, Auth, $window, $state, eventService, VolunteerEvent) ->
   $scope.user = {}
   $scope.errors = {}
   $scope.login = (form) ->
@@ -12,8 +12,7 @@ angular.module 'farmersmarketApp'
       email: $scope.user.email
       password: $scope.user.password
     .then ->
-      event_id = eventService.registerAfterLogin()
-      
+      event_id = eventService.registerAfterLogin() # from session
       if event_id
         # User was redirected here after attempting to volunteer,
         # so we satisfy his intent.
@@ -23,7 +22,6 @@ angular.module 'farmersmarketApp'
     .catch (err) ->
       $scope.errors.other = err.message
       flash.error = err.message
-
 
   $scope.loginOauth = (provider) ->
     $window.location.href = '/auth/' + provider
