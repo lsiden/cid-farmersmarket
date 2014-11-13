@@ -1,6 +1,8 @@
 'use strict';
 
 require('../../../common/date');
+var async = require('async');
+var VolunteerEvent = require('../volunteer_event/volunteer_event.model');
 
 var mongoose = require('mongoose'),
     timestamps = require('mongoose-timestamp'),
@@ -19,7 +21,7 @@ var EventSchema = new Schema({
   // Do not enforce volunteers <= volunteerSlots.
   // Allow for people to volunteer as alternates.
   volunteerSlots: Number,
-  volunteers: Number,
+  n_volunteers: Number,
 
   active: Boolean
 });

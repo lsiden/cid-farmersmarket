@@ -1,8 +1,8 @@
-var Event = require('./event.model');
 var _ = require('lodash');
+var Event = require('./event.model');
 
 // Helper for testing.
-module.exports.seedEvents = function(start, duration, n, incDays, fn) {
+module.exports.seedEvents = function(start, duration, n, incDays, callback) {
   console.log('seeding Events');
   var Organization = require('./../organization/organization.model');
   var end = _.cloneDeep(start).addHours(duration);
@@ -21,43 +21,43 @@ module.exports.seedEvents = function(start, duration, n, incDays, fn) {
     });
   }
   Organization.find().remove(function(err) {
-    if (err) return err;
+    if (err) return callback(err);
     Organization.create(organizationParams, function(err) {
-      if (err) return err;
+      if (err) return callback(err);
       var eventParams = {
         provider: 'local',
         name: 'Test Event 1',
         about: 'Cow pancetta bresaola, shankle biltong meatloaf t-bone pork pork chop corned beef strip steak. Filet mignon doner short loin, turkey pork belly chuck beef ribs shoulder.',  // backonipsum.com
         organization: null,
         volunteerSlots: 5,
-        volunteers: 0,
+        n_volunteers: 0,
         start: start,
         end: end,
         active: true
       };
       var arEventParams = [];
 
-      for (var i=0 ; i < n ; ++i) {
+      for (var i=1 ; i < arguments.length ; ++i) {
         var eventParams = _.cloneDeep(eventParams);
         var dayOfMonth = (new Date(eventParams.start)).getDate();
         eventParams.start.addDays(incDays);
         eventParams.end.addDays(incDays);
         eventParams.name = 'Test Event ' + i;
         eventParams.about = 'About ' + eventParams.name;
-        eventParams.organization = arguments[i+1];
+        eventParams.organization = arguments[i];
         arEventParams.push(eventParams);
       }
 
       //console.log(arEventParams);
       Event.create(arEventParams, function(err) {
-        if (err) {
-          if (fn) return fn(err);
-          console.log(err);
-          return err;
-        }
+        if (err) return callback(err);
         var len = arguments.length;
         console.log('finished populating ' + n + ' events until ' + arguments[len-1].start);
-        if (fn) fn();
+        var events = [];
+        for (var i=1 ; i < arguments.length ; ++i) {
+          events.push(arguments[i]);
+        }
+        return callback(null, events);
       });
     });
   });

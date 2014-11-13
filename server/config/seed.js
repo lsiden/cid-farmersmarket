@@ -42,7 +42,7 @@ Event.find({}).remove(function() {
   var startDate = (new Date()).addDays(-30);
   startDate.setHours(11);
   startDate.setMinutes(0);
-  EventSeed.seedEvents(startDate, 4, 12, 7);
+  EventSeed.seedEvents(startDate, 4, 12, 7, function() {});
 });
 
 VolunteerEvent.find({}).remove(function() {
