@@ -29,12 +29,12 @@ angular.module 'farmersmarketApp'
   
   $scope.changeContactInfo = (form) ->
     $scope.submitted = true
+    return unless form.$valid
 
-    if form.$valid
-      User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, (data, header) ->
-        $scope.message = 'Content info successfully changed.'
-      , (res) ->
-        $scope.message = 'Cannot update your contact info now.'
+    User.changeContactInfo { id: $scope.uid}, $scope.contactInfo, (data, header) ->
+      $scope.message = 'Content info successfully changed.'
+    , (res) ->
+      $scope.message = 'Cannot update your contact info now.'
 
 ###
 # unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
@@ -67,16 +67,16 @@ angular.module 'farmersmarketApp'
 
   $scope.changePassword = (form) ->
     $scope.submitted = true
+    return unless form.$valid
 
-    if form.$valid
-      Auth.changePassword $scope.pw.oldPassword, $scope.pw.newPassword
-      .then ->
-        $scope.message = 'Password successfully changed.'
+    Auth.changePassword $scope.pw.oldPassword, $scope.pw.newPassword
+    .then ->
+      $scope.message = 'Password successfully changed.'
 
-      .catch ->
-        form.password.$setValidity 'mongoose', false
-        $scope.errors.other = 'Incorrect password'
-        $scope.message = ''
+    .catch ->
+      form.password.$setValidity 'mongoose', false
+      $scope.errors.other = 'Incorrect password'
+      $scope.message = ''
 
   $scope.clearPassword = (form) ->
     $scope.pw.oldPassword = ''

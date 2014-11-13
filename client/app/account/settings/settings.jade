@@ -7,7 +7,7 @@ div(ng-include='"components/navbar.html"')
     .form-group
       label(for='fieldName', class='col-sm-2', control-label) Name
       .col-sm-10
-        input#fieldName.form-control(type='text', name='name', ng-model='contactInfo.name', required='', ng-model-options='{ debounce: 750 }')
+        input#fieldName.form-control(type='text', name='name', ng-model='contactInfo.name', required='')
       p.help-block(ng-show="contactInfoForm.name.$error.required" class="error") What's your name?
 
     //- TODO validate that e-mail isn't already taken
@@ -15,7 +15,7 @@ div(ng-include='"components/navbar.html"')
     .form-group
       label(for='fieldEmail', class='col-sm-2', control-label) Email
       .col-sm-10
-        input#fieldEmail.form-control(type='email', name='email', ng-model='contactInfo.email', ng-model-options='{ debounce: 750 }', required='', unique-email='true')
+        input#fieldEmail.form-control(type='email', name='email', ng-model='contactInfo.email', ng-model-options='{ debounce: 500 }', required='', unique-email='true')
         
         //- TODO: unique-email relies on asynchronous validation which is not yet implemented in Angular 1.2.x
       p.help-block(ng-show="contactInfoForm.email.$error.require" class="error") What's your email address?
@@ -26,7 +26,7 @@ div(ng-include='"components/navbar.html"')
     .form-group
       label(for='fieldPhone', class='col-sm-2', control-label) Phone
       .col-sm-10
-        input#fieldPhone.form-control(type='text', name='phone', ng-model='contactInfo.phone', ng-model-options='{ debounce: 750 }', ui-mask='(999) 999-9999', required='')
+        input#fieldPhone.form-control(type='text', name='phone', ng-model='contactInfo.phone', ui-mask='(999) 999-9999', required='')
       p.help-block(ng-show="contactInfoForm.phone.$error.required" class="error") What's your phone number?
       p.help-block(ng-show="contactInfoForm.phone.$error.mask" class="error") Keep typing!
             
@@ -52,7 +52,7 @@ div(ng-include='"components/navbar.html"')
       .form-group
         label(class='col-sm-2') New Password
         .col-sm-10
-          input.form-control(type='password', name='newPassword', ng-model='pw.newPassword', ng-minlength='8', required)
+          input.form-control(type='password', name='newPassword', ng-model='pw.newPassword', ng-minlength='8', required='')
   
         p.help-block(ng-show='(passwordForm.newPassword.$error.minlength || passwordForm.newPassword.$error.required) && (passwordForm.newPassword.$dirty || submitted)')
           | Password must be at least 8 characters.
@@ -60,7 +60,7 @@ div(ng-include='"components/navbar.html"')
       .form-group
         label(class='col-sm-2') Re-type Password
         .col-sm-10
-          input.form-control(type='password', name='retypePassword', ng-model='pw.retypePassword', required='', match-password, ng-model-options='{ debounce: 750 }')
+          input.form-control(type='password', name='retypePassword', ng-model='pw.retypePassword', required='', match-password='')
 
         p.help-block(ng-show='passwordForm.retypePassword.$error.matchPassword' )
           | Passwords do not match.

@@ -27,50 +27,22 @@ m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
       { field: 'active', displayName: 'Active', sortable: false }
     ]
 
-  makeOrganizationItem = (organization) ->
-    href: '/admin/organizations/' + organization._id
-    name: organization.name
-    email: organization.email
-    phone: organization.phone
-    active: organization.active
-
-  Organization.query (organization) ->
-    $scope.organizations = (makeOrganizationItem org for org in organization)
-  , (headers) ->
-    flash.error = headers.message
+  $scope.organizations = Organization.query (organization)
 
 m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs, Organization) ->
   $scope.errors = {}
-  $scope.actionTitle = 'New'
-  _organization = null # the Organization instance from the server
+  orgId = $state.params['id']
 
-  $scope.organization =
-    id: 'new'
-    name: ''
-    about: ''
-    email: ''
-    phone: ''
-    active: false
-  $scope.masterOrganization = angular.copy($scope.organization)
-
-  organizationId = $state.params['id']
-
-  if (organizationId != 'new')
+  if (orgId != 'new')
     $scope.actionTitle = 'Edit'
-    Organization.get { id: organizationId }, (organization) ->
-      _organization = organization
-      $scope.organization =
-        id: organization._id
-        about: organization.about
-        name: organization.name
-        email: organization.email
-        phone: organization.phone
-        contact: organization.contact
-        active: organization.active
+    $scope.organization = Organization.get { id: orgId }, (organization) ->
       $scope.masterOrganization = angular.copy($scope.organization)
-
     , (headers) ->
       flash.error = headers.data.message
+  else
+    $scope.actionTitle = 'New'
+    $scope.organization = new Organization
+    $scope.masterOrganization = angular.copy($scope.organization)
 
   $scope.isOrganizationChanged = (organization) ->
     !angular.equals(organization, $scope.masterOrganization)
@@ -80,36 +52,26 @@ m.controller 'AdminOrganizationCtrl', ($scope, $location, $state, flash, dialogs
 
   $scope.saveOrganization = (form) ->
     $scope.submitted = true
+    
+    return if !form.$valid
 
-    if form.$valid
-      if (organizationId == 'new')
-        _organization = new Organization
-
-      _organization.name = $scope.organization.name
-      _organization.about = $scope.organization.about
-      _organization.email = $scope.organization.email
-      _organization.phone = $scope.organization.phone
-      _organization.contact = $scope.organization.contact
-      _organization.active = $scope.organization.active
-        
-      if (organizationId == 'new')
-        _organization.$save (data, headers) ->
-          flash.success = 'Create new Organization.'
-          # $location.path('/admin/organizations')
-          $state.go('admin-organizations')
-        , (headers) ->
-          flash.error = headers.message
-
-      else
-        _organization.$update (data, headers) ->
-          flash.success = 'Modified organization details.'
-          # $location.path('/admin/organizations')
-          $state.go('admin-organizations')
-        , (headers) ->
-          flash.error = headers.message
+    if (organizationId == 'new')
+      $scope.organization.$save (data, headers) ->
+        flash.success = 'Create new Organization.'
+        # $location.path('/admin/organizations')
+        $state.go('admin-organizations')
+      , (headers) ->
+        flash.error = headers.message
+    else
+      $scope.organization.$update (data, headers) ->
+        flash.success = 'Modified organization details.'
+        # $location.path('/admin/organizations')
+        $state.go('admin-organizations')
+      , (headers) ->
+        flash.error = headers.message
 
   $scope.deleteOrganization = ->
-    if $scope.organization._id == 'new' then return
+    return if $scope.organization._id == 'new'
 
     # FIXME Buttons are labelled "DIALOG_YES" and "DIALOG_NO".
     dlg = dialogs.confirm('Confirmation required', 'You are about to delete the organization \':name\'.'.replace(/:name/, $scope.organization.name))

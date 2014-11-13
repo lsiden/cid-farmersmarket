@@ -32,10 +32,9 @@ angular.module 'farmersmarketApp'
     $scope.event = angular.copy($scope.masterEvent)
     
   $scope.saveEvent = (form) ->
-    if !form.$valid
-      return
-
     $scope.submitted = true
+    return unless form.$valid
+
     ev = $scope.event
 
     # Both date and time are instances of Date.

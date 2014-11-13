@@ -6,24 +6,23 @@ angular.module 'farmersmarketApp'
   $scope.errors = {}
   $scope.login = (form) ->
     $scope.submitted = true
+    return unless form.$valid
 
-    if form.$valid
-      Auth.login
-        email: $scope.user.email
-        password: $scope.user.password
+    Auth.login
+      email: $scope.user.email
+      password: $scope.user.password
+    .then ->
+      event_id = eventService.registerAfterLogin()
+      
+      if event_id
+        # User was redirected here after attempting to volunteer,
+        # so we satisfy his intent.
+        eventService.registerAfterLogin(null) # clear it
+        eventService.registerVolunteer(event_id)
+    .catch (err) ->
+      $scope.errors.other = err.message
 
-      .then ->
-        event_id = eventService.registerAfterLogin()
-        
-        if event_id
-          # User was redirected here after attempting to volunteer,
-          # so we satisfy his intent.
-          eventService.registerAfterLogin(null) # clear it
-          eventService.registerVolunteer(event_id)
-      .catch (err) ->
-        $scope.errors.other = err.message
-
-      $state.go 'main'
+    $state.go 'main'
 
   $scope.loginOauth = (provider) ->
     $window.location.href = '/auth/' + provider
