@@ -39,11 +39,15 @@ exports.create = function(req, res) {
     // console.log(req.body);
     VolunteerEvent.create(req.body, function(err, volunteer_event) {
       if(err) { return handleError(res, err); }
+      console.log(volunteer_event);
+      Event.update( { _id: volunteer_event.event}, { $inc: {volunteers: 1} });
       return res.json(201, volunteer_event);
     });
   });
 };
 
+/* // VolunteerEvents are immutable.
+   // They can only be created or destroyed.
 // Updates an existing volunteer_event in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
@@ -57,6 +61,7 @@ exports.update = function(req, res) {
     });
   });
 };
+*/
 
 // Deletes a volunteer_event from the DB.
 exports.destroy = function(req, res) {
@@ -65,6 +70,7 @@ exports.destroy = function(req, res) {
     if(!volunteer_event) { return res.send(404); }
     volunteer_event.remove(function(err) {
       if(err) { return handleError(res, err); }
+      Event.update( { _id: volunteer_event.event, $inc: { volunteers: -1 }});
       return res.send(204);
     });
   });
