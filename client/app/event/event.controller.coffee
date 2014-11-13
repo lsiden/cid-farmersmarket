@@ -12,7 +12,7 @@ angular.module 'farmersmarketApp'
   $scope.event = eventService.decorate(Event.get { id: $state.params.id })
   $scope.registered = undefined
 
-  $q.all [Auth.getCurrentUser(), $scope.event.$promise]
+  $q.all [Auth.getCurrentUser().$promise, $scope.event.$promise]
   .then (results) ->
     [user, event] = results
 
