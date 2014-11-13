@@ -19,10 +19,11 @@ angular.module 'farmersmarketApp'
         # so we satisfy his intent.
         eventService.registerAfterLogin(null) # clear it
         eventService.registerVolunteer(event_id)
+      $state.go 'main'
     .catch (err) ->
       $scope.errors.other = err.message
+      flash.error = err.message
 
-    $state.go 'main'
 
   $scope.loginOauth = (provider) ->
     $window.location.href = '/auth/' + provider

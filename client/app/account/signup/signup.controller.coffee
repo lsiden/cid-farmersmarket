@@ -3,7 +3,7 @@
 # TODO add password confirmation input ('Retype password')
 
 angular.module 'farmersmarketApp'
-.controller 'SignupCtrl', ($scope, Auth, $location, $window) ->
+.controller 'SignupCtrl', ($scope, Auth, $state, $location, $window, eventService) ->
   $scope.user = {}
   $scope.errors = {}
   $scope.register = (form) ->
@@ -17,8 +17,14 @@ angular.module 'farmersmarketApp'
       password: $scope.user.password
 
     .then ->
-      $location.path '/'
-
+      event_id = eventService.registerAfterLogin()
+      
+      if event_id
+        # User was redirected here after attempting to volunteer,
+        # so we satisfy his intent.
+        eventService.registerAfterLogin(null) # clear it
+        eventService.registerVolunteer(event_id)
+      $state.go 'main'
     .catch (err) ->
       err = err.data
       $scope.errors = {}
