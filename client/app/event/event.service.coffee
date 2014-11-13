@@ -8,19 +8,21 @@ angular.module 'farmersmarketApp'
   self =
     # Return by promise all active events that haven't ended.
     # Add optional params to query, if given.
-    currentEvents: (params) ->
+    currentEvents: (params, callback) ->
       params || = {}
       params.end = '>' + yesterday
       # console.log(params);
-      Event.query params
+      callback ||= ->
+      Event.query params, callback
 
     # Return by promise all active events that have ended.
     # Add optional params to query, if given.
-    pastEvents: (params) ->
+    pastEvents: (params, callback) ->
       params || = {}
       params.end = '<' + today
       # console.log(params);
-      Event.query params
+      callback ||= ->
+      Event.query params, callback
 
     registerVolunteer: (event_id) ->
       # If volunteer is not yet authenticated, remember his intent and redirect him to /login.
