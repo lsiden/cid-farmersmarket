@@ -1,8 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'AccountsCtrl', ['$scope', '$http', 'flash', 'dialogs', 'User', 
-($scope, $http, flash, dialogs, User) ->
+.controller 'AccountsCtrl', ($scope, $http, flash, dialogs, User) ->
 
   User.query (users) ->
     $scope.users = users.sort (_a, _b) ->
@@ -23,4 +22,3 @@ angular.module 'farmersmarketApp'
         _.remove $scope.users, user
       , (res) ->
         flash.error = 'Cannot remove this user now.'
-]
