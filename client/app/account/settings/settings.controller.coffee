@@ -92,6 +92,7 @@ angular.module 'farmersmarketApp'
     restrict: 'A'
     controller: 'ChangePasswordCtrl'
     link: (scope, el, attrs, model) ->
-      model.$validators.matchPassword = (modelValue, viewValue) ->
-        modelValue == scope.pw.newPassword
+      if model.$validators
+        model.$validators.matchPassword = (modelValue, viewValue) ->
+          modelValue == scope.pw.newPassword
   }

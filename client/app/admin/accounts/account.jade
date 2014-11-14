@@ -1,0 +1,36 @@
+div(ng-include='"components/navbar.html"')
+
+.container
+  .title-bar
+    h1 {{ user.name }}
+
+  .grfm-grid
+    .row
+      .col-sm-2.grfm-grid-label E-mail
+      .col-sm-10 {{ user.email }}
+
+    .row
+      .col-sm-2.grfm-grid-label Phone
+      .col-sm-10 {{ user.phone }}
+
+  form.form(name='userForm', ng-submit='saveUser(userForm)', novalidate, class='form-horizontal')
+
+    .form-group
+      label.col-sm-2(for='userRole', control-label) Role
+      .col-sm-10
+        select#userRole.form-control(name='role', ng-model='user.role', ng-options='role.name for role in roles', required='')
+      p.help-block(ng-show="userForm.role.$error.required" class="error") What will be the user's role on this site?
+
+    .form-group
+      label.col-sm-2(for='userActive', control-label) Active
+      .col-sm-1
+        input#userActive.form-control(type='checkbox', name='active', ng-model='user.active')
+      p.help-block Will this user be allowed to sign on?
+
+    p.help-block  {{ message }}
+
+    .form-group.buttons
+      .col-sm-offset-2.col-sm-6
+        button.btn.btn-md.btn-success(ng-click='resetUser()', ng-disabled="!isUserChanged()") Reset
+        button.btn.btn-md.btn-primary(type='submit', ng-disabled="userForm.$invalid || !isUserChanged()") Save changes
+        button.btn.btn-md.btn-primary(ng-click='resetPassword()', type='button') Reset Password

@@ -4,12 +4,14 @@ div(ng-include='"components/navbar.html"')
   .title-bar
     h1 Manage Accounts
     
-  ul.list-group
-    li.list-group-item(ng-repeat='user in users')
-      strong {{user.name}}
-      br
-      span.text-muted {{user.email}}
+  //- ul.list-group
+  //-   li.list-group-item(ng-repeat='user in users')
+  //-     strong {{user.name}}
+  //-     br
+  //-     span.text-muted {{user.email}}
 
-      div(ng-if='user.role != "admin"', style='display: inline')
-        a.trash(ng-click='delete(user)')
-          span.glyphicon.glyphicon-trash.pull-right
+  //-     div(ng-if='user.role != "admin"', style='display: inline')
+  //-       a.trash(ng-click='delete(user)')
+  //-         span.glyphicon.glyphicon-trash.pull-right
+
+  div(ng-grid='accountGridOptions')

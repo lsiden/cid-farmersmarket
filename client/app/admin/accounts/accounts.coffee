@@ -7,3 +7,9 @@ angular.module 'farmersmarketApp'
     templateUrl: 'app/admin/accounts/accounts.html'
     controller: 'AccountsCtrl'
     authenticate: true
+
+  $stateProvider.state 'admin-account',
+    url: '/admin/account/:id'
+    templateUrl: 'app/admin/accounts/account.html'
+    controller: 'AccountCtrl'
+    authenticate: true

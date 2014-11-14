@@ -19,3 +19,30 @@ angular.module 'farmersmarketApp'
         flash.error = headers.message
     
     Modal.confirm.delete(del) user.name
+
+  $scope.accountGridOptions = 
+    data: 'users'
+    enableRowSelection: false
+    enableCellSelection: false
+    sortInfo: { fields: ['name'], directions: ['asc'] }
+    columnDefs: [
+      {
+        field: 'name'
+        displayName: 'Name'
+        cellTemplate: 'app/admin/accounts/name.cell.template.html'
+        sortable: true
+      }
+      {
+        field: 'role'
+        displayName: 'Role'
+        sortable: true
+      }
+      {
+        field: 'email'
+        displayName: 'Email'
+        cellTemplate: 'app/admin/accounts/email.cell.template.html'
+        sortable: false
+      }
+      { field: 'phone', displayName: 'Phone', sortable: false }
+      { field: 'active', displayName: 'Active', sortable: true }
+    ]

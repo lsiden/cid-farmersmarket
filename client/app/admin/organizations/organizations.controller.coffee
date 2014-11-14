@@ -21,7 +21,7 @@ m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
         field: 'email'
         displayName: 'Email'
         cellTemplate: 'app/admin/organizations/email.cell.template.html'
-        sortable: true
+        sortable: false
       }
       { field: 'phone', displayName: 'Phone', sortable: false }
       { field: 'active', displayName: 'Active', sortable: false }
