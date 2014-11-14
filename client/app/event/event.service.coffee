@@ -47,9 +47,39 @@ angular.module 'farmersmarketApp'
             callback?(true)
             flash.success = 'You have already volunteered for this event.  Thank you.'
 
+    # FIXME not working.  Always returns false.
+    isUserRegistered: (event) ->
+      result = false # return value
+      user = Auth.getCurrentUser()
+
+      event.$promise.then (event) ->
+        if user._id && event._id
+          VolunteerEvent.query { volunteer: user._id, event: event._id }, (volunteerEvents) ->
+            result = (volunteerEvents.length > 0)
+          , (headers) ->
+            flash.error = headers.data
+      , (headers) ->
+        flash.error = headers.data
+      result
+
+    # event must have event.$promise
+    getUsersForEvent: (event) ->
+      def = $q.defer()
+      volunteers = [] # return value
+      volunteers.$promise = def.promise
+
+      event.$promise.then (event) ->
+        VolunteerEvent.query { event: event._id }, (volunteerEvents) ->
+          volunteers.push volevnt.volunteer for volevnt in volunteerEvents
+          def.resolve(volunteers)
+        , (headers) ->
+          flash.error = headers.message
+          def.resolve(volunteers)
+      volunteers
+
     # Returns hash of events that user is registered for.
     # Will be completed by return_val.promise
-    registeredByVolunteer: (user) ->
+    getEventsForUser: (user) ->
       registeredEvents = {}
       registeredEvents.promise = $q.defer()
       user.$promise ||= $q.when(user)
@@ -98,7 +128,6 @@ angular.module 'farmersmarketApp'
         event.starts = start.shortTime()
         event.ends = end.shortTime()
         event.hours = '' + start.shortTime() + ' to ' + end.shortTime()
-        attendance: '' + event.volunteers + '/' + event.volunteerSlots
       event
 
     visitEvent: (event_id) ->

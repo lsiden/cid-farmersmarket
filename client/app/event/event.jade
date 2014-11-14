@@ -6,8 +6,6 @@ div(ng-include='"components/navbar.html"')
   div(ng-show="event")
     .title-bar
       h1 {{ event.name }}
-
-      h2 Time
       | {{ event.date }}, {{ event.hours }}
 
       h2 Contact Info
@@ -18,7 +16,14 @@ div(ng-include='"components/navbar.html"')
         li {{ event.organization.phone }}
         li <a href="mailto:{{ event.organization.email }}"> {{ event.organization.email }}</a>
 
-    .form-group.buttons(ng-hide="registered")
+      h2 Volunteers
+      ul(ng-show="volunteers.length > 0")
+        li(ng-repeat="volunteer in volunteers") {{ volunteer.email }}
+      div(ng-show="volunteers.length == 0") No volunteers have registered.
+
+      p This event will take {{ event.volunteerSlots }} volunteers.
+
+    .form-group.buttons(ng-hide="isUserRegistered")
       .col-sm-6
         button.btn.btn-md.btn-primary(ng-click="registerVolunteer(event._id)") Register Me!
-    p.registered(ng-show="registered") You are registered as a volunteer for this event.
+    p.registered(ng-show="isUserRegistered") You are registered as a volunteer for this event.

@@ -5,7 +5,7 @@ angular.module 'farmersmarketApp'
 
   $scope.calendarConfig = {}
   $scope.calendarEvents = []
-  $scope.registeredEvents = eventService.registeredByVolunteer(Auth.getCurrentUser())
+  $scope.registeredEvents = eventService.getEventsForUser(Auth.getCurrentUser())
   $scope.events = eventService.currentEvents { active: true }, (events) ->
     eventService.decorate event for event in events
     makeCalendarEventItem = (event) ->
@@ -22,7 +22,7 @@ angular.module 'farmersmarketApp'
 
   $scope.$watch 'getCurrentUser()', (user, oldUser) ->
     if user != oldUser
-      $scope.registeredEvents = eventService.registeredByVolunteer(user)
+      $scope.registeredEvents = eventService.getEventsForUser(user)
 
   $scope.setCalendarView = (view) ->
     $scope.calendar.fullCalendar('changeView', view)
