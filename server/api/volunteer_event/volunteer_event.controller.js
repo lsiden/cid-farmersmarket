@@ -40,7 +40,12 @@ exports.create = function(req, res) {
     VolunteerEvent.create(req.body, function(err, volunteer_event) {
       if(err) { return handleError(res, err); }
       // console.log(volunteer_event);
-      Event.update( { _id: volunteer_event.event}, { $inc: { n_volunteers: 1} });
+      Event.update( { _id: volunteer_event.event}, { $inc: { n_volunteers: 1} }, function(err, num_affected, raw) {
+        // console.log(err);
+        // console.log(num_affected);
+        // console.log(raw);
+        if(err) { return handleError(res, err); }
+      });
       return res.json(201, volunteer_event);
     });
   });
