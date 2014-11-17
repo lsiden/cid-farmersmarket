@@ -5,13 +5,13 @@
 .idea/
 .tags
 *.sublime-workspace
-#
+
 # Used by pm2 ecosystem.json script
 .deploys
 current
 source/
 
-# node_modules/ # keep these for correct sync between local and production
-#client/bower_components/
-#dist/
+node_modules/ # https://www.npmjs.org/doc/misc/npm-faq.html
+#client/bower_components/ # http://addyosmani.com/blog/checking-in-front-end-dependencies/
+#dist/ # This is what's getting deployed
 
