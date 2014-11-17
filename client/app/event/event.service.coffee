@@ -3,14 +3,14 @@ angular.module 'farmersmarketApp'
   
   # Date.prototype.addDays() not available during unit testing.
   today = new Date()
-  yesterday = today.setDate(today.getDate() + -1); # Date.addDays wasn't defined in testing
+  yesterday = new Date(today.setDate(today.getDate() + -1)); # Date.addDays wasn't defined in testing
 
   self =
     # Return by promise all active events that haven't ended.
     # Add optional params to query, if given.
     currentEvents: (params, callback) ->
       params || = {}
-      params.end = '>' + yesterday
+      params.end = '>' + yesterday.toDateString()
       # console.log(params);
       callback ||= ->
       Event.query params, callback
@@ -19,7 +19,7 @@ angular.module 'farmersmarketApp'
     # Add optional params to query, if given.
     pastEvents: (params, callback) ->
       params || = {}
-      params.end = '<' + today
+      params.end = '<' + today.toDateString()
       # console.log(params);
       callback ||= ->
       Event.query params, callback

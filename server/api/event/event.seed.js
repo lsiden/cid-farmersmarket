@@ -24,6 +24,7 @@ module.exports.seedEvents = function(start, duration, n, incDays, callback) {
     if (err) return callback(err);
     Organization.create(organizationParams, function(err) {
       if (err) return callback(err);
+      var orgs = Array.prototype.slice.call(arguments, 1);
       var eventParams = {
         provider: 'local',
         name: 'Test Event 1',
@@ -40,11 +41,12 @@ module.exports.seedEvents = function(start, duration, n, incDays, callback) {
       for (var i=1 ; i < arguments.length ; ++i) {
         var eventParams_copy = _.cloneDeep(eventParams);
         var dayOfMonth = (new Date(eventParams_copy.start)).getDate();
-        eventParams_copy.start.addDays(incDays);
+        eventParams_copy.start.addDays((i+i) * incDays);
+        eventParams_copy.end = _.clone(eventParams_copy.start)
         eventParams_copy.end.addDays(incDays);
         eventParams_copy.name = 'Test Event ' + i;
         eventParams_copy.about = 'About ' + eventParams_copy.name;
-        eventParams_copy.organization = arguments[i];
+        eventParams_copy.organization = orgs[Math.floor(Math.random() * orgs.length)];
         arEventParams.push(eventParams_copy);
       }
 
