@@ -38,14 +38,14 @@ module.exports.seedEvents = function(start, duration, n, incDays, callback) {
       var arEventParams = [];
 
       for (var i=1 ; i < arguments.length ; ++i) {
-        var eventParams = _.cloneDeep(eventParams);
-        var dayOfMonth = (new Date(eventParams.start)).getDate();
-        eventParams.start.addDays(incDays);
-        eventParams.end.addDays(incDays);
-        eventParams.name = 'Test Event ' + i;
-        eventParams.about = 'About ' + eventParams.name;
-        eventParams.organization = arguments[i];
-        arEventParams.push(eventParams);
+        var eventParams_copy = _.cloneDeep(eventParams);
+        var dayOfMonth = (new Date(eventParams_copy.start)).getDate();
+        eventParams_copy.start.addDays(incDays);
+        eventParams_copy.end.addDays(incDays);
+        eventParams_copy.name = 'Test Event ' + i;
+        eventParams_copy.about = 'About ' + eventParams_copy.name;
+        eventParams_copy.organization = arguments[i];
+        arEventParams.push(eventParams_copy);
       }
 
       //console.log(arEventParams);

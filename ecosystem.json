@@ -1,13 +1,17 @@
 {
   "apps" : [{
     "name"      : "farmersmarket",
-    "script"    : "server/app.js",
+    "xscript"    : "server/app.js",
+    "script"    : "/usr/local/bin/grunt",
+    "args"      : "['serve:dist']",
     "env": {
       "COMMON_VARIABLE": "true"
     },
-    "env_production" : {
-      "xNODE_ENV": "production",
-      "NODE_ENV": "development"
+    "dev" : {
+      "NODE_ENV": "development",
+    }
+    "prod" : {
+      "NODE_ENV": "production",
     }
   }],
   "deploy" : {

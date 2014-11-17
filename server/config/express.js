@@ -33,7 +33,7 @@ module.exports = function(app) {
 
   // Persist sessions with mongoStore
   // We need to enable sessions for passport twitter because its an oauth 1.0 strategy
-  if ('test' == env) {
+  if ('test' === env) {
     app.use(session({ secret: 'sssh!, secret' }));
   } else {
     app.use(session({

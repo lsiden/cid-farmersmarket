@@ -1,7 +1,6 @@
 'use strict';
 
 require('../../../common/date');
-var async = require('async');
 var VolunteerEvent = require('../volunteer_event/volunteer_event.model');
 
 var mongoose = require('mongoose'),
