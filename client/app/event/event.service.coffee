@@ -49,18 +49,19 @@ angular.module 'farmersmarketApp'
 
     # FIXME not working.  Always returns false.
     isUserRegistered: (event) ->
-      result = false # return value
+      def = $q.defer()
       user = Auth.getCurrentUser()
 
       event.$promise.then (event) ->
         if user._id && event._id
           VolunteerEvent.query { volunteer: user._id, event: event._id }, (volunteerEvents) ->
-            result = (volunteerEvents.length > 0)
+            def.resolve(volunteerEvents.length > 0)
           , (headers) ->
-            flash.error = headers.data
+            flash.error = headers.message
+            def.reject headers.message
       , (headers) ->
-        flash.error = headers.data
-      result
+        flash.error = headers.message
+        def.reject headers.message
 
     # event must have event.$promise
     getUsersForEvent: (event) ->
@@ -74,8 +75,7 @@ angular.module 'farmersmarketApp'
           def.resolve(volunteers)
         , (headers) ->
           flash.error = headers.message
-          def.resolve(volunteers)
-      volunteers
+          def.reject headers.message
 
     # Returns hash of events that user is registered for.
     # Will be completed by return_val.promise
