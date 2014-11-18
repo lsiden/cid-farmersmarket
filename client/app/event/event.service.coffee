@@ -26,29 +26,33 @@ angular.module 'farmersmarketApp'
 
     registerVolunteer: (event_id, callback) ->
       # If volunteer is not yet authenticated, remember his intent and redirect him to /login.
-      if !Auth.isLoggedIn()
-        self.registerAfterLogin event_id
-        return $state.go('login')
+      Auth.isLoggedInAsync (isLoggedIn) ->
+        if !isLoggedIn
+          self.registerAfterLogin event_id
+          return $state.go('login')
 
-      params = { volunteer: Auth.getCurrentUser()._id, event: event_id } # query params
+        params = { volunteer: Auth.getCurrentUser()._id, event: event_id } # query params
 
-      VolunteerEvent.query params, (volunteerEvents) ->
-        if volunteerEvents.length > 0
-          flash.success = 'You have already volunteered for this event.  Thank you.'
-          return callback?(true)
-        volunteerEvent = new VolunteerEvent(params)
-        volunteerEvent.$save (data, headers) ->
-          callback?(true)
-          flash.success = 'Thank you for volunteering! Please check your e-mail for confirmation.'
-        , (headers) ->
-          callback?(false)
-          flash.error = headers.message
+        VolunteerEvent.query params, (volunteerEvents) ->
+          if volunteerEvents.length > 0
+            flash.success = 'You have already volunteered for this event.  Thank you.'
+            $state.go('event', { id: event_id })
+            return callback?(true)
+            
+          volunteerEvent = new VolunteerEvent(params)
+          volunteerEvent.$save (data, headers) ->
+            callback?(true)
+            flash.success = 'Thank you for volunteering! Please check your e-mail for confirmation.'
+            $state.go('event', { id: event_id })
+          , (headers) ->
+            callback?(false)
+            flash.error = headers.message
 
     # Sets user.isRegistered
     userRegistered: (user, eventId) ->
       user.isRegistered = false
 
-      if user.$promise
+      if user.hasOwnProperty '$promise'
         user.$promise.then ->
           VolunteerEvent.query { volunteer: user._id, event: eventId }, (volunteerEvents) ->
             user.isRegistered = (volunteerEvents.length > 0)

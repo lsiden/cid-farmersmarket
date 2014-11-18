@@ -17,9 +17,6 @@ angular.module 'farmersmarketApp'
   , (headers) ->
     flash.error = headers.message
 
-  $scope.getCurrentUser = ->
-    Auth.getCurrentUser()
-
   $scope.$watch 'getCurrentUser()', (user, oldUser) ->
     if user != oldUser
       $scope.registeredEvents = eventService.getEventsForUser(user)

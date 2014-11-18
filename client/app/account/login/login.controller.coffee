@@ -11,9 +11,9 @@ angular.module 'farmersmarketApp'
     Auth.login
       email: $scope.user.email
       password: $scope.user.password
-    .then ->
+    .then (success) ->
       event_id = eventService.registerAfterLogin() # from session
-      if event_id
+      if success && event_id
         # User was redirected here after attempting to volunteer,
         # so we satisfy his intent.
         eventService.registerAfterLogin(null) # clear it
