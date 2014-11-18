@@ -2,6 +2,7 @@
 
 angular.module 'farmersmarketApp'
 .controller 'ContactInfoCtrl', ($scope, $http, User) ->
+  $scope.submitted = false
   $scope.errors = {}
   $scope.contactInfo = {}
   $scope.masterContactInfo = {}

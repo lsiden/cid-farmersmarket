@@ -1,13 +1,33 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'AccountCtrl', ($scope, flash, Auth, User) ->
+.controller 'AccountCtrl', ($scope, $state, flash, Auth, User) ->
+  $scope.submitted = false
+  $scope.errors = {}
+  $scope.user_master = {}
+  $scope.user = User.get { id: $state.params.id }, (user) ->
+    $scope.user_master = angular.copy(user)
 
-  $scope.resetPassword = ->
-    flash.warning = 'To be implemented by developer.' # TODO
+  $scope.reset = (form) ->
+    $scope.user = angular.copy($scope.user_master)
 
-  $scope.user = Auth.getCurrentUser()
+  $scope.submit = (form) ->
+    $scope.submitted = true
+    return unless form.$valid
+
+    $scope.user.$update (user) ->
+      flash.success = 'Updated account ' + user.email
+      $state.go('admin-accounts')
+    , (headers) ->
+      flash.error = headers.message
+
+  $scope.isUserChanged = ->
+    !angular.equals($scope.user, $scope.user_master)
+
   $scope.roles = [
     { name: 'Admin', id: 'admin' }
     { name: 'User', id: 'user' }
   ]
+
+  $scope.resetPassword = ->
+    flash.error = 'not yet implemented'

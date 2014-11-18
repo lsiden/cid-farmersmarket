@@ -15,6 +15,9 @@ angular.module 'farmersmarketApp'
       params:
         controller: 'password'
 
+    update:
+      method: 'PUT'
+
     get:
       method: 'GET'
       params:
