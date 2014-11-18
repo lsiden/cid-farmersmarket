@@ -57,13 +57,13 @@ m.controller 'AdminOrganizationCtrl', ($scope, $state, flash, Modal, Organizatio
     if (organizationId == 'new')
       $scope.organization.$save (data, headers) ->
         flash.success = 'Create new Organization.'
-        $state.go('admin-organizations')
+        $state.go 'admin-organizations'
       , (headers) ->
         flash.error = headers.message
     else
       $scope.organization.$update (data, headers) ->
         flash.success = 'Modified organization details.'
-        $state.go('admin-organizations')
+        $state.go 'admin-organizations'
       , (headers) ->
         flash.error = headers.message
 
