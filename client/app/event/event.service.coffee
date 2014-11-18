@@ -48,6 +48,29 @@ angular.module 'farmersmarketApp'
             callback?(false)
             flash.error = headers.message
 
+    unregisterVolunteer: (event_id, callback) ->
+      # Volunteer must already be authenticated.
+      if !Auth.isLoggedIn
+        return $state.go('login')
+
+      params = { volunteer: Auth.getCurrentUser()._id, event: event_id } # query params
+
+      VolunteerEvent.query params, (volunteerEvents) ->
+        if volunteerEvents.length == 0
+          flash.success = 'You were not registered for this event. No further action is needed.'
+          $state.go('event', { id: event_id })
+          return callback?(true)
+          
+        # There should be only one instance, but we'll iterate just for good form.
+        for v in volunteerEvents
+          v.$delete (data, headers) ->
+            callback?(true)
+            flash.success = 'You have successfully cancelled your registration to this event.'
+            $state.go('event', { id: event_id })
+          , (headers) ->
+            callback?(false)
+            flash.error = headers.message
+
     # Sets user.isRegistered
     userRegistered: (user, eventId) ->
       user.isRegistered = false
