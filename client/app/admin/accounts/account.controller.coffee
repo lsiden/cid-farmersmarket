@@ -27,7 +27,6 @@ angular.module 'farmersmarketApp'
   $scope.roles = [
     { name: 'Admin', _id: 'admin' }
     { name: 'User', _id: 'user' }
-    { name: 'User2', _id: 'user2' }
   ]
 
   $scope.resetPassword = ->
