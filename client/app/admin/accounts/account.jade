@@ -18,7 +18,7 @@ div(ng-include='"components/navbar.html"')
     .form-group(ng-hide='user.role == "admin"')
       label.col-sm-2(for='userRole', control-label) Role
       .col-sm-10
-        select#userRole.form-control(name='role', ng-model='user.role', ng-options='role.name for role in roles', required='')
+        select#userRole.form-control(name='role', ng-model='user.role', ng-options='role._id as role.name for role in roles', required='')
       p.help-block(ng-show="form.role.$error.required" class="error") What will be the user's role on this site?
 
     .form-group(ng-hide='user.role == "admin"')
@@ -35,4 +35,4 @@ div(ng-include='"components/navbar.html"')
         button.btn.btn-md.btn-primary(type='submit(form)', ng-disabled="form.$invalid || !isUserChanged()") Save changes
         button.btn.btn-md.btn-primary(ng-click='resetPassword()', type='button') Reset Password
 
-  {{ user }}
+  //- {{ user }}
