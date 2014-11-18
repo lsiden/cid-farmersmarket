@@ -25,14 +25,14 @@ angular.module 'farmersmarketApp'
       {
         field: 'name'
         displayName: 'Name'
-        cellTemplate: 'app/admin/events/name.cell.template.html'
+        cellTemplate: 'app/admin/event/index/name.cell.template.html'
         sortable: true
       }
       # { field: 'organization', displayName: 'Organization', sortable: true }
       {
         field: 'organization'
         displayName: 'Organization'
-        cellTemplate: 'app/admin/events/organization_name.cell.template.html'
+        cellTemplate: 'app/admin/event/index/organization_name.cell.template.html'
         sortable: true
       }
       { field: 'date', displayName: 'Date', sortable: true, sortFn: eventService.sortByDate }

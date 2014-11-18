@@ -17,13 +17,13 @@ angular.module 'farmersmarketApp'
         {
           field: 'name'
           displayName: 'Name'
-          cellTemplate: 'app/admin/event/name.cell.template.html'
+          cellTemplate: 'app/admin/event/index/name.cell.template.html'
           sortable: true
         }
         {
           field: 'organization'
           displayName: 'Organization'
-          cellTemplate: 'app/admin/event/organization_name.cell.template.html'
+          cellTemplate: 'app/admin/event/index/organization_name.cell.template.html'
           sortable: true
         }
         { field: 'attended', displayName: 'Attended', sortable: true }
