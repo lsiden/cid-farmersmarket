@@ -10,7 +10,8 @@ angular.module 'farmersmarketApp'
 
   $scope.registerVolunteer = (event_id) ->
     eventService.registerVolunteer event_id, (success) ->
-      $scope.registered = success
+      $scope.user.isRegistered = success
+      $scope.volunteers.push $scope.user
 
   $scope.event = eventService.decorate Event.get { id: $state.params.id }, (event) ->
     $scope.volunteers = eventService.getUsersForEvent(event._id)
