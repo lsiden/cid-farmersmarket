@@ -5,7 +5,7 @@ angular.module 'farmersmarketApp'
 
   $scope.calendarConfig = {}
   $scope.calendarEvents = []
-  $scope.registeredEvents = eventService.getEventsForUser(Auth.getCurrentUser())
+  $scope.registeredEvents = eventService.getEventsForUser(Auth.getCurrentUser()._id)
   $scope.events = eventService.currentEvents { active: true }, (events) ->
     eventService.decorate event for event in events
     makeCalendarEventItem = (event) ->

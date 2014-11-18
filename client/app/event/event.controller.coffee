@@ -5,12 +5,13 @@ angular.module 'farmersmarketApp'
 
   $scope.errors = {}
   $scope.volunteers = []
+  $scope.user = Auth.getCurrentUser()
   $scope.message = ''
 
   $scope.registerVolunteer = (event_id) ->
     eventService.registerVolunteer event_id, (success) ->
       $scope.registered = success
 
-  $scope.event = eventService.decorate Event.get { id: $state.params.id }
-  $scope.volunteers = eventService.getUsersForEvent($scope.event)
-  $scope.isUserRegistered = eventService.isUserRegistered($scope.event)
+  $scope.event = eventService.decorate Event.get { id: $state.params.id }, (event) ->
+    $scope.volunteers = eventService.getUsersForEvent(event._id)
+    eventService.userRegistered($scope.user, event._id)

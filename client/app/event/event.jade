@@ -23,7 +23,9 @@ div(ng-include='"components/navbar.html"')
 
       p This event will take {{ event.volunteerSlots }} volunteers.
 
-    .form-group.buttons(ng-hide="isUserRegistered")
+    .form-group.buttons(ng-hide="user.isRegistered")
       .col-sm-6
         button.btn.btn-md.btn-primary(ng-click="registerVolunteer(event._id)") Register Me!
-    p.registered(ng-show="isUserRegistered") You are registered as a volunteer for this event.
+    p.registered(ng-show="user.isRegistered") You are registered as a volunteer for this event.
+
+    | user.isRegistered={{ user.isRegistered }}

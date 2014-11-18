@@ -26,78 +26,56 @@ angular.module 'farmersmarketApp'
 
     registerVolunteer: (event_id, callback) ->
       # If volunteer is not yet authenticated, remember his intent and redirect him to /login.
-      Auth.isLoggedInAsync (is_loggedIn) ->
-        if !is_loggedIn
-          self.registerAfterLogin event_id
-          $state.go('login')
-          return
+      if !Auth.isLoggedIn()
+        self.registerAfterLogin event_id
+        return $state.go('login')
 
-        params = { volunteer: Auth.getCurrentUser()._id, event: event_id } # query params
+      params = { volunteer: Auth.getCurrentUser()._id, event: event_id } # query params
 
-        VolunteerEvent.query params, (volunteerEvents) ->
-          if volunteerEvents.length == 0
-            volunteerEvent = new VolunteerEvent(params)
-            volunteerEvent.$save (data, headers) ->
-              callback?(true)
-              flash.success = 'Thank you for volunteering! Please check your e-mail for confirmation.'
-            , (headers) ->
-              callback?(false)
-              flash.error = headers.message
-          else
-            callback?(true)
-            flash.success = 'You have already volunteered for this event.  Thank you.'
+      VolunteerEvent.query params, (volunteerEvents) ->
+        if volunteerEvents.length > 0
+          flash.success = 'You have already volunteered for this event.  Thank you.'
+          return callback?(true)
+        volunteerEvent = new VolunteerEvent(params)
+        volunteerEvent.$save (data, headers) ->
+          callback?(true)
+          flash.success = 'Thank you for volunteering! Please check your e-mail for confirmation.'
+        , (headers) ->
+          callback?(false)
+          flash.error = headers.message
 
-    # FIXME not working.  Always returns false.
-    isUserRegistered: (event) ->
-      def = $q.defer()
-      user = Auth.getCurrentUser()
+    # Sets user.isRegistered
+    userRegistered: (user, eventId) ->
+      user.isRegistered = false
 
-      event.$promise.then (event) ->
-        if user._id && event._id
-          VolunteerEvent.query { volunteer: user._id, event: event._id }, (volunteerEvents) ->
-            def.resolve(volunteerEvents.length > 0)
+      if user.$promise
+        user.$promise.then ->
+          VolunteerEvent.query { volunteer: user._id, event: eventId }, (volunteerEvents) ->
+            user.isRegistered = (volunteerEvents.length > 0)
           , (headers) ->
             flash.error = headers.message
-            def.reject headers.message
-      , (headers) ->
-        flash.error = headers.message
-        def.reject headers.message
 
     # event must have event.$promise
-    getUsersForEvent: (event) ->
-      def = $q.defer()
+    getUsersForEvent: (eventId) ->
       volunteers = [] # return value
-      volunteers.$promise = def.promise
+      def = $q.defer()
 
-      event.$promise.then (event) ->
-        VolunteerEvent.query { event: event._id }, (volunteerEvents) ->
-          volunteers.push volevnt.volunteer for volevnt in volunteerEvents
-          def.resolve(volunteers)
-        , (headers) ->
-          flash.error = headers.message
-          def.reject headers.message
+      VolunteerEvent.query { event: eventId }, (volunteerEvents) ->
+        volunteers.push volevnt.volunteer for volevnt in volunteerEvents
+      , (headers) ->
+        flash.error = headers.message
+      volunteers
 
     # Returns hash of events that user is registered for.
     # Will be completed by return_val.promise
-    getEventsForUser: (user) ->
+    getEventsForUser: (userId) ->
       registeredEvents = {}
-      registeredEvents.promise = $q.defer()
-      user.$promise ||= $q.when(user)
         
-      user.$promise.then (user) ->
-        if !Auth.isLoggedIn()
-          return registeredEvents.promise.resolve registeredEvents
-          
-        VolunteerEvent.query { volunteer: user._id }, (volunteerEvents) ->
-          for ve in volunteerEvents
-            do (ve) ->
-              registeredEvents[ve.event._id] = ve.event
-          registeredEvents.promise.resolve registeredEvents
+      if Auth.isLoggedIn()
+        VolunteerEvent.query { volunteer: userId }, (volunteerEvents) ->
+          registeredEvents[ve.event._id] = ve.event for ve in volunteerEvents
         , (headers) ->
-          registeredEvents.promise.reject headers.message
-      , (headers) ->
-        registeredEvents.promise.reject headers.message
-
+          flash.error = headers.message
       registeredEvents
 
     # Return event id that user tried to register for
