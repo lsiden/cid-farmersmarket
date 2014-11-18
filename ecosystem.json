@@ -3,7 +3,7 @@
     "name"      : "farmersmarket",
     "xscript"    : "server/app.js",
     "script"    : "/usr/local/bin/grunt",
-    "args"      : "['serve:dist']",
+    "args"      : "['--force', 'serve:dist']",
     "env": {
       "COMMON_VARIABLE": "true"
     },
@@ -20,7 +20,7 @@
       "host" : "104.131.173.158",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/cid-farmersmarket.git",
-      "path" : ".",
+      "path" : "/home/lsiden/www/app",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
     "dev" : {
@@ -28,7 +28,7 @@
       "host" : "104.131.173.158",
       "ref"  : "origin/dev",
       "repo" : "https://github.com/lsiden/cid-farmersmarket.git",
-      "path" : ".",
+      "path" : "/home/lsiden/www/app",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
     }
   }
