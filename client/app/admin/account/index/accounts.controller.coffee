@@ -29,7 +29,7 @@ angular.module 'farmersmarketApp'
       {
         field: 'name'
         displayName: 'Name'
-        cellTemplate: 'app/admin/accounts/name.cell.template.html'
+        cellTemplate: 'app/admin/account/index/name.cell.template.html'
         sortable: true
       }
       {
@@ -40,7 +40,7 @@ angular.module 'farmersmarketApp'
       {
         field: 'email'
         displayName: 'Email'
-        cellTemplate: 'app/admin/accounts/email.cell.template.html'
+        cellTemplate: 'app/admin/account/index/email.cell.template.html'
         sortable: false
       }
       { field: 'phone', displayName: 'Phone', sortable: false }
