@@ -1,12 +1,34 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'AccountCtrl', ($scope, $state, flash, Auth, User) ->
+.controller 'AccountCtrl', ($scope, $state, flash, User, Event, VolunteerEvent, adminService, eventService) ->
   $scope.submitted = false
   $scope.errors = {}
   $scope.user_master = {}
+  $scope.formerEvents = []
+  $scope.currentEvents = []
+  $scope.events = []
+  $scope.attended = 0
+  $scope.eventGridOptions = adminService.eventGridOptions
   $scope.user = User.get { id: $state.params.id }, (user) ->
     $scope.user_master = angular.copy(user)
+
+  # Get list of events that volunteer has registered for.
+  VolunteerEvent.query { volunteer: $state.params.id }, (ar_ve) ->
+    hash_ve = {}
+    hash_ve[ve.event._id] = ve.event for ve in ar_ve
+    $scope.events = Event.query { '_id[]': ( ve.event._id for ve in ar_ve )}, (events) ->
+      eventService.decorate event for event in events
+      events.sort (a, b) ->
+        return 0 if a.start == b.start
+        return 1 if a.start > b.start
+        return -1
+      today = new Date()
+      $scope.formerEvents.push ev for ev in events when new Date(ev.end) < today
+      $scope.currentEvents.push ev for ev in events when new Date(ev.end) >= today
+      event.attended = hash_ve[event._id].attended for event in $scope.formerEvents
+      attended = (1 for ve in ar_ve when ve.attended).length
+      $scope.trackRecord = [attended, $scope.formerEvents.length].join('/')
 
   $scope.reset = (form) ->
     $scope.user = angular.copy($scope.user_master)

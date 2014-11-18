@@ -4,6 +4,17 @@ div(ng-include='"components/navbar.html"')
   .title-bar
     h1 {{ user.name }}
 
+  h2 Track Record
+  {{ trackRecord }}
+
+  h2 Former Events
+  div.gridStyle(ng-grid='eventGridOptions("formerEvents", "desc")')
+
+  h2 Current and Upcoming Events
+  div.gridStyle(ng-grid='eventGridOptions("currentEvents", "asc")')
+
+  h2 Profile
+
   .grfm-grid
     .row
       .col-sm-2.grfm-grid-label E-mail
@@ -12,7 +23,7 @@ div(ng-include='"components/navbar.html"')
     .row
       .col-sm-2.grfm-grid-label Phone
       .col-sm-10 {{ user.phone }}
-
+  
   form.form(name='form', ng-submit='submit(form)', novalidate, class='form-horizontal')
 
     .form-group(ng-hide='user.role == "admin"')

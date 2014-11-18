@@ -1,3 +1,5 @@
+'use strict'
+
 angular.module 'farmersmarketApp'
 .factory 'eventService', (Auth, $cookieStore, $state, $q, VolunteerEvent, Event, flash) ->
   
@@ -138,4 +140,11 @@ angular.module 'farmersmarketApp'
     visitEvent: (event_id) ->
       $state.go('event', { id: event_id })
 
-  return self
+
+    sortByDate: (_a, _b) ->
+      a = new Date(_a)
+      b = new Date(_b)
+      
+      if a < b then return -1
+      if a > b then return 1
+      return 0

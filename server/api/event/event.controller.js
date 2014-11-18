@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var Event = require('./event.model');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 
 // Get list of events
 exports.index = function(req, res) {
@@ -11,7 +13,14 @@ exports.index = function(req, res) {
     req.query.end = { $lt: new Date(req.query.end.substr(1)) };
   }
   // console.log(req.query);
-
+  for (var key in req.query) {
+    if (_.isArray(req.query[key])) {
+      // console.log(req.query[key]);
+      req.query[key] = (key === '_id[]')  ? { $in: req.query[key].map(function(id) { return Schema.Types.ObjectId(id) })}
+                                        : { $in: req.query[key] };
+    }
+  }
+  // console.log(req.query);
   Event.find(req.query, function (err, events) {
     if(err) { return handleError(res, err); }
     Event.populate(events, { path: 'organization' }, function(err, populatedEvents) {

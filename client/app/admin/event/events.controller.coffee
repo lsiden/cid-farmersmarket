@@ -2,14 +2,6 @@
 
 # Controller for /events listing
 
-sortByDate = (_a, _b) ->
-  a = new Date(_a)
-  b = new Date(_b)
-  
-  if a < b then return -1
-  if a > b then return 1
-  return 0
-
 angular.module 'farmersmarketApp'
 .controller 'AdminEventsCtrl', ($scope, flash, Event, eventService) ->
 
@@ -43,7 +35,7 @@ angular.module 'farmersmarketApp'
         cellTemplate: 'app/admin/events/organization_name.cell.template.html'
         sortable: true
       }
-      { field: 'date', displayName: 'Date', sortable: true, sortFn: sortByDate }
+      { field: 'date', displayName: 'Date', sortable: true, sortFn: eventService.sortByDate }
       { field: 'hours', displayName: 'Hours', sortable: false }
       { field: 'attendance', displayName: 'Volunteers/Slots', sortable: false }
       { field: 'active', displayName: 'Active', sortable: false }
