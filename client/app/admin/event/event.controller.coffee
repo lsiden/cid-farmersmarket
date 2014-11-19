@@ -2,30 +2,36 @@
 
 # Controller for editing one event
 
+composeDate = (isoDate, time) ->
+  date = new Date(isoDate)
+  tdate = new Date(time)
+  date.setHours(tdate.getHours())
+  date.setMinutes(tdate.getMinutes())
+  date
+
 angular.module 'farmersmarketApp'
 .controller 'AdminEventCtrl', ($scope, $state, flash, Modal, Event, Organization, eventService) ->
   $scope.errors = {}
   eventId = $state.params.id
-  
+  $scope.organizations = Organization.query() # Used by form selector.
+
   if (eventId && eventId != 'new')
     $scope.actionTitle = 'Edit'
-    $scope.event = eventService.decorate Event.get { id: eventId }, (event) ->
+    $scope.event = Event.get { id: eventId }, (event) ->
+      $scope.event.isoDate = new Date(event.start).toISOString().substr(0, 10)
+      $scope.event.start = new Date(event.start)
+      $scope.event.end = new Date(event.end)
       $scope.masterEvent = angular.copy(event)
     , (headers) ->
       flash.error = headers.message
     $scope.masterEvent = angular.copy $scope.event
   else
     $scope.actionTitle = 'New'
-    $scope.event = eventService.decorate(new Event)
+    $scope.event = new Event
+    $scope.event.isoDate = (new Date).toISOString().substr(0, 10)
+    $scope.event.start = new Date
+    $scope.event.end = new Date
     $scope.masterEvent = angular.copy $scope.event
-
-  # Used by form selector.
-  $scope.organizations = Organization.query (organizations) ->
-    makeOrganizationItem = (organization) ->
-      name: organization.name
-      id: organization._id
-
-    $scope.organizations = (makeOrganizationItem org for org in organizations)
 
   $scope.isEventChanged = ->
     !angular.equals($scope.event, $scope.masterEvent)
@@ -37,40 +43,34 @@ angular.module 'farmersmarketApp'
     $scope.submitted = true
     return unless form.$valid
 
-    ev = $scope.event
+    $scope.event.start = composeDate($scope.event.isoDate, $scope.event.start)
+    $scope.event.end = composeDate($scope.event.isoDate, $scope.event.end)
 
-    # Both date and time are instances of Date.
-    composeDateTime = (date, time) ->
-      result = new Date(date)
-      result.setHours(time.getHours())
-      result.setMinutes(time.getMinutes())
-      result
+    # Length of event must be between 0 and 24 hours, by caveat.
+    if ($scope.event.end < $scope.event.start)
+      $scope.event.end.addDays(1);
 
-    ev.start = composeDateTime(ev.date, ev.startTime)
-    ev.end = composeDateTime(ev.date, ev.endTime)
-
-    if (ev._id)
-      ev.$update (data, headers) ->
+    if ($scope.event._id)
+      $scope.event.$update (data, headers) ->
         flash.success = 'Modified event info.'
         $state.go('admin-events')
       , (headers) ->
         flash.error = headers.message
     else
-      ev.$save (data, headers) ->
+      $scope.event.$save (data, headers) ->
         flash.success = 'Created new event.'
         $state.go('admin-events')
       , (headers) ->
         flash.error = headers.message
 
   $scope.deleteEvent = ->
-    ev = $scope.event
-    if ev.id == 'new' then return
+    if $scope.event._id == 'new' then return
 
     del = ->
-      ev.$remove ->
+      $scope.event.$remove ->
         _.remove $scope.users, ev
         $state.go 'admin-events'
       , (headers) ->
         flash.error = headers.message
     
-    Modal.confirm.delete(del) ev.name
+    Modal.confirm.delete(del) $scope.event.name

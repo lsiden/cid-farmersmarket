@@ -59,6 +59,9 @@ exports.update = function(req, res) {
   Event.findById(req.params.id, function (err, event) {
     if (err) { return handleError(res, err); }
     if(!event) { return res.send(404); }
+    if (req.body.organization && req.body.organization._id) {
+      req.body.organization = Schema.Types.ObjectId(req.body.organization._id);
+    }
     var updated = _.merge(event, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
