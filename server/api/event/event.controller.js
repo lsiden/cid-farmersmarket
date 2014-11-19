@@ -5,6 +5,10 @@ var Event = require('./event.model');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var toObjectId = function(id) { 
+  return Schema.Types.ObjectId(id)
+};
+
 // Get list of events
 exports.index = function(req, res) {
   if (req.query.end && req.query.end[0] === '>') {
@@ -16,8 +20,7 @@ exports.index = function(req, res) {
   for (var key in req.query) {
     if (_.isArray(req.query[key])) {
       // console.log(req.query[key]);
-      req.query[key] = (key === '_id[]')  ? { $in: req.query[key].map(function(id) { return Schema.Types.ObjectId(id) })}
-                                        : { $in: req.query[key] };
+      req.query[key] = (key === '_id[]') ? { $in: req.query[key].map(toObjectId) } : { $in: req.query[key] };
     }
   }
   // console.log(req.query);
