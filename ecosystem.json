@@ -1,9 +1,9 @@
 {
   "apps" : [{
     "name"      : "farmersmarket",
-    "xscript"    : "server/app.js",
-    "script"    : "/usr/local/bin/grunt",
-    "args"      : "['--force', 'serve:dist']",
+    "script"    : "server/app.js",
+    "xxxscript"    : "/usr/local/bin/grunt",
+    "xxxargs"      : "['--force', 'serve:dist']",
     "env": {
       "COMMON_VARIABLE": "true"
     },
