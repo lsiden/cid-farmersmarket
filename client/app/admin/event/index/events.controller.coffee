@@ -13,6 +13,9 @@ angular.module 'farmersmarketApp'
   $scope.isoFromDate = fromDate.toISOString().substr(0, 10)
   $scope.isoThruDate = thruDate.toISOString().substr(0, 10)
 
+  registered = (event) ->
+    [event.n_volunteers, event.volunteerSlots].join('/')
+
   fetchEvents = ->
     eventQuery =
       from: $scope.isoFromDate
@@ -20,7 +23,8 @@ angular.module 'farmersmarketApp'
     # console.log(eventQuery);
 
     $scope.events = Event.query eventQuery, (events) ->
-        eventService.decorate event for event in events
+      eventService.decorate event for event in events
+      event.registered = registered(event) for event in events
     , (headers) ->
       flash.error = headers.message
 
@@ -53,6 +57,6 @@ angular.module 'farmersmarketApp'
         cellTemplate: 'app/admin/event/index/organization_name.cell.template.html'
         sortable: true
       }
-      { field: 'attendance', displayName: 'Volunteers/Slots', sortable: false }
+      { field: 'registered', displayName: 'Filled/Places', sortable: false }
       { field: 'active', displayName: 'Active', sortable: false }
     ]

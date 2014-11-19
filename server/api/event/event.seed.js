@@ -1,9 +1,10 @@
 var _ = require('lodash');
 var Event = require('./event.model');
+var tracer = require('tracer').console({ level: 'info' });
 
 // Helper for testing.
 module.exports.seedEvents = function(start, duration, n, incDays, callback) {
-  console.log('seeding Events');
+  tracer.info('seeding Events');
   var Organization = require('./../organization/organization.model');
   var end = _.cloneDeep(start).addHours(duration);
 
@@ -50,11 +51,11 @@ module.exports.seedEvents = function(start, duration, n, incDays, callback) {
         arEventParams.push(eventParams_copy);
       }
 
-      //console.log(arEventParams);
+      //tracer.info(arEventParams);
       Event.create(arEventParams, function(err) {
         if (err) return callback(err);
         var len = arguments.length;
-        console.log('finished populating ' + n + ' events until ' + arguments[len-1].start);
+        tracer.info('finished populating ' + n + ' events until ' + arguments[len-1].start);
         var events = [];
         for (var i=1 ; i < arguments.length ; ++i) {
           events.push(arguments[i]);

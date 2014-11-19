@@ -1,10 +1,10 @@
 'use strict';
 
+var _ = require('lodash')
+var helpers = require('../helpers.service');
 var User = require('./user.model');
 // var passport = require('passport');
-var config = require('../../config/environment');
-var jwt = require('jsonwebtoken');
-var _ = require('lodash')
+var auth = require('../../auth/auth.service');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -15,7 +15,8 @@ var validationError = function(res, err) {
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
+  var select = auth.isAuthenticated() ? '-salt -hashedPassword' : 'email';
+  User.find(helpers.processQuery(req.query), select, function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });
@@ -25,6 +26,8 @@ exports.index = function(req, res) {
  * Creates a new user
  */
 exports.create = function (req, res, next) {
+  var config = require('../../config/environment');
+  var jwt = require('jsonwebtoken');
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
@@ -39,11 +42,11 @@ exports.create = function (req, res, next) {
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   User.findById(req.params.id, function (err, user) {
-    if (err) { return handleError(res, err); }
+    if (err) { return helpers.handleError(res, err); }
     if(!user) { return res.send(404); }
     var updated = _.merge(user, req.body);
     updated.save(function (err) {
-      if (err) { return handleError(res, err); }
+      if (err) { return helpers.handleError(res, err); }
       return res.json(200, user);
     });
   });
@@ -141,7 +144,3 @@ exports.me = function(req, res, next) {
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
-
-function handleError(res, err) {
-  return res.send(500, err);
-}

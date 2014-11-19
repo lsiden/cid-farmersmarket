@@ -53,6 +53,10 @@ function hasRole(roleRequired) {
     });
 }
 
+function isAdmin() {
+  return hasRole('admin');
+}
+
 /**
  * Returns a jwt token signed by the app secret
  */
@@ -72,5 +76,6 @@ function setTokenCookie(req, res) {
 
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
+exports.isAdmin = isAdmin;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;

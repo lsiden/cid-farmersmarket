@@ -1,76 +1,67 @@
 'use strict'
 
-# Controller for editing one event
-
-composeDate = (isoDate, time) ->
-  date = new Date(isoDate)
-  tdate = new Date(time)
-  date.setHours(tdate.getHours())
-  date.setMinutes(tdate.getMinutes())
-  date
+# Controller for viewing
 
 angular.module 'farmersmarketApp'
-.controller 'AdminEventCtrl', ($scope, $state, flash, Modal, Event, Organization, eventService) ->
-  $scope.errors = {}
-  eventId = $state.params.id
-  $scope.organizations = Organization.query() # Used by form selector.
+.controller 'AdminEventCtrl', ($scope, $state, flash, Event, VolunteerEvent, User, eventService) ->
 
-  if (eventId && eventId != 'new')
-    $scope.actionTitle = 'Edit'
-    $scope.event = Event.get { id: eventId }, (event) ->
-      $scope.event.isoDate = new Date(event.start).toISOString().substr(0, 10)
-      $scope.event.start = new Date(event.start)
-      $scope.event.end = new Date(event.end)
-      $scope.masterEvent = angular.copy(event)
+  recordAttendance = (userId, eventId, attended) ->
+    VolunteerEvent.query { volunteer: userId, event: eventId }, (ar_ve) ->
+      # Expecing array of only one element
+      for ve in ar_ve
+        ve.attended = attended
+        ve.$update ->
+          flash.success = 'Recorded attendance.'
+        , (headers) ->
+          flash.error = headers.message
     , (headers) ->
       flash.error = headers.message
-    $scope.masterEvent = angular.copy $scope.event
-  else
-    $scope.actionTitle = 'New'
-    $scope.event = new Event
-    $scope.event.isoDate = (new Date).toISOString().substr(0, 10)
-    $scope.event.start = new Date
-    $scope.event.end = new Date
-    $scope.masterEvent = angular.copy $scope.event
 
-  $scope.isEventChanged = ->
-    !angular.equals($scope.event, $scope.masterEvent)
+  # console.log $state.params
+  $scope.volunteers = []
+  $scope.event = Event.get { id: $state.params.id }, (event) ->
+    eventService.decorate event
+  , (headers) ->
+    flash.error = headers.message
 
-  $scope.resetEvent = ->
-    $scope.event = angular.copy($scope.masterEvent)
-    
-  $scope.saveEvent = (form) ->
-    $scope.submitted = true
-    return unless form.$valid
+  VolunteerEvent.query { event: $state.params.id }, (ar_ve) ->
+    if ar_ve.length > 0
+      $scope.volunteers = User.query { '_id[]': ( ve.volunteer._id for ve in ar_ve )}, (volunteers) ->
+        ve_for_volunteer = {}
+        ve_for_volunteer[ve.volunteer._id] = ve for ve in ar_ve
+        v.attended = ve_for_volunteer[v._id].attended for v in volunteers
 
-    $scope.event.start = composeDate($scope.event.isoDate, $scope.event.start)
-    $scope.event.end = composeDate($scope.event.isoDate, $scope.event.end)
-
-    # Length of event must be between 0 and 24 hours, by caveat.
-    if ($scope.event.end < $scope.event.start)
-      $scope.event.end.addDays(1);
-
-    if ($scope.event._id)
-      $scope.event.$update (data, headers) ->
-        flash.success = 'Modified event info.'
-        $state.go('admin-events')
-      , (headers) ->
-        flash.error = headers.message
-    else
-      $scope.event.$save (data, headers) ->
-        flash.success = 'Created new event.'
-        $state.go('admin-events')
+        for i in [0 .. volunteers.length-1]
+          do (i) ->
+            $scope.$watch 'volunteers[:i].attended'.replace(/:i/, i), (attended, oldVal) ->
+              if attended != oldVal
+                recordAttendance volunteers[i]._id, $scope.event._id, attended
       , (headers) ->
         flash.error = headers.message
 
-  $scope.deleteEvent = ->
-    if $scope.event._id == 'new' then return
-
-    del = ->
-      $scope.event.$remove ->
-        _.remove $scope.users, ev
-        $state.go 'admin-events'
-      , (headers) ->
-        flash.error = headers.message
-    
-    Modal.confirm.delete(del) $scope.event.name
+  $scope.volunteerGridOptions = 
+    data: 'volunteers'
+    enableRowSelection: false
+    enableCellSelection: false
+    sortInfo: { fields: ['name'], directions: ['asc'] }
+    columnDefs: [
+      {
+        field: 'name'
+        displayName: 'Name'
+        cellTemplate: 'app/admin/account/index/name.cell.template.html'
+        sortable: true
+      }
+      {
+        field: 'email'
+        displayName: 'Email'
+        cellTemplate: 'app/admin/account/index/email.cell.template.html'
+        sortable: false
+      }
+      { field: 'phone', displayName: 'Phone', sortable: false }
+      {
+        field: 'attended'
+        displayName: 'Attended'
+        sortable: true
+        cellTemplate: 'app/admin/event/cell-attended.html'
+      }
+    ]

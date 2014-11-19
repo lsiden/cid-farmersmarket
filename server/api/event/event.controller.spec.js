@@ -38,7 +38,7 @@ describe('GET /api/events', function() {
       }).join('&');
       // console.log(query);
       request(app)
-      .get('/api/events/?' + query)
+      .get('/api/events?' + query)
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
