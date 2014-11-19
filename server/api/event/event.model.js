@@ -1,6 +1,6 @@
 'use strict';
 
-require('../../../client/assets/js/date')
+require('../../../client/assets/js/date.js')
 
 var VolunteerEvent = require('../volunteer_event/volunteer_event.model');
 
