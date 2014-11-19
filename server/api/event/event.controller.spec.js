@@ -36,7 +36,7 @@ describe('GET /api/events', function() {
       var query = events.map(function(ev) {
         return '_id[]=' + ev._id
       }).join('&');
-      console.log(query);
+      // console.log(query);
       request(app)
       .get('/api/events/?' + query)
       .expect(200)
@@ -48,5 +48,19 @@ describe('GET /api/events', function() {
         done();
       });
     });
+  });
+
+  it('should respond to from-thru query', function(done) {
+    request(app)
+    .get('/api/events?from=2014-10-20&thru=2015-01-18')
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end(function(err, res) {
+      if (err) return done(err);
+      res.body.should.be.instanceof(Array);
+      // res.body.length.should.equal(3);
+      done();
+    });
+    
   });
 });

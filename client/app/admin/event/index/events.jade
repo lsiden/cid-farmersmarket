@@ -9,4 +9,19 @@ div(ng-include='"components/navbar.html"')
         span.fa.fa-plus
         | New Event
 
+  form(name="selectDate")
+    .row
+      .col-sm-6
+        .form-group
+          label.col-sm-2(for='fromDate', control-label) From
+          .col-sm-5
+            input#fromDate.form-control(type='date', name='fromDate', ng-model='isoFromDate', required='')
+          p.help-block(ng-show="form.date.$error.date", class="error") Need a valid date.
+      .col-sm-6
+        .form-group
+          label.col-sm-2(for='thruDate', control-label) To
+          .col-sm-5
+            input#thruDate.form-control(type='date', name='thruDate', ng-model='isoThruDate', required='')
+          p.help-block(ng-show="form.date.$error.date", class="error") Need a valid date.
+  
   div.gridStyle(ng-grid='eventGridOptions')

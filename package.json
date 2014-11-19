@@ -30,7 +30,8 @@
     "passport-twitter": "latest",
     "serve-favicon": "~2.0.1",
     "sinon": "^1.11.1",
-    "source-map": "^0.1.40"
+    "source-map": "^0.1.40",
+    "tracer": "^0.7.3"
   },
   "devDependencies": {
     "async": "^0.9.0",

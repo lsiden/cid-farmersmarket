@@ -1,3 +1,7 @@
 .ngGrid .ngViewport {
   height: 100% !important; // https://github.com/angular-ui/ng-grid/issues/80#issuecomment-39466906
 }
+
+form[name="selectDate"] {
+  margin-bottom: 0.3cm;
+}
