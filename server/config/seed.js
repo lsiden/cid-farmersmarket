@@ -6,7 +6,7 @@
 
 'use strict';
 
-require('../../common/date');
+require('../../client/assets/js/date')
 
 var Organization = require('../api/organization/organization.model');
 var VolunteerEvent = require('../api/volunteer_event/volunteer_event.model');

@@ -1,6 +1,6 @@
 'use strict';
 
-require('../../../common/date')
+require('../../../client/assets/js/date')
 
 var should = require('should');
 var app = require('../../app');
