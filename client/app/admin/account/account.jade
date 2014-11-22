@@ -5,7 +5,7 @@ div(ng-include='"components/navbar.html"')
     h1 {{ user.name }}
 
   h2 Track Record
-  {{ trackRecord }}
+  | {{ trackRecord }}
 
   h2 Former Events
   div.gridStyle(ng-grid='eventGridOptions("formerEvents", "desc")')
