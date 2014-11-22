@@ -1,4 +1,5 @@
 // Add some helpers to Date
+'use strict';
 
 Date.prototype.addDays = function(days) {
   this.setDate(this.getDate() + days);
@@ -11,26 +12,26 @@ Date.prototype.addHours = function(hrs) {
 };
 
 var timeFromMin = function(min) {
-  if (min >= 24*60) return undefined;
-  else if (min === 0) return 'midnight';
-  else if (min === 12*60) return 'noon';
+  if (min >= 24*60) { return undefined; }
+  else if (min === 0) { return 'midnight'; }
+  else if (min === 12*60) { return 'noon'; }
 
   var hr = Math.floor(min / 60);
-  var min = min % 60;
-  var xm = hr < 12 ? 'am' : 'pm';
+  var xmin = min % 60;
+  var meridian = hr < 12 ? 'am' : 'pm';
 
   if (hr >= 12) {
     hr -= 12;
   }
 
-  if (min === 0) {
-    return hr + xm;
+  if (xmin === 0) {
+    return hr + meridian;
   }
 
-  if (min < 10) {
-    min = '0' + min;
+  if (xmin < 10) {
+    xmin = '0' + xmin;
   }
-  return hr + ':' + min + ' ' + xm;
+  return hr + ':' + xmin + ' ' + meridian;
 };
 
 Date.prototype.shortTime = function() {
@@ -43,8 +44,8 @@ Date.prototype.toYmd = function() {
   var m = 1 + this.getMonth();
   var d = this.getDay();
 
-  if (m < 10) m = '0' + m
-  if (d < 10) d = '0' + d
+  if (m < 10) { m = '0' + m; }
+  if (d < 10) { d = '0' + d; }
 
   return [y, m, d].join('-');
-}
+};

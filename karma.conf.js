@@ -36,7 +36,7 @@ module.exports = function(config) {
       'client/bower_components/ng-grid/build/ng-grid.js',
       'client/bower_components/fullcalendar/fullcalendar.js',
       'client/bower_components/angular-ui-calendar/src/calendar.js',
-      'client/assets/js/date.js.js',
+      'client/assets/js/date.js',
       'client/app/app.js',
       'client/app/app.coffee',
       'client/app/**/*.js',
