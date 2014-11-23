@@ -21,4 +21,4 @@ div(ng-include='"components/navbar.html"')
             input#thruDate.form-control(type='date', name='thruDate', ng-model='isoThruDate', required='')
           p.help-block(ng-show="form.date.$error.date", class="error") Need a valid date.
   
-  div.gridStyle(ng-grid='eventGridOptions')
+  .gridStyle(ng-grid='eventGridOptions')

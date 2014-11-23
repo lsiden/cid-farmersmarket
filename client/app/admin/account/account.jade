@@ -8,10 +8,10 @@ div(ng-include='"components/navbar.html"')
   | {{ trackRecord }}
 
   h2 Former Events
-  div.gridStyle(ng-grid='eventGridOptions("formerEvents", "desc")')
+  .gridStyle(ng-grid='eventGridOptions("formerEvents", "desc")')
 
   h2 Current and Upcoming Events
-  div.gridStyle(ng-grid='eventGridOptions("currentEvents", "asc")')
+  .gridStyle(ng-grid='eventGridOptions("currentEvents", "asc")')
 
   h2 Profile
 
