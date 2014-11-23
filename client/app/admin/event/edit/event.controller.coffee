@@ -11,6 +11,9 @@ composeDate = (isoDate, time) ->
 
 angular.module 'farmersmarketApp'
 .controller 'AdminEventEditCtrl', ($scope, $state, flash, Modal, Event, Organization, eventService) ->
+  
+  module 'farmersmarketApp.dateDecorator'
+
   $scope.errors = {}
   eventId = $state.params.id
   $scope.organizations = Organization.query() # Used by form selector.
@@ -52,8 +55,6 @@ angular.module 'farmersmarketApp'
         flash.error = headers.message
 
   $scope.deleteEvent = ->
-    if $scope.event._id == 'new' then return
-
     del = ->
       $scope.event.$remove ->
         _.remove $scope.users, $scope.event

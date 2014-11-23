@@ -5,6 +5,8 @@
 angular.module 'farmersmarketApp'
 .controller 'AdminEventsCtrl', ($scope, $state, flash, Event, eventService) ->
 
+  module 'farmersmarketApp.dateDecorator'
+
   $scope.errors = {}
   fromDate = new Date()
   thruDate = new Date()

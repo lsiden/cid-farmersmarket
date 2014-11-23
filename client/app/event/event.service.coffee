@@ -3,7 +3,6 @@
 angular.module 'farmersmarketApp'
 .factory 'eventService', (Auth, $cookieStore, $state, $q, VolunteerEvent, Event, flash) ->
   
-  # Date.prototype.addDays() not available during unit testing.
   today = new Date()
 
   self =
@@ -133,9 +132,9 @@ angular.module 'farmersmarketApp'
         start = new Date(event.start)
         end = new Date(event.end)
         event.date = start.toDateString()
-        event.starts = start.shortTime()
-        event.ends = end.shortTime()
-        event.hours = '' + start.shortTime() + ' to ' + end.shortTime()
+        event.starts = start.toLocaleTimeString('us', {hour: 'numeric', minute: 'numeric'})
+        event.ends = end.toLocaleTimeString('us', {hour: 'numeric', minute: 'numeric'})
+        event.hours = event.starts + ' to ' + event.ends
         event.isoDate = new Date(event.start).toISOString().substr(0, 10)
       event
 
