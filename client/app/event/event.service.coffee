@@ -128,12 +128,15 @@ angular.module 'farmersmarketApp'
 
       event.$promise ||= $q.when(event)
       event.$promise.then (event) ->
+        event.start ||= new Date()
+        event.end ||= new Date()
         start = new Date(event.start)
         end = new Date(event.end)
         event.date = start.toDateString()
         event.starts = start.shortTime()
         event.ends = end.shortTime()
         event.hours = '' + start.shortTime() + ' to ' + end.shortTime()
+        event.isoDate = new Date(event.start).toISOString().substr(0, 10)
       event
 
     visitEvent: (event_id) ->

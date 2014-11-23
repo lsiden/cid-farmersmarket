@@ -5,6 +5,9 @@
 angular.module 'farmersmarketApp'
 .controller 'AdminEventCtrl', ($scope, $state, flash, Event, VolunteerEvent, User, eventService) ->
 
+  $scope.edit = ->
+    $state.go('admin-event-edit', { id: $state.params.id })
+
   recordAttendance = (userId, eventId, attended) ->
     VolunteerEvent.query { volunteer: userId, event: eventId }, (ar_ve) ->
       # Expecing array of only one element

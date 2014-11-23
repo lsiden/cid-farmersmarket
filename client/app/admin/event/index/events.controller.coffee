@@ -3,7 +3,7 @@
 # Controller for /events listing
 
 angular.module 'farmersmarketApp'
-.controller 'AdminEventsCtrl', ($scope, flash, Event, eventService) ->
+.controller 'AdminEventsCtrl', ($scope, $state, flash, Event, eventService) ->
 
   $scope.errors = {}
   fromDate = new Date()
@@ -12,6 +12,10 @@ angular.module 'farmersmarketApp'
   thruDate.addDays(60)
   $scope.isoFromDate = fromDate.toISOString().substr(0, 10)
   $scope.isoThruDate = thruDate.toISOString().substr(0, 10)
+
+  $scope.new = ->
+    Event.save (event) ->
+      $state.go('admin-event-edit', { id: event._id })
 
   registered = (event) ->
     [event.n_volunteers, event.volunteerSlots].join('/')

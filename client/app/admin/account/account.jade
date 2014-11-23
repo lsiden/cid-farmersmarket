@@ -24,7 +24,7 @@ div(ng-include='"components/navbar.html"')
       .col-sm-2.grfm-grid-label Phone
       .col-sm-10 {{ user.phone }}
   
-  form.form(name='form', ng-submit='submit(form)', novalidate, class='form-horizontal')
+  form(role='form', name='form', ng-submit='submit(form)', novalidate='')
 
     .form-group(ng-hide='user.role == "admin"')
       label.col-sm-2(for='userRole', control-label) Role

@@ -1,12 +1,12 @@
 div(ng-include='"components/navbar.html"')
 
-.container(ng-controller='AdminOrganizationsCtrl')
+.container
 
   .title-bar
     h1 Manage Organizations
-    a(ui-sref="admin-organization({ id: 'new'})")
-      button.btn.btn-md.btn-success
-        span.fa.fa-plus
-        | New Organization
+
+    button.btn.btn-default(ng-click="new()")
+      span.fa.fa-plus
+      | New Organization
 
   div(ng-grid='organizationGridOptions')

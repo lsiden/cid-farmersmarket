@@ -55,11 +55,6 @@ table.form-control {
   height: initial;  // needed for angular-bootstrap timepicker
 }
 
-.help-block {
-  @extend .col-sm-offset-2;
-  padding: 0 15px;
-}
-
 .title-bar {
   position: relative;
   top: -20px;
@@ -88,4 +83,38 @@ table.form-control {
   overflow: auto;
   min-height: 300px;  // Without this, the window is a sliver.
   min-width: 500px;   // no effect
+}
+
+form {
+  @extend .form-horizontal;
+
+  .form-group {
+    button {
+      margin-right: 0.3cm;
+    }
+    .checkbox label {
+      font-weight: bold;
+    }
+
+    input.ng-invalid,
+    input.ng-required,
+    input.ng-mask,
+    textarea.ng-invalid {
+      border: thin solid red;
+    }
+
+    label {
+      @extend .col-sm-2;
+    }
+    label + div,
+    label + .form-control {
+      @extend .col-sm-10;
+    }
+  }
+
+  .checkbox,
+  .help-block,
+  .form-group.buttons {
+    @extend .col-sm-offset-2;
+  }
 }

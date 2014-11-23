@@ -14,24 +14,12 @@ angular.module 'farmersmarketApp'
   $scope.errors = {}
   eventId = $state.params.id
   $scope.organizations = Organization.query() # Used by form selector.
-
-  if (eventId && eventId != 'new')
-    $scope.actionTitle = 'Edit'
-    $scope.event = Event.get { id: eventId }, (event) ->
-      $scope.event.isoDate = new Date(event.start).toISOString().substr(0, 10)
-      $scope.event.start = new Date(event.start)
-      $scope.event.end = new Date(event.end)
-      $scope.masterEvent = angular.copy(event)
-    , (headers) ->
-      flash.error = headers.message
-    $scope.masterEvent = angular.copy $scope.event
-  else
-    $scope.actionTitle = 'New'
-    $scope.event = new Event
-    $scope.event.isoDate = (new Date).toISOString().substr(0, 10)
-    $scope.event.start = new Date
-    $scope.event.end = new Date
-    $scope.masterEvent = angular.copy $scope.event
+  $scope.event = Event.get { id: eventId }, (event) ->
+    eventService.decorate event
+    $scope.masterEvent = angular.copy(event)
+  , (headers) ->
+    flash.error = headers.message
+  $scope.masterEvent = angular.copy $scope.event
 
   $scope.isEventChanged = ->
     !angular.equals($scope.event, $scope.masterEvent)
@@ -68,7 +56,7 @@ angular.module 'farmersmarketApp'
 
     del = ->
       $scope.event.$remove ->
-        _.remove $scope.users, ev
+        _.remove $scope.users, $scope.event
         $state.go 'admin-events'
       , (headers) ->
         flash.error = headers.message

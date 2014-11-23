@@ -2,7 +2,13 @@
 
 m = angular.module 'farmersmarketApp'
 
-m.controller 'AdminOrganizationsCtrl', ($scope, flash, Organization) ->
+m.controller 'AdminOrganizationsCtrl', ($scope, $state, flash, Organization) ->
+  
+  $scope.new = ->
+    console.log('new()')
+    Organization.save (org) ->
+      $state.go 'admin-organization', { id: org._id }
+
   $scope.errors = {}
   $scope.organizations = Organization.query()
   $scope.organizationGridOptions = 

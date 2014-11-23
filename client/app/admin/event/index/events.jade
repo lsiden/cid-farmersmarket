@@ -3,10 +3,8 @@ div(ng-include='"components/navbar.html"')
 
   .title-bar
     h1 Manage Events
-    a(ui-sref="admin-event({ id: 'new'})")
-      button.btn.btn-md.btn-success
-        span.fa.fa-plus
-        | New Event
+    button.btn.btn-md.btn-default(ng-click="new()")
+      span.fa.fa-plus &nbsp;New Event
 
   form(name="selectDate")
     .row
