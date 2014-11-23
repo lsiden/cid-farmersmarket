@@ -20,7 +20,7 @@
       "host" : "104.236.47.175",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/cid-farmersmarket.git",
-      "path" : "/home/lsiden/www/app",
+      "path" : "/home/lsiden/webapp",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
     "dev" : {
@@ -28,7 +28,7 @@
       "host" : "104.236.47.175",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/cid-farmersmarket.git",
-      "path" : "/home/lsiden/www/app",
+      "path" : "/home/lsiden/webapp",
       "post-deploy" : "pm2 startOrRestart ecosystem.json --env dev"
     }
   }
