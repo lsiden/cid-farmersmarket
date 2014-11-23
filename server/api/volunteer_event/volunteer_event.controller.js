@@ -34,17 +34,15 @@ exports.show = function(req, res) {
 
 // Creates a new volunteer_event in the DB if one does not already exist.
 exports.create = function(req, res) {
+  var tracer = require('tracer').console({ level: 'warn' });
   VolunteerEvent.findOne(req.body, function(err, volunteer_event) {
     if(err) { return helpers.handleError(res, err); }
     if (volunteer_event) { return res.json(201, volunteer_event); }
-    // console.log(req.body);
+    tracer.log(req.body);
     VolunteerEvent.create(req.body, function(err, volunteer_event) {
       if(err) { return helpers.handleError(res, err); }
-      // console.log(volunteer_event);
+      tracer.log(volunteer_event);
       Event.update( { _id: volunteer_event.event}, { $inc: { n_volunteers: 1} }, function(err, num_affected, raw) {
-        // console.log(err);
-        // console.log(num_affected);
-        // console.log(raw);
         if(err) { return helpers.handleError(res, err); }
       });
       return res.json(201, volunteer_event);
@@ -57,10 +55,13 @@ exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   if(req.body.volunteer) { delete req.body.volunteer; }
   if(req.body.event) { delete req.body.event; }
-  console.log(req.body);
+  // console.log(req.body);
   VolunteerEvent.findById(req.params.id, function (err, volunteer_event) {
     if (err) { return helpers.handleError(res, err); }
     if(!volunteer_event) { return res.send(404); }
+    if (!volunteer_event.volunteer.equals(req.user._id)) {
+      return res.send(403, 'Can update only one\'s own event-volunteer registrations.');
+    }
     var updated = _.merge(volunteer_event, req.body);
     updated.save(function (err) {
       if (err) { return helpers.handleError(res, err); }
@@ -71,9 +72,13 @@ exports.update = function(req, res) {
 
 // Deletes a volunteer_event from the DB.
 exports.destroy = function(req, res) {
+  var tracer = require('tracer').console({ level: 'warn' });
   VolunteerEvent.findById(req.params.id, function (err, volunteer_event) {
     if(err) { return helpers.handleError(res, err); }
     if(!volunteer_event) { return res.send(404); }
+    if (!volunteer_event.volunteer.equals(req.user._id)) {
+      return res.send(403, 'Can delete only one\'s own event-volunteer registrations.');
+    }
     volunteer_event.remove(function(err) {
       if(err) { return helpers.handleError(res, err); }
       Event.update( { _id: volunteer_event.event, $inc: { n_volunteers: -1 }});

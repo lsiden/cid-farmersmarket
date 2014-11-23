@@ -1,9 +1,6 @@
 'use strict';
 
-require('../../../client/assets/js/date.js')
-
 var VolunteerEvent = require('../volunteer_event/volunteer_event.model');
-
 var mongoose = require('mongoose'),
     timestamps = require('mongoose-timestamp'),
     Schema = mongoose.Schema,

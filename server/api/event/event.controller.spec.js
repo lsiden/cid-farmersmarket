@@ -1,7 +1,5 @@
 'use strict';
 
-require('../../../client/assets/js/date.js')
-
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
@@ -11,9 +9,10 @@ var EventSeed = require('./event.seed');
 describe('GET /api/events', function() {
   before(function() {
     Event.find({}).remove(function() {
-      var startDate = (new Date()).addDays(-60);
+      var startDate = new Date();
       startDate.setHours(11);
       startDate.setMinutes(0);
+      startDate =- 60 * 24 * 3600 * 1000; // 60 days ago
       EventSeed.seedEvents(startDate, 4, 12, 7, function() {});
     });
   });

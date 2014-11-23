@@ -6,8 +6,6 @@
 
 'use strict';
 
-require('../../client/assets/js/date.js')
-
 var Organization = require('../api/organization/organization.model');
 var VolunteerEvent = require('../api/volunteer_event/volunteer_event.model');
 var Event = require('../api/event/event.model');
@@ -23,8 +21,17 @@ Organization.collection.dropAllIndexes(function(err, res) {});
 User.find({}).remove(function() {
   User.create({
     provider: 'local',
+    role: 'user',
     name: 'Test User',
     email: 'test@test.com',
+    phone: '555-555-5555',
+    active: true,
+    password: 'test'
+  }, {
+    provider: 'local',
+    role: 'user',
+    name: 'Test User 2',
+    email: 'test2@test.com',
     phone: '555-555-5555',
     active: true,
     password: 'test'
@@ -43,9 +50,10 @@ User.find({}).remove(function() {
 });
 
 Event.find({}).remove(function() {
-  var startDate = (new Date()).addDays(-30);
+  var startDate = new Date()
   startDate.setHours(11);
   startDate.setMinutes(0);
+  startDate -= 30 * 24 * 3600 * 1000; // 30 days ago
   EventSeed.seedEvents(startDate, 4, 12, 7, function() {});
 });
 

@@ -32,8 +32,28 @@ function handleError(res, err) {
 }
 
 function toObjectId(id) { 
-  return Schema.Types.ObjectId(id)
+  return new Schema.Types.ObjectId(id)
 }
+
+// done = function(err, token, results) {}
+exports.withAuthUser = function(user, done) {
+  var app = require('../app');
+  var request = require('supertest');
+  var User = require('./user/user.model');
+  var tracer = require('tracer').console({ level: 'warn' });
+
+  tracer.trace('withAuthUser');
+  tracer.trace(user.email);
+
+  // Authenticate user
+  request(app).post('/auth/local')
+  .send({email: user.email, password: 'test'})
+  .expect(200)
+  .expect('Content-Type', /json/)
+  .end(function(err, res) {
+    done(err, res.body.token, res);
+  });
+};
 
 exports.processQuery = processQuery;
 exports.handleError = handleError;

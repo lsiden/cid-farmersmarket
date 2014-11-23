@@ -6,7 +6,7 @@ var tracer = require('tracer').console({ level: 'info' });
 module.exports.seedEvents = function(start, duration, n, incDays, callback) {
   tracer.info('seeding Events');
   var Organization = require('./../organization/organization.model');
-  var end = _.cloneDeep(start).addHours(duration);
+  var end = new Date(start + duration * 3600 * 1000);  // add hours from start
 
   // Create some test organizations for the events.
   var organizationParams = [];
@@ -42,9 +42,9 @@ module.exports.seedEvents = function(start, duration, n, incDays, callback) {
       for (var i=1 ; i < arguments.length ; ++i) {
         var eventParams_copy = _.cloneDeep(eventParams);
         var dayOfMonth = (new Date(eventParams_copy.start)).getDate();
-        eventParams_copy.start.addDays((i+i) * incDays);
+        eventParams_copy.start += i * incDays * 24 * 3600 * 1000;
         eventParams_copy.end = _.clone(eventParams_copy.start)
-        eventParams_copy.end.addDays(incDays);
+        eventParams_copy.end += incDays * 24 * 3600 * 1000;
         eventParams_copy.name = 'Test Event ' + i;
         eventParams_copy.about = 'About ' + eventParams_copy.name;
         eventParams_copy.organization = orgs[Math.floor(Math.random() * orgs.length)];
