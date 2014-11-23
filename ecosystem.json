@@ -17,7 +17,7 @@
   "deploy" : {
     "prod" : {
       "user" : "lsiden",
-      "host" : "104.131.173.158",
+      "host" : "104.236.47.175",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/cid-farmersmarket.git",
       "path" : "/home/lsiden/www/app",
@@ -25,7 +25,7 @@
     },
     "dev" : {
       "user" : "lsiden",
-      "host" : "104.131.173.158",
+      "host" : "104.236.47.175",
       "ref"  : "origin/master",
       "repo" : "https://github.com/lsiden/cid-farmersmarket.git",
       "path" : "/home/lsiden/www/app",
