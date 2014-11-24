@@ -22,7 +22,8 @@ header#banner.hero-unit
       //- {{ calendarEvents }}
       //- div.ui-calendar(ui-calendar='', ng-model='calendarEvents')
       div.ui-calendar(ui-calendar='calendarConfig', ng-model='calendarEvents', calendar='calendar')
-      div.calendar-buttons
+
+      div.calendar-buttons(ng-show="false")
         button.btn.btn-primary(ng-click='setCalendarView("month")')
           | Month
         button.btn.btn-primary(ng-click='setCalendarView("agendaWeek")')
