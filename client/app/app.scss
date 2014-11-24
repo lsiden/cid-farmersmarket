@@ -118,3 +118,7 @@ form {
     @extend .col-sm-offset-2;
   }
 }
+
+input[type="date"] {
+  width: 10em;
+}
