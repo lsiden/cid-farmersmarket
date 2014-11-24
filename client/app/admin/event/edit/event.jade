@@ -3,10 +3,8 @@ div(ng-include='"components/navbar.html"')
   .title-bar
     h1 Edit Event {{ event.name }}
 
-    div(ng-show='event._id != "new"')
-      button.btn.btn-md.btn-danger(ng-click='deleteEvent()')
-        span.fa.fa-minus
-        | Delete Event
+    button.btn.btn-md.btn-danger(ng-click='deleteEvent()')
+      span.fa.fa-minus &nbsp;Delete Event
   
   form(role='form', name='form', ng-submit='saveEvent(form)', novalidate='')
 

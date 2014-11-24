@@ -1,11 +1,11 @@
 div(ng-include='"components/navbar.html"')
 .container
+  .title-bar
+    h1 {{ event.name }}
+    | {{ event.date }}, {{ event.hours }}
 
-  button.btn.btn-default.float-right(ng-click="edit(event)")
-    span.fa.fa-pencil &nbsp; Edit
-
-  h1 {{ event.name }}
-  | {{ event.date }}, {{ event.hours }}
+    button.btn.btn-default.float-right(ng-click="edit(event)")
+      span.fa.fa-pencil &nbsp;Edit
 
   h2 Contact Info
   ul
