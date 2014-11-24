@@ -12,8 +12,6 @@ composeDate = (isoDate, time) ->
 angular.module 'farmersmarketApp'
 .controller 'AdminEventEditCtrl', ($scope, $state, flash, Modal, Event, Organization, eventService) ->
   
-  module 'farmersmarketApp.dateDecorator'
-
   $scope.errors = {}
   eventId = $state.params.id
   $scope.organizations = Organization.query() # Used by form selector.
@@ -39,7 +37,7 @@ angular.module 'farmersmarketApp'
 
     # Length of event must be between 0 and 24 hours, by caveat.
     if ($scope.event.end < $scope.event.start)
-      $scope.event.end.addDays(1);
+      $scope.event.end += 24 * 3600 * 1000;
 
     if ($scope.event._id)
       $scope.event.$update (data, headers) ->

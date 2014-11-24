@@ -5,13 +5,10 @@
 angular.module 'farmersmarketApp'
 .controller 'AdminEventsCtrl', ($scope, $state, flash, Event, eventService) ->
 
-  module 'farmersmarketApp.dateDecorator'
-
   $scope.errors = {}
-  fromDate = new Date()
-  thruDate = new Date()
-  fromDate.addDays(-30)
-  thruDate.addDays(60)
+  today = new Date()
+  fromDate = new Date(today - 30 * 24 * 3600 * 1000)
+  thruDate = new Date(today + 60 * 24 * 3600 * 1000)
   $scope.isoFromDate = fromDate.toISOString().substr(0, 10)
   $scope.isoThruDate = thruDate.toISOString().substr(0, 10)
 
