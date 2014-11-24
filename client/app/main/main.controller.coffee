@@ -1,5 +1,9 @@
 'use strict'
 
+makeCalendarEventItem = (event) ->
+  title: event.name
+  start: event.start
+
 angular.module 'farmersmarketApp'
 .controller 'MainCtrl', ($scope, $rootScope, Auth, eventService) ->
 
@@ -8,9 +12,6 @@ angular.module 'farmersmarketApp'
   $scope.registeredEvents = eventService.getEventsForUser(Auth.getCurrentUser()._id)
   $scope.events = eventService.currentEvents { active: true }, (events) ->
     eventService.decorate event for event in events
-    makeCalendarEventItem = (event) ->
-      title: event.name
-      start: event.starft
     # see lsiden comment on https://github.com/angular-ui/ui-calendar/issues/71
     $scope.calendarEvents.length = 0
     $scope.calendarEvents.push (makeCalendarEventItem(event) for event in events)
