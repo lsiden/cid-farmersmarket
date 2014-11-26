@@ -1,12 +1,101 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
-@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/variables";
 @import 'font-awesome/scss/font-awesome';
 
 /**
  * App-wide Styles
  */
+
+/*** SPACING ****/
+$spaceSize: 10px;
+
+/*** FONTS ****/
+$fontStack: 'Montserrat', Arial, Sans-Serif;
+$headingFontStack: 'Alegreya Sans SC', Verdana, Sans-Serif;
+
+
+/**** COLORS ****/
+$brown: #726658;
+$orange: #f29753;
+$green: #5b8c34;
+$white: #FFFFFF;
+
+$primaryColor: $brown;
+$brand-primary:         $primaryColor !default;
+$brand-success:         $green !default;
+$brand-warning:         $orange !default;
+
+// Core variables and mixins
+
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/mixins";
+
+// Reset and dependencies
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/normalize";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/print";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/type";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/code";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/grid";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/tables";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/forms";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/buttons";
+
+// Components
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/component-animations";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/dropdowns";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/button-groups";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/input-groups";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/navs";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/navbar";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/breadcrumbs";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/pagination";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/pager";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/labels";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/badges";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/jumbotron";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/thumbnails";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/alerts";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/progress-bars";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/media";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/list-group";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/panels";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/responsive-embed";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/wells";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/close";
+
+// Components w/ JavaScript
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/modals";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/tooltip";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/popovers";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/carousel";
+
+// Utility classes
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/responsive-utilities";
+
+
+
+.organge{
+  color:$orange;
+}
+.green{
+  color:$green;
+}
+
+body{
+  font-family: $fontStack;
+  color:$primaryColor;
+}
+
+ h1, h2, h3, h4, h5{
+  font-family: $headingFontStack;
+  font-weight:800;
+ }
 
 .browsehappy {
     margin: 0.2em 0;
@@ -26,6 +115,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import 'main/main.scss';
 @import 'organization/organization.scss';
 @import 'modal.scss';
+@import 'navbar.scss';
 // endinjector
 
 input.ng-invalid,
