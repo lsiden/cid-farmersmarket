@@ -1,8 +1,6 @@
 $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/variables";
-@import 'font-awesome/scss/font-awesome';
 
 /**
  * App-wide Styles
@@ -17,68 +15,34 @@ $headingFontStack: 'Alegreya Sans SC', Verdana, Sans-Serif;
 
 
 /**** COLORS ****/
+$darkenAmount: 15%;
+
 $brown: #726658;
 $orange: #f29753;
 $green: #5b8c34;
 $white: #FFFFFF;
 
 $primaryColor: $brown;
-$brand-primary:         $primaryColor !default;
-$brand-success:         $green !default;
-$brand-warning:         $orange !default;
-
-// Core variables and mixins
-
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/mixins";
-
-// Reset and dependencies
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/normalize";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/print";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/glyphicons";
-
-// Core CSS
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/scaffolding";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/type";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/code";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/grid";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/tables";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/forms";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/buttons";
-
-// Components
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/component-animations";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/dropdowns";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/button-groups";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/input-groups";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/navs";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/navbar";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/breadcrumbs";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/pagination";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/pager";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/labels";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/badges";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/jumbotron";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/thumbnails";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/alerts";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/progress-bars";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/media";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/list-group";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/panels";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/responsive-embed";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/wells";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/close";
-
-// Components w/ JavaScript
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/modals";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/tooltip";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/popovers";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/carousel";
-
-// Utility classes
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/utilities";
-@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/responsive-utilities";
+$brand-primary:         $primaryColor;
+$brand-success:         $green;
+$brand-warning:         $orange;
 
 
+/*** NAV-BAR ****/
+$navbar-default-color:             $white;
+$navbar-default-bg:                $primaryColor;
+$navbar-default-border:            0px;
+
+$navbar-default-link-color:                $white;
+$navbar-default-link-hover-color:          darken($white,$darkenAmount);
+$navbar-default-link-hover-bg:             transparent;
+$navbar-default-link-active-color:         $white;
+$navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmount) !default;
+
+$navbar-padding-vertical: $spaceSize*2;
+
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/bootstrap";
+@import 'font-awesome/scss/font-awesome';
 
 .organge{
   color:$orange;
