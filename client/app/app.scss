@@ -8,11 +8,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 /*** SPACING ****/
 $spaceSize: 10px;
-
-/*** FONTS ****/
-$fontStack: 'Montserrat', Arial, Sans-Serif;
-$headingFontStack: 'Alegreya Sans SC', Verdana, Sans-Serif;
-
+$grid-gutter-width: $spaceSize*3;
 
 /**** COLORS ****/
 $darkenAmount: 15%;
@@ -22,15 +18,34 @@ $orange: #f29753;
 $green: #5b8c34;
 $white: #FFFFFF;
 
-$primaryColor: $brown;
+$primaryColor: $green;
 $brand-primary:         $primaryColor;
 $brand-success:         $green;
 $brand-warning:         $orange;
 
+$link-color:            $green;
+$link-hover-color:      darken($link-color, $darkenAmount);
+
+/*** FONTS ****/
+$fontStack: 'Montserrat', Arial, Sans-Serif;
+$headingFontStack: 'Alegreya Sans SC', Verdana, Sans-Serif;
+
+$font-family-base: $fontStack;
+
+$headings-font-family: $headingFontStack;
+$headings-font-weight: 800;
+$headings-color: $green;
+
+// Small screen / tablet
+$container-tablet:             ((640px + $grid-gutter-width));
+// Medium screen / desktop
+$container-desktop:            ((900px + $grid-gutter-width));
+// Large screen / wide desktop
+$container-large-desktop:      $container-desktop;
 
 /*** NAV-BAR ****/
 $navbar-default-color:             $white;
-$navbar-default-bg:                $primaryColor;
+$navbar-default-bg:                $brown;
 $navbar-default-border:            0px;
 
 $navbar-default-link-color:                $white;
@@ -51,22 +66,12 @@ $navbar-padding-vertical: $spaceSize*2;
   color:$green;
 }
 
-body{
-  font-family: $fontStack;
-  color:$primaryColor;
-}
-
 #banner{
   height:400px;
   background-image:url("/assets/images/fruitsAndVeggies.jpg");
   background-repeat: repeat-x;
   background-position: center;
 }
-
- h1, h2, h3, h4, h5{
-  font-family: $headingFontStack;
-  font-weight:800;
- }
 
 .browsehappy {
     margin: 0.2em 0;

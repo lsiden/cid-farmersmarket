@@ -2,34 +2,19 @@ div(ng-include='"components/navbar.html"')
 
 header#banner.hero-unit
   .container
-    h1 Welcome to the Grand River Farmer's Market!
+    h1 Grand River Farmers Market
 
 .container#hero
-  .row
-    .col-md-8#hero_image
-      img(src='assets/images/farmers-market-peppers2.jpg', alt='Peppers on display.')
-
-    .col-md-4
-      h1.page-header Three Steps to Happiness
-      ol#_3steps 
-        li Find an event.
-        li Click on "Volunteer" button.
-        li Show up!
+  p We are looking for 
+    span.orange volunteers
+    to help with events at the 
+    span.green Grand River Farmers Market! 
+  ol#_3steps 
+    li Find an event.
+    li Click on "Volunteer" button.
+    li Show up!
 
 .container#content
-  .row
-    .col-sm-4
-      //- {{ calendarEvents }}
-      //- div.ui-calendar(ui-calendar='', ng-model='calendarEvents')
-      div.ui-calendar(ui-calendar='calendarConfig', ng-model='calendarEvents', calendar='calendar')
-
-      div.calendar-buttons(ng-show="false")
-        button.btn.btn-primary(ng-click='setCalendarView("month")')
-          | Month
-        button.btn.btn-primary(ng-click='setCalendarView("agendaWeek")')
-          | Week
-        
-    .col-sm-8
-      h2.title.upcoming Upcoming Events
-      div(ng-repeat='event in events track by $index')
+  h2.title.upcoming Upcoming Events
+  div(ng-repeat='event in events track by $index')
         event-summary(event='event' registeredEvents='registeredEvents')
