@@ -15,8 +15,10 @@ $darkenAmount: 15%;
 
 $brown: #726658;
 $orange: #f29753;
+$yellow: #FFCC66;
 $green: #5b8c34;
 $white: #FFFFFF;
+$light-gray: #E5E3E0;
 
 $primaryColor: $green;
 $brand-primary:         $primaryColor;
@@ -118,7 +120,7 @@ $navbar-padding-vertical: $spaceSize*2;
 @import 'admin/account/account.scss';
 @import 'admin/event/event.scss';
 @import 'admin/organization/organization.scss';
-@import 'event/index/events.scss';
+@import 'event/events.scss';
 @import 'main/main.scss';
 @import 'organization/organization.scss';
 @import 'modal.scss';
@@ -141,10 +143,6 @@ div[flash-alert].in {
 
 .float-right {
   float: right;
-}
-
-.event-summary > .row {
-  border: thin solid black;
 }
 
 table.form-control {

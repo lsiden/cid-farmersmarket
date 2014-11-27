@@ -1,21 +1,21 @@
 //- {{ event }}
 .event-summary
-  .row
-    .col-sm-4.first
+  .row.event.event-short
+    .col-sm-2.date
+      .row
+        | {{event.date }}
+      .row
+        | {{ event.hours }}
+
+    .col-sm-7
       .row
         a(ui-sref="event({id: event._id})") {{event.name}}
       .row
         a(ui-sref="organization({id: event.organization._id})") {{event.organization.name}}
       .row
-        | Need {{ event.volunteerSlots }} volunteers.
-    .col-sm-4
-      .row
-        | {{event.date }}
-      .row
-        | {{ event.hours }}
-      .row
-        | {{ event.n_volunteers|decorateNumVolunteers }} signed up.
-    .col-sm-4
+        {{ event.n_volunteers|decorateNumVolunteers }} signed up.
+        Need {{ event.volunteerSlots }} volunteers.
+    .col-sm-3
       button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
         span.fa.fa-plus
         | More About this Event
