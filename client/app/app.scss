@@ -66,11 +66,42 @@ $navbar-padding-vertical: $spaceSize*2;
   color:$green;
 }
 
+.icon{
+  overflow:hidden;
+  text-indent: -3000px;
+  height:$spaceSize;
+  width:$spaceSize;
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  padding:0px;
+  margin:0px;
+}
+
+.logo{
+  @extend .icon;
+  height:60px;
+  background-image:url("/assets/images/farmersMarketLogoSprite.png");
+  background-repeat: no-repeat;
+  background-position: 100px 100px;
+}
+
+.logo-large{
+  @extend .logo;
+  height:360px;
+  width:445px;
+  background-position: -34px -54px;
+  margin:$spaceSize auto;
+}
+
 #banner{
-  height:400px;
+  height:auto;
   background-image:url("/assets/images/fruitsAndVeggies.jpg");
   background-repeat: repeat-x;
   background-position: center;
+  padding:0px;
+  .container{
+    min-height:5px;
+  }
 }
 
 .browsehappy {
