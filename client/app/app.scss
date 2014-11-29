@@ -29,6 +29,8 @@ $link-color:            $green;
 $link-hover-color:      darken($link-color, $darkenAmount);
 
 /*** FONTS ****/
+$font-size-base:          16px;
+
 $fontStack: 'Montserrat', Arial, Sans-Serif;
 $headingFontStack: 'Alegreya Sans SC', Verdana, Sans-Serif;
 
@@ -45,6 +47,11 @@ $container-desktop:            ((900px + $grid-gutter-width));
 // Large screen / wide desktop
 $container-large-desktop:      $container-desktop;
 
+/**** BUTTONS ****/
+$btn-default-bg: $yellow;
+$btn-default-color: $white;
+
+
 /*** NAV-BAR ****/
 $navbar-default-color:             $white;
 $navbar-default-bg:                $brown;
@@ -60,6 +67,10 @@ $navbar-padding-vertical: $spaceSize*2;
 
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/bootstrap";
 @import 'font-awesome/scss/font-awesome';
+
+.btn{
+  border-width:0px !important;
+}
 
 .organge{
   color:$orange;

@@ -1,27 +1,28 @@
 .event-summary
   .row.event.event-short
     .col-sm-2.date
-      .row.year
+      .year
         | {{event.start | date:'yyyy' }}
-      .row.month
+      .month
         | {{ event.start | date:'MMM' }}
-      .row.day
+      .day
         | {{event.start | date:'dd' }}
     .col-sm-7
-      .row
+      h3
         a(ui-sref="event({id: event._id})") {{event.name}}
-      .row
-        a(ui-sref="organization({id: event.organization._id})") {{event.organization.name}}
-      .row
-        {{ event.n_volunteers|decorateNumVolunteers }} signed up.
-        Need {{ event.volunteerSlots }} volunteers.
+      a(ui-sref="organization({id: event.organization._id})") {{event.organization.name}}
+      p
+        Need {{ event.volunteerSlots - event.n_volunteers }} volunteers.
     .col-sm-3
-      button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
-        span.fa.fa-plus
-        | More About this Event
-      div(ng-hide="registeredEvents[event._id]")
-        button.btn.btn-primary.volunteer(ng-repeat='x in [1]' ng-click="registerVolunteer(event._id)")
-          span.fa.fa-plus
-          | Volunteer for this Event
-      div(ng-show="registeredEvents[event._id]")
-        p.you-volunteered You volunteered for this event.
+      button.btn.btn-block.btn-default(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
+        | Learn More
+      div(ng-if="event.volunteerSlots - event.n_volunteers > 0 && !registeredEvents[event._id]")
+        button.btn.btn-block.btn-primary(ng-repeat='x in [1]' ng-click="registerVolunteer(event._id)")
+          | Volunteer
+      div(ng-if="event.volunteerSlots - event.n_volunteers <= 0 && !registeredEvents[event._id]")
+        button.btn.btn-block.btn-disabled.btn-primary(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
+          | Volunteer
+      div(ng-if="registeredEvents[event._id]")
+        button.btn.btn-block.btn-disabled.btn-primary(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
+          | You Volunteered
+
