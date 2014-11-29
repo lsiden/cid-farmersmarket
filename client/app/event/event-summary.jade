@@ -1,12 +1,12 @@
-//- {{ event }}
 .event-summary
   .row.event.event-short
     .col-sm-2.date
-      .row
-        | {{event.date }}
-      .row
-        | {{ event.hours }}
-
+      .row.year
+        | {{event.start | date:'yyyy' }}
+      .row.month
+        | {{ event.start | date:'MMM' }}
+      .row.day
+        | {{event.start | date:'dd' }}
     .col-sm-7
       .row
         a(ui-sref="event({id: event._id})") {{event.name}}
