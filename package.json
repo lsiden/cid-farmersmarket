@@ -20,6 +20,7 @@
     "karma-sinon": "^1.0.3",
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
+    "minimist": "^1.1.0",
     "mongoose": "~3.8.8",
     "mongoose-timestamp": "^0.3.0",
     "morgan": "~1.0.0",
@@ -28,10 +29,12 @@
     "passport-google-oauth": "latest",
     "passport-local": "~0.1.6",
     "passport-twitter": "latest",
+    "password-generator": "^0.2.3",
     "serve-favicon": "~2.0.1",
     "sinon": "^1.11.1",
     "source-map": "^0.1.40",
-    "tracer": "^0.7.3"
+    "tracer": "^0.7.3",
+    "validator": "^3.22.1"
   },
   "devDependencies": {
     "async": "^0.9.0",

@@ -446,7 +446,7 @@ module.exports = function (grunt) {
         'coffee',
         'jade',
         'sass',
-        'imagemin',
+        // 'imagemin',
         'svgmin'
       ]
     },
