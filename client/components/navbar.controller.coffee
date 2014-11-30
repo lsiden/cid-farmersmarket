@@ -3,7 +3,6 @@
 angular.module 'farmersmarketApp'
 .controller 'NavbarCtrl', ($scope, $location, $modal, $state, flash, Auth, User) ->
   $scope.menu = [
-    { title: 'Home', link: '/'}
     { title: 'Calendar', link: '/calendar' }
     { title: 'About', link: '/about' }
     { title: 'Contact', link: '/contact' }
