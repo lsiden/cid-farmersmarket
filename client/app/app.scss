@@ -109,13 +109,17 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
   width:445px;
   background-position: -33px -35px;
   margin:$spaceSize auto;
+  clear:both;
 }
 
 #banner{
+  clear:both;
   height:auto;
+  background-color: $yellow;
   background-image:url("/assets/images/fruitsAndVeggies.jpg");
   background-repeat: repeat-x;
   background-position: center;
+  margin:0px;
   padding:0px;
   .container{
     min-height:5px;
