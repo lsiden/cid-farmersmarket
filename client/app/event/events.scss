@@ -6,4 +6,31 @@
 	background-color: $light-gray;
 	border: 0px;
 	margin:$spaceSize 0px;
+	padding:$spaceSize 0px;
+	position:reltive;
+	.title, h3{
+		margin:0px 0px;
+	}
+	.btn{
+		margin-bottom:$spaceSize;
+	}
+	.content{
+		margin-left:50px;
+	}
+	.date{
+		display:block;
+		position:absolute;
+		top:0px;
+		left:$spaceSize;
+		height:45px;
+		float:left;
+		line-height:1.1em;
+		text-align:center;
+		font-weight:600;
+	}
+	.day{
+		font-size: $font-size-large;
+		line-height:1.1em;
+		font-weight:200;
+	}
 }

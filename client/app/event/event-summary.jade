@@ -1,18 +1,16 @@
 .event-summary
   .row.event.event-short
-    .col-sm-2.date
-      .year
-        | {{event.start | date:'yyyy' }}
-      .month
-        | {{ event.start | date:'MMM' }}
-      .day
-        | {{event.start | date:'dd' }}
-    .col-sm-7
-      h3
-        a(ui-sref="event({id: event._id})") {{event.name}}
-      a(ui-sref="organization({id: event.organization._id})") {{event.organization.name}}
-      p
-        Need {{ event.volunteerSlots - event.n_volunteers }} volunteers.
+    .col-sm-9
+      .date
+        .year {{event.start | date:'yyyy' }}
+        .month {{ event.start | date:'MMM' }}
+        .day {{event.start | date:'dd' }}
+      .content
+        h3
+          a(ui-sref="event({id: event._id})") {{event.name}}
+        a(ui-sref="organization({id: event.organization._id})") {{event.organization.name}}
+        p
+          Need {{ event.volunteerSlots - event.n_volunteers }} volunteers.
     .col-sm-3
       button.btn.btn-block.btn-default(ng-repeat='x in [1]' ng-click="visitEvent(event._id)")
         | Learn More

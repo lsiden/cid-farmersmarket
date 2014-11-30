@@ -29,7 +29,8 @@ $link-color:            $green;
 $link-hover-color:      darken($link-color, $darkenAmount);
 
 /*** FONTS ****/
-$font-size-base:          16px;
+$font-size-base: 16px;
+$font-size-large: $font-size-base*1.75;
 
 $fontStack: 'Open Sans', Arial, Sans-Serif;
 $headingFontStack: 'Alegreya Sans SC', Verdana, Sans-Serif;
@@ -71,6 +72,7 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
 
 .btn{
   border-width:0px !important;
+  text-transform: uppercase;
 }
 
 .organge{
