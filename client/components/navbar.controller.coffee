@@ -6,6 +6,7 @@ angular.module 'farmersmarketApp'
     { title: 'Home', link: '/'}
     { title: 'Calendar', link: '/calendar' }
     { title: 'About', link: '/about' }
+    { title: 'Contact', link: '/contact' }
   ]
   $scope.isCollapsed = true
   $scope.isLoggedIn = Auth.isLoggedIn
