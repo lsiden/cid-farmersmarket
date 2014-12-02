@@ -7,8 +7,8 @@ angular.module 'farmersmarketApp'
 
   $scope.errors = {}
   today = new Date()
-  fromDate = new Date(today - 30 * 24 * 3600 * 1000)
-  thruDate = new Date(today + 60 * 24 * 3600 * 1000)
+  fromDate = new Date(today.getTime() - 30 * 24 * 3600 * 1000)
+  thruDate = new Date(today.getTime() + 60 * 24 * 3600 * 1000)
   $scope.isoFromDate = fromDate.toISOString().substr(0, 10)
   $scope.isoThruDate = thruDate.toISOString().substr(0, 10)
 
