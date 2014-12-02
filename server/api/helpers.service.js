@@ -15,6 +15,7 @@ var mongoose = require('mongoose'),
 
 function processQuery(_query) {
   var query = _.cloneDeep(_query);
+  var tracer = require('tracer').console({ level: 'info' });
   tracer.debug(query);
   for (var key in query) {
     if (_.isArray(query[key])) {
