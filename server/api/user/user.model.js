@@ -13,7 +13,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  active: Boolean,
+  active: { type: Boolean, default: true },
   hashedPassword: String,
   provider: String,
   salt: String,
