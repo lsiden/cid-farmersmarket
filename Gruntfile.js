@@ -374,7 +374,6 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'assets/images/{,*/}*.{webp}',
             'assets/fonts/**/*',
-            'assets/js/**/*',
             'index.html'
           ]
         }, {
@@ -446,7 +445,7 @@ module.exports = function (grunt) {
         'coffee',
         'jade',
         'sass',
-        // 'imagemin',
+        'imagemin',
         'svgmin'
       ]
     },
@@ -720,7 +719,7 @@ module.exports = function (grunt) {
     'copy:dist',
     'cdnify',
     'cssmin',
-    // 'uglify',
+    'uglify',
     'rev',
     'usemin'
   ]);
@@ -730,23 +729,4 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
-
-  copy: {
-      dist: {
-          files: [{
-              expand: true,
-              dest: '<%= yeoman.dist %>',
-              cwd: 'heroku',
-              src: '*',
-              rename: function (dest, src) {
-                  var path = require('path');
-                  if (src === 'distpackage.json') {
-                      return path.join(dest, 'package.json');
-                  }
-                  return path.join(dest, src);
-              }
-          }]
-      }
-  }
-
 };
