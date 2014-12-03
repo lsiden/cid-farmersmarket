@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.factory 'eventService', (Auth, $cookieStore, $state, $q, VolunteerEvent, Event, flash) ->
+.factory 'eventService', (Auth, $cookieStore, $state, $q, Modal, VolunteerEvent, Event, flash) ->
   
   today = new Date()
 
@@ -136,16 +136,28 @@ angular.module 'farmersmarketApp'
         event.ends = end.toLocaleTimeString('us', {hour: 'numeric', minute: 'numeric'})
         event.hours = event.starts + ' to ' + event.ends
         event.isoDate = new Date(event.start).toISOString().substr(0, 10)
+        event.dateAndTime = event.date + ', ' + event.hours
+        event.registered = [event.n_volunteers || 0, event.volunteerSlots].join('/')
       event
 
     visitEvent: (event_id) ->
       $state.go('event', { id: event_id })
 
-
     sortByDate: (_a, _b) ->
-      a = new Date(_a)
-      b = new Date(_b)
+      a = new Date(_a.substr(0, _a.indexOf(',')))
+      b = new Date(_b.substr(0, _b.indexOf(',')))
       
       if a < b then return -1
       if a > b then return 1
       return 0
+
+    deleteEvent: (event, cb) ->
+      del = ->
+        event.$remove ->
+          flash.success = 'Removed event.'
+          cb? true
+        , (headers) ->
+          flash.error = headers.message
+          cb? false
+
+      Modal.confirm.delete(del) event.name
