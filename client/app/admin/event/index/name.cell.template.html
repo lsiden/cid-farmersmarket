@@ -1,5 +1,7 @@
 <div class="ngCellText" ng-class="col.colIndex()">
   <span ng-cell-text>
-    <a ui-sref="admin-event({ id: row.getProperty('_id') })">
+    <a ui-sref="event({ id: row.getProperty('_id') })">
       {{ row.getProperty("name") }}
-</a></span></div>
+    </a>
+  </span>
+</div>

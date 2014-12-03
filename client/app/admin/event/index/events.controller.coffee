@@ -16,8 +16,7 @@ angular.module 'farmersmarketApp'
     Event.save (event) ->
       $state.go('admin-event-edit', { id: event._id })
 
-  registered = (event) ->
-    [event.n_volunteers, event.volunteerSlots].join('/')
+  $scope.deleteEvent = eventService.deleteEvent
 
   fetchEvents = ->
     eventQuery =
@@ -27,7 +26,6 @@ angular.module 'farmersmarketApp'
 
     $scope.events = Event.query eventQuery, (events) ->
       eventService.decorate event for event in events
-      event.registered = registered(event) for event in events
     , (headers) ->
       flash.error = headers.message
 
@@ -45,8 +43,7 @@ angular.module 'farmersmarketApp'
     enableCellSelection: false
     sortInfo: { fields: ['date'], directions: ['asc'] }
     columnDefs: [
-      { field: 'date', displayName: 'Date', sortable: true, sortFn: eventService.sortByDate }
-      { field: 'hours', displayName: 'Hours', sortable: false }
+      { field: 'dateAndTime', displayName: 'Date and Time', sortable: true, sortFn: eventService.sortByDate, width: '325' }
       {
         field: 'name'
         displayName: 'Name'
@@ -60,6 +57,17 @@ angular.module 'farmersmarketApp'
         cellTemplate: 'app/admin/event/index/organization_name.cell.template.html'
         sortable: true
       }
-      { field: 'registered', displayName: 'Filled/Places', sortable: false }
-      { field: 'active', displayName: 'Active', sortable: false }
+      { field: 'registered', displayName: 'Slots', sortable: false, width: 75 }
+      { 
+        field: 'actions'
+        displayName: 'Actions'
+        cellTemplate: 'app/admin/event/index/actions.cell.template.html'
+        sortable: false
+        width: 75
+      }
     ]
+
+  $scope.deleteEvent = (event) ->
+    eventService.deleteEvent event, (deleted) ->
+      if (deleted)
+        _.remove $scope.events, event

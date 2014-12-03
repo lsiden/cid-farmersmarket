@@ -10,7 +10,7 @@ composeDate = (isoDate, time) ->
   date
 
 angular.module 'farmersmarketApp'
-.controller 'AdminEventEditCtrl', ($scope, $state, flash, Modal, Event, Organization, eventService) ->
+.controller 'AdminEventEditCtrl', ($scope, $state, flash, Event, Organization, eventService) ->
   
   $scope.errors = {}
   eventId = $state.params.id
@@ -53,11 +53,6 @@ angular.module 'farmersmarketApp'
         flash.error = headers.message
 
   $scope.deleteEvent = ->
-    del = ->
-      $scope.event.$remove ->
-        _.remove $scope.users, $scope.event
+    eventService.deleteEvent $scope.event, (deleted) ->
+      if deleted
         $state.go 'admin-events'
-      , (headers) ->
-        flash.error = headers.message
-    
-    Modal.confirm.delete(del) $scope.event.name
