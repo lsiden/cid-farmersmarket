@@ -117,8 +117,15 @@ $navbar-default-link-active-bg:            darken($navbar-default-bg, $darkenAmo
 }
 
 @media (max-width: 360px) {
-  .logo {
+  .logo-large {
     background-position: -75px -45px !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 472px) {
+  .logo-large {
+    width: 100% !important;
   }
 }
 
