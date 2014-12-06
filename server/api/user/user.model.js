@@ -3,25 +3,28 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
-var authTypes = ['github', 'twitter', 'facebook', 'google'];
+// var authTypes = ['github', 'twitter', 'facebook', 'google'];
+var authTypes = ['facebook'];
 
 var UserSchema = new Schema({
+  provider: String,
   name: String,
-  email: { type: String, lowercase: true, index: { unique: true } },
-  phone: { type: String },
+  email: { type: String, lowercase: true },
   role: {
     type: String,
     default: 'user'
   },
-  active: { type: Boolean, default: true },
+  active: Boolean,
   hashedPassword: String,
-  provider: String,
-  salt: String,
   facebook: {},
-  twitter: {},
-  google: {},
-  github: {}
+  // twitter: {},
+  // github: {}
+  // google: {},
+  salt: String
 });
+
+var timestamps = require('mongoose-timestamp')
+UserSchema.plugin(timestamps);
 
 /**
  * Virtuals
@@ -36,17 +39,7 @@ UserSchema
   .get(function() {
     return this._password;
   });
-/*
-// Public profile information
-UserSchema
-  .virtual('profile')
-  .get(function() {
-    return {
-      'name': this.name,
-      'role': this.role
-    };
-  });
-*/
+
 // Non-sensitive info we'll be putting in the token
 UserSchema
   .virtual('token')
@@ -81,16 +74,14 @@ UserSchema
 UserSchema
   .path('email')
   .validate(function(value, respond) {
+    var tracer = require('tracer').console({ level: 'warn' });
     var self = this;
     this.constructor.findOne({email: value}, function(err, user) {
       if(err) throw err;
-      if(user) {
-        if(self.id === user.id) return respond(true);
-        return respond(false);
-      }
-      respond(true);
+      if (user) {tracer.log(user);}
+      respond(!user || self.id === user.id);
     });
-}, 'The specified email address is already in use.');
+  }, 'The specified email address is already in use.');
 
 var validatePresenceOf = function(value) {
   return value && value.length;

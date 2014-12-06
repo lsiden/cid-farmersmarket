@@ -14,6 +14,11 @@ angular.module 'farmersmarketApp'
       method: 'PUT'
       params:
         controller: 'password'
+      
+    resetPassword:
+      method: 'PUT'
+      params:
+        controller: 'reset'
 
     update:
       method: 'PUT'

@@ -14,7 +14,7 @@ angular.module 'farmersmarketApp'
     controller: 'SignupCtrl'
 
   .state 'settings',
-    url: '/settings'
+    url: '/settings?resetKey'
     templateUrl: 'app/account/settings/settings.html'
     controller: 'ContactInfoCtrl'
     authenticate: true

@@ -1,11 +1,12 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'ContactInfoCtrl', ($scope, $http, User) ->
+.controller 'ContactInfoCtrl', ($scope, $state, $http, User) ->
   $scope.submitted = false
   $scope.errors = {}
   $scope.contactInfo = {}
   $scope.masterContactInfo = {}
+  $scope.isReset = !!$state.params.resetKey
 
   # ng-pattern won't work together with ui-mask and isn't needed.
   #$scope.phonePat = /^\(\d{3}\) \d{3}-\d{4}$/
@@ -62,38 +63,46 @@ angular.module 'farmersmarketApp'
 ###
 
 angular.module 'farmersmarketApp'
-.controller 'ChangePasswordCtrl', ['$scope', '$http', 'Auth', ($scope, $http, Auth) ->
+.controller 'ChangePasswordCtrl', ($scope, $state, $http, Auth) ->
+  $scope.submitted = false
   $scope.errors = {}
+  $scope.isReset = !!$state.params.resetKey
   $scope.pw = {}
 
   $scope.changePassword = (form) ->
     $scope.submitted = true
+
     return unless form.$valid
 
-    Auth.changePassword $scope.pw.oldPassword, $scope.pw.newPassword
-    .then ->
-      $scope.message = 'Password successfully changed.'
+    if $state.params.resetKey
+      Auth.resetPassword $state.params.resetKey, $scope.newPassword
+      .then ->
+        $scope.message = 'Password successfully reset.'
+        $state.go('main')
 
-    .catch ->
-      form.password.$setValidity 'mongoose', false
-      $scope.errors.other = 'Incorrect password'
-      $scope.message = ''
+      .catch ->
+        form.password.$setValidity 'mongoose', false
+        $scope.errors.other = 'An error occured.'
+        $scope.message = ''
+    else
+      Auth.changePassword $scope.pw.oldPassword, $scope.pw.newPassword
+      .then ->
+        $scope.message = 'Password successfully changed.'
+        $state.go('main')
+
+      .catch ->
+        form.password.$setValidity 'mongoose', false
+        $scope.errors.other = 'Incorrect password'
+        $scope.message = ''
 
   $scope.clearPassword = (form) ->
     $scope.pw.oldPassword = ''
     $scope.pw.newPassword = ''
-    $scope.pw.retypePassword = ''
     form.$setPristine()
-    form.$setValid()
-  ]
+    form.$setValidity(true)
 
 .directive 'matchPassword', ->
-  {
-    require: 'ngModel'
-    restrict: 'A'
-    controller: 'ChangePasswordCtrl'
-    link: (scope, el, attrs, model) ->
-      if model.$validators
-        model.$validators.matchPassword = (modelValue, viewValue) ->
-          modelValue == scope.pw.newPassword
-  }
+  require: 'ngModel'
+  link: (scope, el, attrs, model) ->
+    model.$parsers.push (viewValue) ->
+      model.$setValidity 'matchPassword', (viewValue == scope.pw.newPassword)

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.factory 'Modal', ($rootScope, $modal) ->
+.factory 'Modal', [ '$rootScope', '$modal', ($rootScope, $modal) ->
   
   ###
   Opens a modal
@@ -69,3 +69,4 @@ angular.module 'farmersmarketApp'
           return
 
         return
+]

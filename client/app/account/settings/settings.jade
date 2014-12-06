@@ -1,4 +1,4 @@
-div(ng-include='"components/navbar.html"')
+div(ng-include='"components/navbar/navbar.html"')
 .container
   h1 Change Contact Info
 
@@ -32,25 +32,22 @@ div(ng-include='"components/navbar.html"')
 
   h1 Change Password
   
-  form(name='passwordForm', ng-submit='changePassword(passwordForm)', ng-controller='ChangePasswordCtrl', novalidate='')
-    .form-group
+  form(role='form', name='passwordForm', ng-submit='changePassword(passwordForm)', ng-controller='ChangePasswordCtrl', novalidate='')
+    .form-group(ng-hide="isReset")
       label Current Password
-      input.form-control(type='password', name='password', ng-model='pw.oldPassword', required='', mongoose-error)
-      
+      input.form-control(type='password', name='password', ng-model='pw.oldPassword', ng-required='!isReset', mongoose-error)
       p.help-block(ng-show='passwordForm.password.$error.mongoose')
         | {{ errors.other }}
 
     .form-group
       label New Password
       input.form-control(type='password', name='newPassword', ng-model='pw.newPassword', ng-minlength='8', required='')
-
       p.help-block(ng-show='(passwordForm.newPassword.$error.minlength || passwordForm.newPassword.$error.required) && (passwordForm.newPassword.$dirty || submitted)')
         | Password must be at least 8 characters.
 
     .form-group
       label Re-type Password
       input.form-control(type='password', name='retypePassword', ng-model='pw.retypePassword', required='', match-password='')
-
       p.help-block(ng-show='passwordForm.retypePassword.$error.matchPassword' )
         | Passwords do not match.
 
@@ -59,3 +56,10 @@ div(ng-include='"components/navbar.html"')
     .form-group.buttons
       button.btn.btn-sm.btn-success(ng-click='clearPassword(passwordForm)', ng-disabled="passwordForm.$pristine") Clear
       button.btn.btn-sm.btn-danger(type='submit', ng-disabled="passwordForm.$invalid") Change Password
+
+    //- br
+    //- | passwordForm={{ passwordForm }}
+    //- br
+    //- | passwordForm.$invalid={{ passwordForm.$invalid }}
+    //- br
+    //- | pw={{ pw }}

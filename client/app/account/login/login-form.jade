@@ -12,11 +12,11 @@ form(role='form', name='form', ng-submit='login(form)', novalidate='')
     p.help-block {{ errors.other }}
 
   div
-    button.btn.btn-inverse.btn-lg.btn-login(type='submit')
-      | Login
+    button.btn.btn-inverse.btn-lg.btn-login(type='submit') Login
     = ' '
-    a.btn.btn-default.btn-lg.btn-register(href='/signup')
-      | Register
+    a.btn.btn-default.btn-lg.btn-register(href='/signup') Register
+    = ' '
+    button.btn.btn-info.btn-lg.btn-resetPw(type='button', ng-click="resetPw()") Reset Password
 
   //- hr
 

@@ -1,9 +1,11 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'LoginCtrl', ($scope, Auth, $window, $state, flash, eventService, VolunteerEvent) ->
+.controller 'LoginCtrl', ($scope, Auth, $window, $state, flash, eventService, ResetPwService, VolunteerEvent) ->
   $scope.user = {}
   $scope.errors = {}
+  $scope.resetPw = ResetPwService.resetPw
+  
   $scope.login = (form) ->
     $scope.submitted = true
     return unless form.$valid

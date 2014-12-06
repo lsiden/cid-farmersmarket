@@ -6,6 +6,7 @@ dist/
 .idea/
 .tags
 *.sublime-*
+*.tar
 
 # Used by pm2 ecosystem.json script
 .deploys
