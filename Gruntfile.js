@@ -26,6 +26,15 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    shell: {
+      tar_dist: {
+        command: 'tar cjf dist.tar -C dist/ .'
+      },
+      tar_node_modules: {
+        command: 'tar cjf node_modules.tar -C node_modules/ .'
+      }
+    },
+
     // Project settings
     pkg: grunt.file.readJSON('package.json'),
     yeoman: {
@@ -721,7 +730,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'shell:tar_dist'
   ]);
 
   grunt.registerTask('default', [
