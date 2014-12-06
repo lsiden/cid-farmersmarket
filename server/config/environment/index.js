@@ -13,6 +13,8 @@ function requiredProcessEnv(name) {
 // All configurations will extend these options
 // ============================================
 var all = {
+  title: "Grand River Farmers' Market",
+  
   env: process.env.NODE_ENV,
 
   // Root path of server
