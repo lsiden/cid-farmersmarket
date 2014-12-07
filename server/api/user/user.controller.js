@@ -25,7 +25,7 @@ var sendResetCompletedMessage = function(req, res, user, done) {
     email: user.email
   }];
   tracer.debug(html);
-  mandrillSvc.send(to, 'your password', html, done);
+  mandrillSvc.send(to, [], 'your password', html, done);
 };
 
 var validationError = function(res, err) {

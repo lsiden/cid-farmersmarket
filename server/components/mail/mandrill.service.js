@@ -7,7 +7,7 @@ var _ = require('lodash');
 var mandrill_api = require('mandrill-api/mandrill')
 var mandrill = new mandrill_api.Mandrill(process.env.MANDRILL_API_KEY);
 
-exports.send = function(to, subj, html, done) {
+exports.send = function(to, cc, subj, html, done) {
   var tracer = require('tracer').console({ level: 'info' });
   tracer.info('sending mail');
   tracer.info(to);
@@ -15,6 +15,7 @@ exports.send = function(to, subj, html, done) {
   var params = {
     message: {
       to: to,
+      cc: cc,
       subject: subj,
       html: html,
       from_email: exports.fromEmail(),
