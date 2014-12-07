@@ -1,13 +1,5 @@
 'use strict';
 
-// var mongoose = require('mongoose');
-// var passport = require('passport');
-// var config = require('../config/environment');
-// var jwt = require('jsonwebtoken');
-// var expressJwt = require('express-jwt');
-// var compose = require('composable-middleware');
-// var User = require('../api/user/user.model');
-// var validateJwt = expressJwt({ secret: config.secrets.session });
 var _ = require('lodash')
 var tracer = require('tracer').console({ level: 'info' });
 var mongoose = require('mongoose'),
@@ -35,11 +27,9 @@ function toObjectId(id) {
   return new Schema.Types.ObjectId(id)
 }
 
-// done = function(err, token, results) {}
 exports.withAuthUser = function(user, done) {
   var app = require('../app');
   var request = require('supertest');
-  var User = require('./user/user.model');
   var tracer = require('tracer').console({ level: 'warn' });
 
   tracer.trace('withAuthUser');
@@ -47,10 +37,12 @@ exports.withAuthUser = function(user, done) {
 
   // Authenticate user
   request(app).post('/auth/local')
-  .send({email: user.email, password: 'test'})
+  .send({email: user.email, password: user.password})
   .expect(200)
   .expect('Content-Type', /json/)
   .end(function(err, res) {
+    // var tracer = require('tracer').console({ level: 'debug' });
+    // tracer.debug(res.body);
     done(err, res.body.token, res);
   });
 };

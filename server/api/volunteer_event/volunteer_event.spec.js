@@ -1,5 +1,6 @@
 'use strict';
 
+var tracer = require('tracer').console({ level: 'info' });
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
@@ -25,7 +26,6 @@ var createUsers = function(n, done) {
     if (err) { return done(err); }
     User.create(userParams, function(err) {
       if (err) { return done(err); }
-      var tracer = require('tracer').console({ level: 'warn' });
       tracer.debug(arguments);
       done(err, Array.prototype.slice.call(arguments, 1));
     });
@@ -51,7 +51,7 @@ var createEvents = function(n, done) {
   });
 };
 
-describe('GET /api/volunteer_events', function() {
+describe('/api/volunteer_events', function(done) {
 
   var users = [];
   var events = [];
@@ -63,7 +63,6 @@ describe('GET /api/volunteer_events', function() {
       function(cb) { createUsers(3, cb); },
       function(cb) { createEvents(3, cb); }
       ], function(err, results) {
-        var tracer = require('tracer').console({ level: 'warn' });
         tracer.debug(results);
         users = results[0];
         events = results[1];
@@ -77,7 +76,6 @@ describe('GET /api/volunteer_events', function() {
             event: events[0]._id
           }, function(err, res) {
             if (err) return done(err);
-            var tracer = require('tracer').console({ level: 'warn' });
             volunteerEvents = [ res ];
             tracer.debug(users);
             tracer.debug(volunteerEvents);
@@ -110,7 +108,6 @@ describe('GET /api/volunteer_events', function() {
   });
 
   it("volunteer cannot unregister from event he isn't registered for", function(done) {
-    var tracer = require('tracer').console({ level: 'warn' });
     helpers.withAuthUser(users[1], function(err, token, results) {
       request(app).delete('/api/volunteer_events/' + volunteerEvents[0]._id)
       // see https://github.com/DaftMonk/generator-angular-fullstack/issues/494#issuecomment-53716281

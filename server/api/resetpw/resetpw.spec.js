@@ -5,54 +5,43 @@ var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var async = require('async');
-var Resetpw = require('./resetpw.model');
+var ResetPw = require('./resetpw.model');
 var mandrillSvc = require('../../components/mail/mandrill.service');
 var User = require('../user/user.model');
-var tracer = require('tracer').console({ level: 'warn' });
+var tracer = require('tracer').console({ level: 'info' });
 
-describe('/api/resetpw', function() {
-
-  // it('should respond with JSON array', function(done) {
-  //   request(app)
-  //     .get('/api/resetpw')
-  //     .expect(200)
-  //     .expect('Content-Type', /json/)
-  //     .end(function(err, res) {
-  //       if (err) return done(err);
-  //       res.body.should.be.instanceof(Array);
-  //       done();
-  //     });
-  // });
+describe('/api/resetpw', function(done) {
 
   var user;
+  var resetpw;
 
   beforeEach(function(done) {
-    var resetUser = function(done) {
-      User.find().remove(function(err) {
-        User.create({
-          provider: 'local',
-          email: 'test@test.com',
-          name: 'Test User',
-          password: 'forgot it!',
-          role: 'user'
-        }, function(err, user) {
-          done(err, user);
+    User.find().remove(function(err) {
+      if (err) { return done(err); }
+
+      User.create({
+        provider: 'local',
+        email: 'test@test.com',
+        name: 'Test User',
+        password: 'forgot it!',
+        role: 'user'
+      }, function(err) {
+        if (err) { return done(err); }
+
+        var users = Array.prototype.slice.call(arguments, 1);
+        user = users[0];
+
+        ResetPw.find().remove(function(err) {
+          if (err) { return done(err); }
+
+          ResetPw.create({ user: user._id }, function(err, _resetpw) {
+            if (err) { return done(err); }
+
+            resetpw = _resetpw;
+            done(err);
+          });
         });
       });
-    };
-    var resetResetPw = function(done) {
-      Resetpw.find().remove(function(err) {
-        done(err);
-      });
-    };
-    async.parallel([resetUser, resetResetPw], function(err, results) {
-      // var tracer = require('tracer').console({ level: 'log' });
-      if (err) {done(err); }
-      user = results[0];
-      user.should.be.ok;
-      user._id.should.be.ok;
-      user._id.should.be.instanceOf(Object);
-      done();
     });
   });
 
@@ -63,7 +52,7 @@ describe('/api/resetpw', function() {
       })
     };
     var wipeResetPw = function(done) {
-      Resetpw.find().remove(function(err) {
+      ResetPw.find().remove(function(err) {
         done(err);
       });
     };
@@ -81,7 +70,7 @@ describe('/api/resetpw', function() {
         tracer.debug(res.text);
         return done(err); 
       }
-      Resetpw.findOne({ user: user._id }, function(err, resetpw) {
+      ResetPw.findOne({ user: user._id }, function(err, resetpw) {
         if (err) { return done(err); }
         resetpw.should.be.ok;
         // We have no way to test if the message was actually sent in test mode
@@ -91,23 +80,15 @@ describe('/api/resetpw', function() {
     });
   });
 
-  var createOne = function(done) {
+  it('requesting another reset wipes the first instance', function(done) {
     request(app).post('/api/resetpw')
     .send({ email: user.email })
-    .expect(204, function(err, res) {
-      if (err) { 
-        tracer.debug(res.text);
-      }
-      done(err, res);
-    });
-  };
-
-  it('requesting another reset wipes the first instance', function(done) {
-    async.series([createOne, createOne], function(err, results) {
+    .expect(204)
+    .end(function(err, res) {
       if (err) { return done(err); }
-      Resetpw.find({ user: user._id }, function(err, res) {
+      ResetPw.count({ user: user._id }, function(err, count) {
         if (err) { return done(err); }
-        res.length.should.be.equal(1);
+        Number(count).should.equal(1);
         done();
       });
     });
@@ -115,22 +96,25 @@ describe('/api/resetpw', function() {
 
   it('GET /api/resetpw/:key with valid key will return a token', function(done) {
     var config = require('../../config/environment');
-    Resetpw.create({ user: user._id }, function(err, resetpw) {
+    ResetPw.create({ user: user._id }, function(err, resetpw) {
       if (err) { return done(err); }
       // var tracer = require('tracer').console({ level: 'debug' });
       tracer.debug(resetpw);
       request(app).get('/api/resetpw/' + resetpw.key)
-      .expect('set-cookie', /token/)
-      .end(done);
+      .expect('set-cookie', /connect.sid/)
+      .end(function(err, res) {
+        if (err) { return done(err); }
+        res.body.should.match(/token/);
+        done()
+      });
     });
   });
 
-  it('GET /api/resetpw/:key with invalid key will return 404', function(done) {
-    Resetpw.create({ user: user._id }, function(err, resetpw) {
+  it('GET /api/resetpw/:key with invalid key results in redirect', function(done) {
+    ResetPw.create({ user: user._id }, function(err, resetpw) {
       if (err) { return done(err); }
       request(app).get('/api/resetpw/' + 'badkey')
-      .expect('set-cookie', /(?!token)/)
-      .end(done);
+      .expect(302, done);
     });
   });
 

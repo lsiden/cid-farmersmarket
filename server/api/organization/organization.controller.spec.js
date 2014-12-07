@@ -4,9 +4,9 @@ var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 
-describe('GET /api/organizations', function() {
+describe('/api/organizations', function(done) {
 
-  it('should respond with JSON array', function(done) {
+  it('GET should respond with JSON array', function(done) {
     request(app)
       .get('/api/organizations')
       .expect(200)

@@ -37,7 +37,7 @@ exports.index = function(req, res) {
 // Reset password
 // requires req.body.key
 exports.resetpw = function(req, res) {
-  tracer.info('resetpw()');
+  tracer.trace('resetpw()');
   tracer.debug(req.params);
   if (!req.params.key) { return res.status(400).send('Missing key'); }
 
@@ -46,14 +46,16 @@ exports.resetpw = function(req, res) {
   .exec(function (err, resetpw) {
     tracer.debug(resetpw);
     if(err) { return helpers.handleError(res, err); }
-    if(!resetpw) { return res.redirect('/login?linkexpired=1'); }
-    if(!resetpw.user) { return res.redirect('/login?linkexpired=1'); }
+    if (!resetpw) { return res.redirect('/login?linkexpired=1'); }
+    if (!resetpw.user) { return res.redirect('/login?linkexpired=1'); }
+    
     var pw = require('password-generator')(32, false);
     var User = require('../user/user.model');
     User.findOneAndUpdate({ _id: resetpw.user._id }, { hashedPassword: pw }, function(err, user) {
       tracer.debug(user);
-      if(err) { return helpers.handleError(res, err); }
+      if (err) { return helpers.handleError(res, err); }
       if (!user) { return res.redirect('/login?linkexpired=1'); }
+    
       var auth = require('../../auth/auth.service');
       var token = auth.signToken(user._id, user.role);
       res.cookie('token', JSON.stringify(token));
@@ -69,14 +71,18 @@ exports.create = function(req, res) {
   tracer.debug(req.body);
   if (!req.body.email) { return res.status(400).send('Missing email'); }
   var User = require('../user/user.model');
+  
   User.findOne({ email: req.body.email }, function(err, user) {
     if (err) { helpers.handleError(res, err); }
     if (!user) { return res.status(404).send('Email not found') }
+  
     Resetpw.find({ user: user })
     .remove(function(err) {
       if(err) { return helpers.handleError(res, err); }
+  
       Resetpw.create({ user: user }, function(err, resetpw) {
         if(err) { return helpers.handleError(res, err); }
+  
         tracer.debug(resetpw);
         sendResetPromptMessage(req, res, user, resetpw, function(err, mandrillResponse) {
           if (err) {
@@ -85,7 +91,7 @@ exports.create = function(req, res) {
               return res.status(500).send(err);
             }
           }
-          Resetpw.findOneAndUpdate({ _id: resetpw._id }, { messageKey: mandrillResponse[0]._id }, function(err, dbRes) {
+          Resetpw.findOneAndUpdate({ _id: resetpw._id }, { messageKey: mandrillResponse[0]._id }, {upsert: true}, function(err, dbRes) {
             if (err) {return res.status(500).send(err); }
             tracer.debug(dbRes);
             return res.send(204);

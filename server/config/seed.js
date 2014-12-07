@@ -19,7 +19,7 @@ VolunteerEvent.collection.dropAllIndexes(function(err, res) {});
 Organization.collection.dropAllIndexes(function(err, res) {});
 
 User.find({}).remove(function() {
-  User.create({
+  User.create([{
     provider: 'local',
     role: 'user',
     name: 'Test User',
@@ -43,19 +43,17 @@ User.find({}).remove(function() {
     phone: '555-555-5555',
     active: true,
     password: 'admin'
-  }, function() {
+  }], function() {
       console.log('finished populating users');
     }
   );
 });
 
-Event.find({}).remove(function() {
-  var startDate = new Date()
-  startDate.setHours(11);
-  startDate.setMinutes(0);
-  startDate -= 30 * 24 * 3600 * 1000; // 30 days ago
-  EventSeed.seedEvents(startDate, 4, 12, 7, function() {});
-});
+var startDate = new Date()
+startDate.setHours(11);
+startDate.setMinutes(0);
+startDate -= 30 * 24 * 3600 * 1000; // 30 days ago
+EventSeed.seedEvents(startDate, 4, 12, 7, function() {});
 
 VolunteerEvent.find({}).remove(function() {
 });
