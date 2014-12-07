@@ -12,7 +12,7 @@ var eventParams = {
     active: true
   };
 
-describe('Event Model', function() {
+describe('Event Model', function(done) {
   before(function(done) {
     // Clear events before testing
     Event.remove().exec().then(function() {
