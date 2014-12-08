@@ -3,10 +3,8 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
 
   .title-bar
-    h1 Manage Organizations
-
     button.btn.btn-default(ng-click="new()")
-      span.fa.fa-plus
-      | New Organization
+      span.fa.fa-plus New Organization
+    h1 Manage Organizations
 
   .gridStyle(ng-grid='organizationGridOptions')

@@ -1,10 +1,9 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
   .title-bar
-    h1 Edit Event {{ event.name }}
-
     button.btn.btn-md.btn-danger(ng-click='deleteEvent()')
       span.fa.fa-minus &nbsp;Delete Event
+    h1 {{ event.name }}
   
   form(role='form', name='form', ng-submit='saveEvent(form)', novalidate='')
 
@@ -37,26 +36,24 @@ div(ng-include='"components/navbar/navbar.html"')
       
     .form-group
       label(for='eventStart', control-label) Starts
-      timepicker.col-sm-3#eventStart(name='start', ng-model='event.start')
-      //- Angular 1.3
-      //- input#eventstart.form-control(type='time', name='start', ng-model='event.start', required='', placeholder='HH:mm')
-      
-      label.col-sm-offset-1.col-sm-1(for='eventEnd', control-label) Ends
-      timepicker.col-sm-3#eventEnd(name='end', ng-model='event.end')
-      //- Angular 1.3
-      //- input#eventend.form-control(type='time', name='end', ng-model='event.end', required='')
+      .start-and-end
+        timepicker.col-sm-3#eventStart(name='start', ng-model='event.start')
+        //- Angular 1.3
+        //- input#eventstart.form-control(type='time', name='start', ng-model='event.start', required='', placeholder='HH:mm')
+        
+        label.col-sm-offset-1.col-sm-1(for='eventEnd', control-label) Ends
+        timepicker.col-sm-3#eventEnd(name='end', ng-model='event.end')
+        //- Angular 1.3
+        //- input#eventend.form-control(type='time', name='end', ng-model='event.end', required='')
 
-    .form-group
-      .checkbox
-        label(for='eventActive', control-label)
-          input#eventActive(type='checkbox', name='active', ng-model='event.active')
-          | Active
+    .checkbox
+      label(for='eventActive', control-label)
+        input#eventActive(type='checkbox', name='active', ng-model='event.active') Active
 
     p.help-block  {{ message }}
 
     .form-group.buttons
-      .col-sm-offset-2.col-sm-6
-        button.btn.btn-md.btn-success(ng-click='resetEvent()', ng-disabled="!isEventChanged()") Reset
-        button.btn.btn-md.btn-primary(type='submit', ng-disabled="form.$invalid || !isEventChanged()") Save changes
+      button.btn.btn-md.btn-success(ng-click='resetEvent()', ng-disabled="!isEventChanged()") Reset
+      button.btn.btn-md.btn-primary(type='submit', ng-disabled="form.$invalid || !isEventChanged()") Save changes
 
   //- {{ event | json }}

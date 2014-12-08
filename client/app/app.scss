@@ -189,10 +189,6 @@ div[flash-alert].in {
   display: block;
 }
 
-.float-right {
-  float: right;
-}
-
 table.form-control {
   height: initial;  // needed for angular-bootstrap timepicker
 }
@@ -202,9 +198,7 @@ table.form-control {
   top: -20px;
 
   button.btn {
-    position: absolute;
-    top: 0;
-    right: 0;
+    @extend .pull-right;
 
     span.fa {
       padding-right: 0.5em;
@@ -231,12 +225,6 @@ form {
   @extend .form-horizontal;
 
   .form-group {
-    button {
-      margin-right: 0.3cm;
-    }
-    .checkbox label {
-      font-weight: bold;
-    }
 
     input.ng-invalid,
     input.ng-required,
@@ -245,20 +233,47 @@ form {
       border: thin solid red;
     }
 
-    label {
+    > label {
       @extend .col-sm-2;
+      font-weight: bold;
+      font-size: 19px;
     }
-    label + div,
-    label + .form-control {
+
+    input, textarea, select, .start-and-end {
       @extend .col-sm-10;
     }
+
+    .help-block {
+      @extend .col-sm-offset-2;
+      @extend .col-sm-10;
+    }
+    
   }
 
-  .checkbox,
-  .help-block,
-  .form-group.buttons {
+  .checkbox {
+    label {
+      font-weight: bold;
+    }
     @extend .col-sm-offset-2;
+    @extend .col-sm-10;
   }
+}
+
+.form-group.buttons {
+  @extend .col-sm-offset-2;
+  @extend .col-sm-10;
+}
+
+.buttons {
+  margin-top: 1cm;
+}
+
+button, a.btn {
+  margin-top: 0.15cm;
+}
+
+button + button {
+  margin-left: 0.15cm;
 }
 
 input[type="date"] {
