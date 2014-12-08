@@ -28,8 +28,8 @@ var sendConfirmation = function(volunteer_event, action) {
         subj = 'registration'
         message = "You are registered to volunteer for the Grand River Farmers' Market event :event_name, beginning on :start_time and ending at :end_time.  We look forward to seeing you there.  Thank you for volunteering."
         .replace(/:event_name/, results.event.name)
-        .replace(/:start_time/, results.event.start.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
-        .replace(/:end_time/, results.event.end.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' }));
+        .replace(/:start_time/, results.event.start.toLocaleString({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
+        .replace(/:end_time/, results.event.end.toLocaleString({ hour: 'numeric', minute: 'numeric' }));
       } else if (action === 'cancel') {
         if (results.event.organization) {
           cc = [{ name: results.event.organization.contact, email: results.event.organization.email }];
@@ -40,14 +40,14 @@ var sendConfirmation = function(volunteer_event, action) {
         subj = 'cancellation'
         message = "You have cancelled your volunteer committment to the Grand River Farmers' Market event :event_name, beginning on :start_time and ending at :end_time.  We hope will will find other opportunities to volunteer for Farmers' Market events.  Thank you for your interest."
         .replace(/:event_name/, results.event.name)
-        .replace(/:start_time/, results.event.start.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
-        .replace(/:end_time/, results.event.end.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' }));
+        .replace(/:start_time/, results.event.start.toLocaleString({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
+        .replace(/:end_time/, results.event.end.toLocaleString({ hour: 'numeric', minute: 'numeric' }));
       } else if (action === 'attend') {
         subj = 'attend'
         message = "Your volunteer attendance at the Grand River Farmers' Market event :event_name, beginning on :start_time and ending at :end_time has been recorded.  We hope will will find more opportunities to volunteer for Farmers' Market events.  Thank you for your good work!"
         .replace(/:event_name/, results.event.name)
-        .replace(/:start_time/, results.event.start.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
-        .replace(/:end_time/, results.event.end.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' }));
+        .replace(/:start_time/, results.event.start.toLocaleString({ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
+        .replace(/:end_time/, results.event.end.toLocaleString({ hour: 'numeric', minute: 'numeric' }));
       } else { return; }
       mandrillSvc.send(to, cc, subj, message);
     });

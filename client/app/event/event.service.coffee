@@ -132,8 +132,8 @@ angular.module 'farmersmarketApp'
         start = new Date(event.start)
         end = new Date(event.end)
         event.date = start.toDateString()
-        event.starts = start.toLocaleTimeString('us', {hour: 'numeric', minute: 'numeric'})
-        event.ends = end.toLocaleTimeString('us', {hour: 'numeric', minute: 'numeric'})
+        event.starts = start.toLocaleTimeString({hour: 'numeric', minute: 'numeric'})
+        event.ends = end.toLocaleTimeString({hour: 'numeric', minute: 'numeric'})
         event.hours = event.starts + ' to ' + event.ends
         event.isoDate = new Date(event.start).toISOString().substr(0, 10)
         event.dateAndTime = event.date + ', ' + event.hours
