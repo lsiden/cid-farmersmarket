@@ -9,6 +9,7 @@ var authTypes = ['facebook'];
 var UserSchema = new Schema({
   provider: String,
   name: String,
+  phone: String,
   email: { type: String, lowercase: true },
   role: {
     type: String,
