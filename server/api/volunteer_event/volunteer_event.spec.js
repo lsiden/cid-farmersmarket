@@ -38,6 +38,8 @@ var createEvents = function(n, done) {
     eventParams.push({
       provider: 'local',
       name: 'Event ' + i,
+      start: new Date(),
+      end: new Date(),
       active: true,
       volunteerSlots: 10
     });

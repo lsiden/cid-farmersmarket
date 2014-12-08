@@ -15,12 +15,7 @@ var notifyChanged = function(req, event) {
   var VolunteerEvent = require('../volunteer_event/volunteer_event.model');
 
   async.parallel([
-    function(done) {
-      // find admin users
-      User.find({ role: 'admin' }, function(err, users) {
-        done(err, users);
-      });
-    },
+    function(done) {User.find({ role: 'admin' }, done); },
     function(done) {
       // find all volunteers for this event
       VolunteerEvent.find({ event: event._id })

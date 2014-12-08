@@ -6,9 +6,9 @@ exports.fromName = function() { return 'Admin'; };
 var _ = require('lodash');
 var mandrill_api = require('mandrill-api/mandrill')
 var mandrill = new mandrill_api.Mandrill(process.env.MANDRILL_API_KEY);
+var tracer = require('tracer').console({ level: 'info' });
 
 exports.send = function(to, cc, subj, html, done) {
-  var tracer = require('tracer').console({ level: 'info' });
   tracer.info('sending mail');
   tracer.info(to);
   tracer.info(subj);

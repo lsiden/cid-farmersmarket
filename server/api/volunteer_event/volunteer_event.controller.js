@@ -6,6 +6,52 @@ var VolunteerEvent = require('./volunteer_event.model');
 var User = require('../user/user.model');
 var Event = require('../event/event.model');
 var Organization = require('../organization/organization.model');
+var async = require('async');
+
+var sendConfirmation = function(volunteer_event, action) {
+  async.parallel({
+    volunteer: function(done) { User.findById(volunteer_event.volunteer, done); },
+    event: function(done) { Event.findById(volunteer_event.event).populate('organization').exec(done); },
+    admins: function(done) { User.find({ role: 'admin' }, done); }
+    }, function(err, results) {
+      var to = [{ name: results.volunteer.name, email: results.volunteer.email }];
+      var cc = [], message = '', subj = '';
+      var mandrillSvc = require('../../components/mail/mandrill.service');
+
+      if (action === 'register') {
+        if (results.event.organization) {
+          cc = [{ name: results.event.organization.contact, email: results.event.organization.email }];
+        }
+        results.admins.forEach(function(admin) {
+          cc.push({ email: admin.email, name: admin.name });
+        });
+        subj = 'registration'
+        message = "You are registered to volunteer for the Grand River Farmers' Market event :event_name, beginning on :start_time and ending at :end_time.  We look forward to seeing you there.  Thank you for volunteering."
+        .replace(/:event_name/, results.event.name)
+        .replace(/:start_time/, results.event.start.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
+        .replace(/:end_time/, results.event.end.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' }));
+      } else if (action === 'cancel') {
+        if (results.event.organization) {
+          cc = [{ name: results.event.organization.contact, email: results.event.organization.email }];
+        }
+        results.admins.forEach(function(admin) {
+          cc.push({ email: admin.email, name: admin.name });
+        });
+        subj = 'cancellation'
+        message = "You have cancelled your volunteer committment to the Grand River Farmers' Market event :event_name, beginning on :start_time and ending at :end_time.  We hope will will find other opportunities to volunteer for Farmers' Market events.  Thank you for your interest."
+        .replace(/:event_name/, results.event.name)
+        .replace(/:start_time/, results.event.start.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
+        .replace(/:end_time/, results.event.end.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' }));
+      } else if (action === 'attend') {
+        subj = 'attend'
+        message = "Your volunteer attendance at the Grand River Farmers' Market event :event_name, beginning on :start_time and ending at :end_time has been recorded.  We hope will will find more opportunities to volunteer for Farmers' Market events.  Thank you for your good work!"
+        .replace(/:event_name/, results.event.name)
+        .replace(/:start_time/, results.event.start.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }))
+        .replace(/:end_time/, results.event.end.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' }));
+      } else { return; }
+      mandrillSvc.send(to, cc, subj, message);
+    });
+};
 
 // Get list of volunteer_events
 exports.index = function(req, res) {
@@ -16,7 +62,7 @@ exports.index = function(req, res) {
   .populate({path: 'event.organization', model: Organization })
   .exec(function (err, volunteer_events) {
     if(err) { return helpers.handleError(res, err); }
-    return res.json(200, volunteer_events);
+    res.json(200, volunteer_events);
   });
 };
 
@@ -28,7 +74,7 @@ exports.show = function(req, res) {
   .populate({path: 'event.organization', model: Organization })
   .exec(function (err, volunteer_event) {
     if(err) { return helpers.handleError(res, err); }
-    return res.json(volunteer_event);
+    res.json(volunteer_event);
   });
 };
 
@@ -45,7 +91,8 @@ exports.create = function(req, res) {
       Event.update( { _id: volunteer_event.event}, { $inc: { n_volunteers: 1} }, function(err, num_affected, raw) {
         if(err) { return helpers.handleError(res, err); }
       });
-      return res.json(201, volunteer_event);
+      res.json(201, volunteer_event);
+      sendConfirmation(volunteer_event, 'register')
     });
   });
 };
@@ -65,7 +112,8 @@ exports.update = function(req, res) {
     var updated = _.merge(volunteer_event, req.body);
     updated.save(function (err) {
       if (err) { return helpers.handleError(res, err); }
-      return res.json(200, volunteer_event);
+      res.json(200, volunteer_event);
+      sendConfirmation(volunteer_event, 'atttend')
     });
   });
 };
@@ -82,7 +130,8 @@ exports.destroy = function(req, res) {
     volunteer_event.remove(function(err) {
       if(err) { return helpers.handleError(res, err); }
       Event.update( { _id: volunteer_event.event, $inc: { n_volunteers: -1 }});
-      return res.send(204);
+      res.send(204);
+      sendConfirmation(volunteer_event, 'cancel')
     });
   });
 };
