@@ -48,7 +48,8 @@ div(ng-include='"components/navbar/navbar.html"')
 
     .checkbox
       label(for='eventActive', control-label)
-        input#eventActive(type='checkbox', name='active', ng-model='event.active') Active
+        input#eventActive(type='checkbox', name='active', ng-model='event.active')
+        | Active
 
     p.help-block  {{ message }}
 

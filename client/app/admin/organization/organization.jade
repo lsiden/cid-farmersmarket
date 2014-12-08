@@ -41,8 +41,9 @@ div(ng-include='"components/navbar/navbar.html"')
       p.help-block(ng-show="form.contact.$error.required" class="error") Who is the contact person for this organization?  You may name more than one, separated by commas.
 
     .checkbox
-      label(for='organizationActive', control-label='') Active
-      input#organizationActive(type='checkbox', name='active', ng-model='organization.active')
+      label(for='organizationActive', control-label='')
+        input#organizationActive(type='checkbox', name='active', ng-model='organization.active')
+        | Active
     
     p.help-block {{ message }}
 
