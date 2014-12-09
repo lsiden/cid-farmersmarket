@@ -15,7 +15,7 @@ angular.module 'farmersmarketApp'
     modalClass = modalClass or 'modal-default'
     angular.extend modalScope, scope
     $modal.open
-      templateUrl: 'components/modal.html'
+      templateUrl: 'components/modal/modal.html'
       windowClass: modalClass
       scope: modalScope
 

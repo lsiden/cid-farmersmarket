@@ -45,4 +45,10 @@ angular.module 'farmersmarketApp'
       }
       { field: 'phone', displayName: 'Phone', sortable: false }
       { field: 'active', displayName: 'Active', sortable: true }
+      {
+        field: 'actions'
+        displayName: 'Actions'
+        cellTemplate: 'app/admin/account/index/actions.cell.template.html'
+        sortable: false
+      }
     ]

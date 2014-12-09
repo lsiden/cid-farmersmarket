@@ -26,7 +26,7 @@ angular.module 'farmersmarketApp'
     eventService.decorate event
   , (headers) ->
     flash.error = headers.message
-
+ 
   VolunteerEvent.query { event: $state.params.id }, (ar_ve) ->
     if ar_ve.length > 0
       $scope.volunteers = User.query { '_id[]': ( ve.volunteer._id for ve in ar_ve )}, (volunteers) ->

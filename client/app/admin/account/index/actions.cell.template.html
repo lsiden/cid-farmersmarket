@@ -1,0 +1,11 @@
+<div class="ngCellText" ng-class="col.colIndex()">
+  <span ng-cell-text>
+    <a class="edit" ui-sref="admin-account({ id: row.getProperty('_id')})">
+      <span class="glyphicon glyphicon-pencil" />
+    </a>
+    |
+    <a class="trash" ng-click="delete(row.entity)">
+      <span class="glyphicon glyphicon-trash" />
+    </a>
+  </span>
+</div>
