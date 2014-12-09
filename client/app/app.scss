@@ -205,7 +205,7 @@ table.form-control {
     }
   }
 }
-
+/*
 .grfm-grid .row {
   line-height: 30pt;
 }
@@ -213,7 +213,7 @@ table.form-control {
   font-size: larger;
   font-weight: bold;
 }
-
+*/
 .modal {
   display: block; // http://stackoverflow.com/a/20292863/270511
   overflow: auto;
@@ -222,8 +222,8 @@ table.form-control {
 }
 
 form {
-  @extend .form-horizontal;
-
+/*  @extend .form-horizontal;
+*/
   .form-group {
 
     input.ng-invalid,
@@ -234,42 +234,47 @@ form {
     }
 
     > label {
-      @extend .col-sm-2;
-      font-weight: bold;
+      /*@extend .col-sm-2;*/
+      /*font-weight: bold;*/
       font-size: 19px;
     }
 
     input, textarea, select, .start-and-end {
-      @extend .col-sm-10;
+      /*@extend .col-sm-10;*/
     }
-
+/*
     .help-block {
       @extend .col-sm-offset-2;
       @extend .col-sm-10;
     }
-    
+*/    
   }
 
   .checkbox {
     label {
       font-weight: bold;
     }
+/*    
     @extend .col-sm-offset-2;
     @extend .col-sm-10;
+*/  
   }
 }
 
 .form-group.buttons {
-  @extend .col-sm-offset-2;
-  @extend .col-sm-10;
+/*  @extend .col-sm-offset-2;
+    @extend .col-sm-10;
+*/
 }
 
 .buttons {
   margin-top: 1cm;
 }
 
-button, a.btn {
-  margin-top: 0.15cm;
+.buttons {
+  button, a.btn {
+    margin-top: 0.15cm;
+  }
 }
 
 button + button {
