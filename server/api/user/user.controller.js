@@ -41,17 +41,36 @@ var permittedFields = function() {
   else
     return '+_id +name';
 }
+
 /**
  * Get list of users
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  var select;
-  
-  User.find(req.query, permittedFields(), function (err, users) {
+  var sendResult = function(err, users) {
     if(err) return res.status(500).send(err);
     res.json(200, users);
-  });
+  };
+
+  if (req.query.event) {
+    // Limit results to users that are registered for given event.
+    var VolunteerEvent = require('../volunteer_event/volunteer_event.model');
+    var async = require('async');
+    var event = req.query.event;
+    delete req.query.event;
+    async.waterfall([
+      function(done) {
+        VolunteerEvent.find({ event: event._id }, done);
+      },
+      function(ar_ve, done) {
+        var uids = ar_ve.map(function(ve) { return ve.volunteer });
+        var query = _.assign({ _id: { $in: uids }}, req.query);
+        User.find(query, permittedFields(), sendResult);
+      }
+      ]);
+  } else {
+    User.find(req.query, permittedFields(), sendResult);
+  }
 };
 
 /**

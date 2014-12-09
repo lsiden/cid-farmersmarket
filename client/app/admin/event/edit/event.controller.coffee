@@ -10,14 +10,15 @@ composeDate = (isoDate, time) ->
   date
 
 angular.module 'farmersmarketApp'
-.controller 'AdminEventEditCtrl', ($scope, $state, flash, Event, Organization, eventService) ->
+.controller 'AdminEventEditCtrl', ($scope, $state, flash, Event, User, VolunteerEvent, Organization, eventService) ->
   
   $scope.errors = {}
-  eventId = $state.params.id
   $scope.organizations = Organization.query() # Used by form selector.
-  $scope.event = Event.get { id: eventId }, (event) ->
+  $scope.event = Event.get { id: $state.params.id }, (event) ->
     eventService.decorate event
     $scope.masterEvent = angular.copy(event)
+    User.query { event: $scope.event._id }, (users) ->
+      $scope.volunteers = users
   , (headers) ->
     flash.error = headers.message
   $scope.masterEvent = angular.copy $scope.event
@@ -56,3 +57,40 @@ angular.module 'farmersmarketApp'
     eventService.deleteEvent $scope.event, (deleted) ->
       if deleted
         $state.go 'admin-events'
+
+  $scope.volunteerGridOptions = 
+    data: 'volunteers'
+    enableRowSelection: false
+    enableCellSelection: false
+    sortInfo: { fields: ['name'], directions: ['asc'] }
+    columnDefs: [
+      {
+        field: 'name'
+        displayName: 'Name'
+        cellTemplate: 'app/admin/account/index/name.cell.template.html'
+        sortable: true
+      }
+      {
+        field: 'email'
+        displayName: 'Email'
+        cellTemplate: 'app/admin/account/index/email.cell.template.html'
+        sortable: false
+      }
+      { field: 'phone', displayName: 'Phone', sortable: false }
+      {
+        field: 'attended'
+        displayName: 'Attended'
+        cellTemplate: 'app/admin/account/index/attended.cell.template.html'
+        sortable: false
+      }
+    ]
+
+  $scope.toggleAttended = (user) ->
+    VolunteerEvent.query { volunteer: user._id, event: $state.params.id }, (ar_ve) ->
+      if ar_ve.length > 0
+        ve = ar_ve[0]
+        ve.attended = event.attended
+        ve.$update (ve1) ->
+          flash.success = 'Recorded attendance.'
+        , (headers) ->
+          flash.error = headers.message

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'NavbarCtrl', ($scope, $location, $modal, $state, flash, Auth, User) ->
+.controller 'NavbarCtrl', ($scope, $location, Auth) ->
   $scope.menu = [
     { title: 'About', state: 'about' }
     { title: 'Contact', state: 'contact' }

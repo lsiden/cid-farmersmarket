@@ -1,7 +1,7 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
   .title-bar
-    button.btn.btn-md.btn-danger(ng-click='deleteEvent()')
+    button.btn.btn-md.btn-danger(ng-hide="event.ended", ng-click='deleteEvent()')
       span.fa.fa-minus &nbsp;Delete
     h1 {{ event.name }}
   
@@ -58,3 +58,9 @@ div(ng-include='"components/navbar/navbar.html"')
       button.btn.btn-md.btn-primary(type='submit', ng-disabled="form.$invalid || !isEventChanged()") Save changes
 
   //- {{ event | json }}
+
+  .section.attendance(ng-show="event.ended")
+    h2 Attendance
+    .gridStyle(ng-grid='volunteerGridOptions', ng-show='volunteers.length > 0')
+    p(show="volunteers.length == 0") No volunteers are registered.
+    //- | {{ volunteers }}

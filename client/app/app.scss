@@ -283,3 +283,11 @@ input[type="date"] {
 .ngCell.date-and-time {
   font-size: 12px;
 }
+
+.section {
+  clear: both;
+  margin: 1em 0;
+  padding: 1em 0;
+  border-top: solid thin #ddd;
+  /*border-bottom: solid thin #ddd;*/
+}

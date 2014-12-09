@@ -139,7 +139,7 @@ angular.module 'farmersmarketApp'
         event.isoDate = new Date(event.start).toISOString().substr(0, 10)
         event.dateAndTime = event.date + ', ' + event.hours
         event.registered = [event.n_volunteers || 0, event.volunteerSlots].join('/')
-        event.ended = (event.end < now)
+        event.ended = (new Date(event.end) < now)
       event
 
     visitEvent: (event_id) ->

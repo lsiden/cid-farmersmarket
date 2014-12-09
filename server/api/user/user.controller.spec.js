@@ -78,6 +78,18 @@ describe('/api/users', function(done) {
     });
   });
 
+  it('should return users that registered for an event', function(done) {
+    request(app)
+    .get('/api/users?event=1')
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end(function(err, res) {
+      if (err) return done(err);
+      res.body.should.be.instanceof(Array);
+      done();
+    });
+  });
+
   it('should create a new user', function(done) {
     request(app)
     .post('/api/users')

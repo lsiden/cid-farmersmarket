@@ -2,7 +2,7 @@
 
 angular.module 'farmersmarketApp'
 .factory 'Auth', ($location, $rootScope, $http, User, $cookieStore, $q) ->
-  currentUser = if $cookieStore.get 'token' then User.get() else {}
+  currentUser = if $cookieStore.get 'token' then User.get({ id: 'me' }) else {}
 
   ###
   Authenticate user and save token

@@ -3,7 +3,7 @@
 angular.module 'farmersmarketApp'
 .factory 'User', ($resource) ->
   $resource '/api/users/:id/:controller',
-    id: '@_id'
+    { id: '@_id' }
   ,
     changeContactInfo:
       method: 'PUT'
@@ -22,8 +22,3 @@ angular.module 'farmersmarketApp'
 
     update:
       method: 'PUT'
-
-    get:
-      method: 'GET'
-      params:
-        id: 'me'
