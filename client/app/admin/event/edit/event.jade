@@ -1,7 +1,7 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
   .title-bar
-    button.btn.btn-md.btn-danger(ng-hide="event.ended", ng-click='deleteEvent()')
+    button.btn.btn-md.btn-danger(ng-disabled="event.ended", ng-click='deleteEvent()')
       span.fa.fa-minus &nbsp;Delete
     h1 {{ event.name }}
   

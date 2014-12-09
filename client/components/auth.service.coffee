@@ -2,7 +2,7 @@
 
 angular.module 'farmersmarketApp'
 .factory 'Auth', ($location, $rootScope, $http, User, $cookieStore, $q) ->
-  currentUser = if $cookieStore.get 'token' then User.get({ id: 'me' }) else {}
+  currentUser = if $cookieStore.get 'token' then User.get({id: 'me'}) else {}
 
   ###
   Authenticate user and save token
@@ -19,7 +19,7 @@ angular.module 'farmersmarketApp'
 
     .success (data) ->
       $cookieStore.put 'token', data.token
-      currentUser = User.get()
+      currentUser = User.get { id: 'me' }
       deferred.resolve data
       callback?()
 
@@ -53,7 +53,7 @@ angular.module 'farmersmarketApp'
     User.save user,
       (data) ->
         $cookieStore.put 'token', data.token
-        currentUser = User.get()
+        currentUser = User.get { id: 'me' }
         callback? user
 
       , (err) =>
