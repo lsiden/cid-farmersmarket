@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 var tracer = require('tracer').console({ level: 'info' });
 
 // Notify org contact and volunteers that event has changed.
-var notifyChanged = function(req, event) {
+var notifyVolunteers = function(req, event, action) {
   // var tracer = require('tracer').console({ level: 'debug' });
   var async = require('async');
   var User = require('../user/user.model');
@@ -27,26 +27,37 @@ var notifyChanged = function(req, event) {
     }], function(err, results) {
       // var tracer = require('tracer').console({ level: 'debug' });
       // tracer.debug(results);
+      var message;
       var admins = results[0];
       var volunteers = results[1];
       var mandrillSvc = require('../../components/mail/mandrill.service');
       var event_url = 'http://' + req.headers.host + '/events/' + event._id;
       var event_link = '<a href=":url">' + event.name + '</a>';
-      var html = 'The event :event_link has been changed.  Please take note of any new information including the date and time.'
-      .replace(/:event_link/, event_link);
-      var to = [
-      {
+      var to = [{
         name: event.organization.contact,
         email: event.organization.email
-      }];
-      volunteers.forEach(function(vol) {
-        to.push({ name: vol.name, email: vol.email });
-      });
+      }].concat(volunteers.map(function(vol) {
+        return { name: vol.name, email: vol.email };
+      }));
       var cc = admins.map(function(admin) {
         return { name: admin.name, email: admin.email };
-      })
+      });
+      switch (action) {
+        case 'rescheduled':
+        message = 'The event :event_link has been changed.  Please take note of any new information including the date and time.'
+        .replace(/:event_link/, event_link);
+        break;
+        
+        case 'cancelled':
+        message = 'The event :event_name has been cancelled.  We appreciate your interest and hope you will volunteer again.'
+        .replace(/:event_name/, event.name);
+        break;
 
-      mandrillSvc.send(to, cc, 'event changed', html, function(err, res) {
+        default:
+        tracer.error('VolunteerEvent.notifyVolunteers(), bad param=' + action);
+        return;
+      }
+      mandrillSvc.send(to, cc, 'event changed', message, function(err, res) {
         tracer.info(res);
         if (err) { tracer.error(err); }
       });
@@ -119,7 +130,7 @@ exports.update = function(req, res) {
     updated.save(function (err) {
       if (err) { return helpers.handleError(res, err); }
       res.json(200, event);
-      notifyChanged(req, event);
+      notifyVolunteers(req, event, 'rescheduled');
     });
   });
 };
@@ -131,7 +142,8 @@ exports.destroy = function(req, res) {
     if(!event) { return res.send(404); }
     event.remove(function(err) {
       if(err) { return helpers.handleError(res, err); }
-      return res.send(204);
+      res.send(204);
+      notifyVolunteers(req, event, 'cancelled');
     });
   });
 };
