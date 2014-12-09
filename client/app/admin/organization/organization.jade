@@ -2,7 +2,7 @@ div(ng-include='"components/navbar/navbar.html"')
 .container(ng-controller='AdminOrganizationCtrl')
   .title-bar
     button.btn.btn-md.btn-danger(ng-show='organization._id != "new"', ng-click='deleteOrganization()')
-      span.fa.fa-minus &nbsp;Delete Organization
+      span.fa.fa-minus &nbsp;Delete
     h1 {{ organization.name }}
   
   form(role='form', name='form', ng-submit='saveOrganization(form)', novalidate='')

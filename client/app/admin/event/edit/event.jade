@@ -2,7 +2,7 @@ div(ng-include='"components/navbar/navbar.html"')
 .container
   .title-bar
     button.btn.btn-md.btn-danger(ng-click='deleteEvent()')
-      span.fa.fa-minus &nbsp;Delete Event
+      span.fa.fa-minus &nbsp;Delete
     h1 {{ event.name }}
   
   form(role='form', name='form', ng-submit='saveEvent(form)', novalidate='')

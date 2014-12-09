@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module 'farmersmarketApp'
-.controller 'AccountCtrl', ($scope, $state, flash, User, Event, VolunteerEvent, adminService, eventService) ->
+.controller 'AccountCtrl', ($scope, $state, flash, Modal, User, Event, VolunteerEvent, adminService, eventService) ->
   $scope.submitted = false
   $scope.errors = {}
   $scope.user_master = {}
@@ -65,3 +65,13 @@ angular.module 'farmersmarketApp'
           flash.success = 'Recorded attendance.'
         , (headers) ->
           flash.error = headers.message
+
+  $scope.delete = ->
+    del = ->
+      $scope.user.$remove ->
+        _.remove $scope.users, $scope.user
+        $state.go 'admin-accounts'
+      , (headers) ->
+        flash.error = headers.message
+    
+    Modal.confirm.delete(del) $scope.user.name
