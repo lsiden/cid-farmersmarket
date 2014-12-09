@@ -125,10 +125,11 @@ angular.module 'farmersmarketApp'
       if !event
         throw 'eventService.decorate(): null argument'
 
+      now = new Date()
       event.$promise ||= $q.when(event)
       event.$promise.then (event) ->
-        event.start ||= new Date()
-        event.end ||= new Date()
+        event.start ||= now
+        event.end ||= now
         start = new Date(event.start)
         end = new Date(event.end)
         event.date = start.toDateString()
@@ -138,6 +139,7 @@ angular.module 'farmersmarketApp'
         event.isoDate = new Date(event.start).toISOString().substr(0, 10)
         event.dateAndTime = event.date + ', ' + event.hours
         event.registered = [event.n_volunteers || 0, event.volunteerSlots].join('/')
+        event.ended = (event.end < now)
       event
 
     visitEvent: (event_id) ->

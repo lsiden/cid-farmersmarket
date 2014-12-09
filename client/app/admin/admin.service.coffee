@@ -12,8 +12,14 @@ angular.module 'farmersmarketApp'
       enableCellSelection: false
       sortInfo: { fields: ['date'], directions: [dateDir] }
       columnDefs: [
-        { field: 'date', displayName: 'Date', sortable: true, sortFn: eventService.sortByDate }
-        { field: 'hours', displayName: 'Hours', sortable: false }
+        {
+          field: 'dateAndTime'
+          displayName: 'Date'
+          sortable: true
+          sortFn: eventService.sortByDate
+          minWidth: 275
+          cellClass: 'date-and-time'
+        }
         {
           field: 'name'
           displayName: 'Name'
@@ -26,5 +32,12 @@ angular.module 'farmersmarketApp'
           cellTemplate: 'app/admin/event/index/organization_name.cell.template.html'
           sortable: true
         }
-        { field: 'attended', displayName: 'Attended', sortable: true }
+        {
+          field: 'attended'
+          displayName: 'Attended'
+          cellTemplate: 'app/admin/account/index/attended.cell.template.html'
+          sortable: true
+          width: 100
+          maxWidth: 100
+        }
       ]

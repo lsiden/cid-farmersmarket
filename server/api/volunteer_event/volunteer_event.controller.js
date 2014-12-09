@@ -106,7 +106,7 @@ exports.update = function(req, res) {
   VolunteerEvent.findById(req.params.id, function (err, volunteer_event) {
     if (err) { return helpers.handleError(res, err); }
     if(!volunteer_event) { return res.send(404); }
-    if (!volunteer_event.volunteer.equals(req.user._id)) {
+    if (!req.user.role === 'admin' && !volunteer_event.volunteer.equals(req.user._id)) {
       return res.send(403, 'Can update only one\'s own event-volunteer registrations.');
     }
     var updated = _.merge(volunteer_event, req.body);

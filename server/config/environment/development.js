@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/farmersmarket-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

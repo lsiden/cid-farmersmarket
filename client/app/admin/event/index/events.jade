@@ -10,13 +10,13 @@ div(ng-include='"components/navbar/navbar.html"')
       .col-sm-4
         .form-group
           label.col-sm-2(for='fromDate', control-label) From
-          .col-sm-5
+          .col-sm-10
             input#fromDate.form-control(type='date', name='fromDate', ng-model='isoFromDate', required='')
           p.help-block(ng-show="form.date.$error.date", class="error") Need a valid date.
       .col-sm-4
         .form-group
           label.col-sm-2(for='thruDate', control-label) To
-          .col-sm-5
+          .col-sm-10
             input#thruDate.form-control(type='date', name='thruDate', ng-model='isoThruDate', required='')
           p.help-block(ng-show="form.date.$error.date", class="error") Need a valid date.
   

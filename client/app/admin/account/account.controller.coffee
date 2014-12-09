@@ -55,3 +55,13 @@ angular.module 'farmersmarketApp'
 
   $scope.resetPassword = ->
     flash.error = 'not yet implemented'
+
+  $scope.toggleAttended = (event) ->
+    VolunteerEvent.query { volunteer: $state.params.id, event: event._id }, (ar_ve) ->
+      if ar_ve.length > 0
+        ve = ar_ve[0]
+        ve.attended = event.attended
+        ve.$update (ve1) ->
+          flash.success = 'Recorded attendance.'
+        , (headers) ->
+          flash.error = headers.message
